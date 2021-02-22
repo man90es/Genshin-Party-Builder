@@ -24,5 +24,7 @@
 		border: 0.15em solid transparent;
 		position: absolute;
 		background-color: #000;
+
+		bottom: 1.25em;
 	}
 </style>

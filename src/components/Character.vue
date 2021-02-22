@@ -1,10 +1,10 @@
 <template>
 	<div class="wrapper">
 		<img :src="src" :class="{ portrait: true, yellow: meta.stars == 5, purple: meta.stars == 4 }">
-		<div>
-			{{meta.name}}
-		</div>
 		<Element :meta="meta.element" />
+		<div>
+			{{role || meta.name}}
+		</div>
 	</div>
 </template>
 
@@ -13,7 +13,7 @@
 
 	export default {
 		name: 'Character',
-		props: ['meta'],
+		props: ['meta', 'role'],
 		components: {
 			Element
 		},
@@ -30,6 +30,9 @@
 	.wrapper {
 		flex-direction: column;
 		margin-bottom: 1em;
+		align-items: center;
+		position: relative;
+		gap: 0.5em;
 	}
 
 	.portrait {

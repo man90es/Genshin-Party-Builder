@@ -1,6 +1,12 @@
-const ROLE_DAMAGE = Symbol()
-const ROLE_SUPPORT = Symbol()
-const ROLE_HEALER = Symbol()
+const ROLE_DAMAGE = {
+	id: 'ROLE_DAMAGE'
+}
+const ROLE_SUPPORT = {
+	id: 'ROLE_SUPPORT'
+}
+const ROLE_HEALER = {
+	id: 'ROLE_HEALER'
+}
 
 const ELEMENT_ANEMO = {
 	name: 'Anemo',
@@ -50,8 +56,9 @@ const CHARACTER_XIAO = {
 	stars: 5,
 	element: ELEMENT_ANEMO,
 	rating: {
-		[ROLE_DAMAGE]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_SUPPORT: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -61,8 +68,9 @@ const CHARACTER_SUCROSE = {
 	stars: 4,
 	element: ELEMENT_ANEMO,
 	rating: {
-		[ROLE_SUPPORT]: [3, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [3, 4, 4, 4, 4, 4, 4],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -72,8 +80,9 @@ const CHARACTER_JEAN = {
 	stars: 5,
 	element: ELEMENT_ANEMO,
 	rating: {
-		[ROLE_SUPPORT]: [4, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_SUPPORT: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_HEALER: [4, 4, 4, 4, 4, 4, 4],
 	},
 }
 
@@ -83,8 +92,9 @@ const CHARACTER_VENTI = {
 	stars: 5,
 	element: ELEMENT_ANEMO,
 	rating: {
-		[ROLE_SUPPORT]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_SUPPORT: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -94,8 +104,9 @@ const CHARACTER_ANEMO_TRAVELLER = {
 	stars: 5,
 	element: ELEMENT_ANEMO,
 	rating: {
-		[ROLE_SUPPORT]: [1, 1, 1, 1, 1, 1, 2],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [1, 1, 1, 1, 1, 1, 2],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -105,8 +116,9 @@ const CHARACTER_KEQING = {
 	stars: 5,
 	element: ELEMENT_ELECTRO,
 	rating: {
-		[ROLE_DAMAGE]: [4, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -116,8 +128,9 @@ const CHARACTER_BENNETT = {
 	stars: 4,
 	element: ELEMENT_PYRO,
 	rating: {
-		[ROLE_SUPPORT]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [4, 5, 5, 5, 5, 5, 5],
+		ROLE_DAMAGE: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_SUPPORT: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_HEALER: [4, 5, 5, 5, 5, 5, 5],
 	},
 }
 
@@ -127,8 +140,9 @@ const CHARACTER_DILUC = {
 	stars: 5,
 	element: ELEMENT_PYRO,
 	rating: {
-		[ROLE_DAMAGE]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -138,8 +152,9 @@ const CHARACTER_GANYU = {
 	stars: 5,
 	element: ELEMENT_CRYO,
 	rating: {
-		[ROLE_DAMAGE]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_SUPPORT: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -149,8 +164,9 @@ const CHARACTER_KLEE = {
 	stars: 5,
 	element: ELEMENT_PYRO,
 	rating: {
-		[ROLE_DAMAGE]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -160,8 +176,9 @@ const CHARACTER_MONA = {
 	stars: 5,
 	element: ELEMENT_HYDRO,
 	rating: {
-		[ROLE_SUPPORT]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_SUPPORT: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -171,8 +188,9 @@ const CHARACTER_TARTAGLIA = {
 	stars: 5,
 	element: ELEMENT_HYDRO,
 	rating: {
-		[ROLE_DAMAGE]: [4, 4, 4, 4, 4, 4, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [4, 4, 4, 4, 4, 4, 5],
+		ROLE_SUPPORT: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -182,8 +200,9 @@ const CHARACTER_XINGQIU = {
 	stars: 4,
 	element: ELEMENT_HYDRO,
 	rating: {
-		[ROLE_SUPPORT]: [4, 4, 4, 4, 4, 4, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [4, 4, 4, 4, 4, 4, 5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -193,8 +212,9 @@ const CHARACTER_ZHONGLI = {
 	stars: 5,
 	element: ELEMENT_GEO,
 	rating: {
-		[ROLE_SUPPORT]: [5, 5, 5, 5, 5, 5, 5],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_SUPPORT: [5, 5, 5, 5, 5, 5, 5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -204,8 +224,9 @@ const CHARACTER_ALBEDO = {
 	stars: 5,
 	element: ELEMENT_GEO,
 	rating: {
-		[ROLE_SUPPORT]: [4, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_SUPPORT: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -215,8 +236,9 @@ const CHARACTER_NINGGUANG = {
 	stars: 4,
 	element: ELEMENT_GEO,
 	rating: {
-		[ROLE_DAMAGE]: [3, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 4, 4, 4, 4, 4, 4],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -226,7 +248,9 @@ const CHARACTER_DIONA = {
 	stars: 4,
 	element: ELEMENT_CRYO,
 	rating: {
-		[ROLE_HEALER]: [3, 4, 4, 4, 4, 4, 4],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [3, 4, 4, 4, 4, 4, 4],
 	},
 }
 
@@ -236,7 +260,9 @@ const CHARACTER_QIQI = {
 	stars: 5,
 	element: ELEMENT_CRYO,
 	rating: {
-		[ROLE_HEALER]: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_SUPPORT: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_HEALER: [4, 4, 4, 4, 4, 4, 4],
 	},
 }
 
@@ -246,8 +272,9 @@ const CHARACTER_FISCHL = {
 	stars: 4,
 	element: ELEMENT_ELECTRO,
 	rating: {
-		[ROLE_SUPPORT]: [4, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 4],
+		ROLE_SUPPORT: [4, 4, 4, 4, 4, 4, 4],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -257,8 +284,9 @@ const CHARACTER_RAZOR = {
 	stars: 4,
 	element: ELEMENT_ELECTRO,
 	rating: {
-		[ROLE_DAMAGE]: [3, 3, 3, 3, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 3, 3, 3, 4, 4, 4],
+		ROLE_SUPPORT: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -268,8 +296,9 @@ const CHARACTER_XIANGLING = {
 	stars: 4,
 	element: ELEMENT_PYRO,
 	rating: {
-		[ROLE_SUPPORT]: [3, 4, 4, 4, 4, 4, 4],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_SUPPORT: [3, 4, 4, 4, 4, 4, 4],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -279,8 +308,9 @@ const CHARACTER_CHONGYUN = {
 	stars: 4,
 	element: ELEMENT_CRYO,
 	rating: {
-		[ROLE_SUPPORT]: [3, 3, 3, 3, 3, 3, 3],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -290,8 +320,9 @@ const CHARACTER_KAEYA = {
 	stars: 4,
 	element: ELEMENT_CRYO,
 	rating: {
-		[ROLE_SUPPORT]: [3, 3, 3, 3, 3, 3, 3],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -301,7 +332,9 @@ const CHARACTER_BARBARA = {
 	stars: 4,
 	element: ELEMENT_HYDRO,
 	rating: {
-		[ROLE_HEALER]: [3, 3, 3, 3, 3, 3, 4],
+		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [3, 3, 3, 3, 3, 3, 4],
 	},
 }
 
@@ -311,8 +344,9 @@ const CHARACTER_BEIDOU = {
 	stars: 4,
 	element: ELEMENT_ELECTRO,
 	rating: {
-		[ROLE_DAMAGE]: [2, 2, 2, 2, 3, 3, 3],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 2, 3, 3, 3],
+		ROLE_SUPPORT: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -322,8 +356,9 @@ const CHARACTER_XINYAN = {
 	stars: 4,
 	element: ELEMENT_ELECTRO,
 	rating: {
-		[ROLE_DAMAGE]: [2, 2, 2, 3, 3, 3, 3],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 3, 3, 3, 3],
+		ROLE_SUPPORT: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -333,8 +368,9 @@ const CHARACTER_LISA = {
 	stars: 4,
 	element: ELEMENT_ELECTRO,
 	rating: {
-		[ROLE_SUPPORT]: [2, 2, 2, 2, 2, 2, 2],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_SUPPORT: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -344,8 +380,9 @@ const CHARACTER_NOELLE = {
 	stars: 4,
 	element: ELEMENT_GEO,
 	rating: {
-		[ROLE_SUPPORT]: [1, 2, 2, 2, 2, 2, 2],
-		[ROLE_HEALER]: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [1, 2, 2, 2, 2, 2, 2],
+		ROLE_HEALER: [1, 1, 1, 1, 1, 1, 1],
 	},
 }
 
@@ -355,8 +392,9 @@ const CHARACTER_GEO_TRAVELLER = {
 	stars: 5,
 	element: ELEMENT_GEO,
 	rating: {
-		[ROLE_SUPPORT]: [1, 2, 2, 2, 2, 2, 2],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
+		ROLE_SUPPORT: [1, 2, 2, 2, 2, 2, 2],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -366,8 +404,9 @@ const CHARACTER_AMBER = {
 	stars: 4,
 	element: ELEMENT_PYRO,
 	rating: {
-		[ROLE_SUPPORT]: [1, 1, 1, 1, 1, 1, 1],
-		[ROLE_HEALER]: [0, 0, 0, 0, 0, 0, 0],
+		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_SUPPORT: [1, 1, 1, 1, 1, 1, 1],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
 
@@ -403,3 +442,9 @@ export const ALL_CHARACTERS = [
 	CHARACTER_GEO_TRAVELLER,
 	CHARACTER_AMBER
 ]
+
+export const ALL_ROLES = {
+	ROLE_DAMAGE,
+	ROLE_SUPPORT,
+	ROLE_HEALER
+}

@@ -2,7 +2,7 @@
 	<div>
 		<Character :meta="character" />
 		<div class="inputs">
-			<Checkbox :clickHandler="toggleHave" :value="($store.state[character.id] || {have: false}).have" />
+			<Checkbox :clickHandler="toggleHave" :value="character.id in $store.getters.characters" />
 			<ConstellationInput :value="($store.state[character.id] || {constellation: 0}).constellation" :incrementHandler="incrementHandler" :decrementHandler="decrementHandler" />
 		</div>
 	</div>
@@ -24,14 +24,17 @@
 		methods: {
 			incrementHandler(event) {
 				this.$store.commit('updateConstellation', { id: this.character.id, value: 1 })
+				window.mitt.emit('characters-updated')
 			},
 
 			decrementHandler(event) {
 				this.$store.commit('updateConstellation', { id: this.character.id, value: -1 })
+				window.mitt.emit('characters-updated')
 			},
 
 			toggleHave(event) {
 				this.$store.commit('toggleHave', { id: this.character.id })
+				window.mitt.emit('characters-updated')
 			}
 		}
 	}

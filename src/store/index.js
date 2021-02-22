@@ -5,14 +5,11 @@ export default createStore({
 	state: {},
 	mutations: {
 		toggleHave(state, payload) {
-			let data = state[payload.id] || { have: false, constellation: 0 }
-			data.have = !data.have
-
-			if (!data.have) {
-				data.constellation = 0
+			if (state[payload.id]) {
+				delete state[payload.id]
+			} else {
+				state[payload.id] = { constellation: 0 }
 			}
-
-			state[payload.id] = data
 		},
 
 		updateConstellation(state, payload) {
@@ -22,7 +19,12 @@ export default createStore({
 				? Math.min(Math.max(state[payload.id].constellation + payload.value, bounds[0]), bounds[1])
 				: Math.min(Math.max(payload.value, bounds[0]), bounds[1])
 
-			state[payload.id] = { have: true, constellation: value }
+			state[payload.id] = { constellation: value }
 		},
 	},
+	getters: {
+		characters: (state) => {
+			return state
+		}
+	}
 })

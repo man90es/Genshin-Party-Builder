@@ -1,23 +1,39 @@
 <template>
 	<div class="main_column characterter_selection">
-		<SelectionRow v-for="character in characters" :key="character" :character="character" />
+		<SelectionRow v-for="character in characters" :key="character.id" :character="character" />
 	</div>
-	<div class="main_column"></div>
+	<div class="main_column">
+		<PartyRow v-for="party in parties" :key="party" :meta="party" />
+	</div>
 </template>
 
 <script>
 	import SelectionRow from './components/SelectionRow.vue'
+	import PartyRow from './components/PartyRow.vue'
 	import { ALL_CHARACTERS } from './assets/data.js'
+	import calculateParties from './calculator.js'
 
 	export default {
 		name: 'App',
 		data() {
 			return {
-				characters: ALL_CHARACTERS.sort((a, b) => a.name > b.name ? 1 : -1)
+				characters: ALL_CHARACTERS.sort((a, b) => a.name > b.name ? 1 : -1),
+				parties: []
 			}
 		},
 		components: {
-			SelectionRow
+			SelectionRow,
+			PartyRow
+		},
+		methods: {
+			calculateParties() {
+				if (Object.keys(this.$store.getters.characters).length > 3) {
+					this.parties = calculateParties(this.$store.getters.characters, 1)
+				}
+			}
+		},
+		created() {
+			window.mitt.on('characters-updated', this.calculateParties)
 		}
 	}
 </script>
