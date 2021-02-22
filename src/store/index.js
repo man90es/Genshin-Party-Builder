@@ -1,30 +1,40 @@
 import Vue from 'vue'
 import { createStore } from 'vuex'
+import { lSPlugin } from './localStorage.js'
 
 export default createStore({
-	state: {},
+	state: {
+		ownedCharacters: {}
+	},
+	plugins: [ lSPlugin ],
 	mutations: {
 		toggleHave(state, payload) {
-			if (state[payload.id]) {
-				delete state[payload.id]
+			if (state.ownedCharacters[payload.id]) {
+				delete state.ownedCharacters[payload.id]
 			} else {
-				state[payload.id] = { constellation: 0 }
+				state.ownedCharacters[payload.id] = { constellation: 0 }
 			}
 		},
 
 		updateConstellation(state, payload) {
 			let bounds = [0, 6]
 
-			let value = state[payload.id]
-				? Math.min(Math.max(state[payload.id].constellation + payload.value, bounds[0]), bounds[1])
+			let value = state.ownedCharacters[payload.id]
+				? Math.min(Math.max(state.ownedCharacters[payload.id].constellation + payload.value, bounds[0]), bounds[1])
 				: Math.min(Math.max(payload.value, bounds[0]), bounds[1])
 
-			state[payload.id] = { constellation: value }
+			state.ownedCharacters[payload.id] = { constellation: value }
+		},
+
+		import(state, payload) {
+			for (const [key, value] of Object.entries(payload)) {
+				state[key] = value
+			}
 		},
 	},
 	getters: {
 		characters: (state) => {
-			return state
+			return state.ownedCharacters
 		}
 	}
 })

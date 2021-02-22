@@ -24,7 +24,6 @@
 		border: none;
 		outline: none;
 		background-color: #fff1;
-		/*font-size: 1.5em;*/
 		margin: 0 0.5em;
 		height: 1.5em;
 		width: 1.5em;

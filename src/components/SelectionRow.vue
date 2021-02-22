@@ -3,7 +3,7 @@
 		<Character :meta="character" />
 		<div class="inputs">
 			<Checkbox :clickHandler="toggleHave" :value="character.id in $store.getters.characters" />
-			<ConstellationInput :value="($store.state[character.id] || {constellation: 0}).constellation" :incrementHandler="incrementHandler" :decrementHandler="decrementHandler" />
+			<ConstellationInput :value="($store.getters.characters[character.id] || {constellation: 0}).constellation" :incrementHandler="incrementHandler" :decrementHandler="decrementHandler" />
 		</div>
 	</div>
 </template>

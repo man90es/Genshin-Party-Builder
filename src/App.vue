@@ -3,7 +3,7 @@
 		<SelectionRow v-for="character in characters" :key="character.id" :character="character" />
 	</div>
 	<div class="main_column">
-		<PartyRow v-for="party in parties" :key="party" :meta="party" />
+		<PartyRow v-for="(party, index) in parties" :key="index" :meta="party" />
 	</div>
 </template>
 
@@ -27,12 +27,14 @@
 		},
 		methods: {
 			calculateParties() {
-				if (Object.keys(this.$store.getters.characters).length > 3) {
-					this.parties = calculateParties(this.$store.getters.characters, 1)
-				}
+				this.parties = Object.keys(this.$store.getters.characters).length > 3
+					? calculateParties(this.$store.getters.characters, 1)
+					: []
 			}
 		},
 		created() {
+			this.calculateParties()
+
 			window.mitt.on('characters-updated', this.calculateParties)
 		}
 	}
