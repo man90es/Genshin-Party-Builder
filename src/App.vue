@@ -3,7 +3,7 @@
 		<SelectionRow v-for="character in characters" :key="character.id" :character="character" />
 	</div>
 	<div class="main_column">
-		<PartyRow v-for="(party, index) in parties" :key="index" :meta="party" />
+		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :number="i" />
 	</div>
 </template>
 
@@ -11,14 +11,19 @@
 	import SelectionRow from './components/SelectionRow.vue'
 	import PartyRow from './components/PartyRow.vue'
 	import { ALL_CHARACTERS } from './assets/data.js'
-	import calculateParties from './calculator.js'
+	import suggestParty from './calculator.js'
 
 	export default {
 		name: 'App',
 		data() {
 			return {
 				characters: ALL_CHARACTERS.sort((a, b) => a.name > b.name ? 1 : -1),
-				parties: []
+				parties: [
+					{
+						defined: [null, null, null, null], 
+						suggestion: [null, null, null, null]
+					}
+				]
 			}
 		},
 		components: {
@@ -27,9 +32,12 @@
 		},
 		methods: {
 			calculateParties() {
-				this.parties = Object.keys(this.$store.getters.characters).length > 3
-					? calculateParties(this.$store.getters.characters, 1)
-					: []
+				this.parties = this.parties.map((party) => {
+					return {
+						defined: party.defined,
+						suggestion: suggestParty(party.defined, this.$store.getters.characters)
+					}
+				})
 			}
 		},
 		created() {

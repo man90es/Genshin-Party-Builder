@@ -35,6 +35,12 @@ export default createStore({
 	getters: {
 		characters: (state) => {
 			return state.ownedCharacters
+		},
+
+		constellation: (state) => (characterID) => {
+			return state.ownedCharacters[characterID]
+				? state.ownedCharacters[characterID].constellation
+				: null
 		}
 	}
 })

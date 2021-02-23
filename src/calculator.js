@@ -14,27 +14,39 @@ function seek(characters, userData, role, n) {
 	return result
 }
 
-export default function calculateParties(owned, n) {
+export default function suggestParty(party, owned) {
 	let pool = ALL_CHARACTERS.filter(c => c.id in owned)
-	let party = []
+	let suggestions = []
 
-	for (let i = 0; i < n; ++i) {
-		let damageDealers = seek(pool, owned, ALL_ROLES.ROLE_DAMAGE, 1)
-		party[0] = damageDealers[0]
-		pool = pool.filter(c => c.id != damageDealers[0].id)
-	}
+	party.forEach(char => {
+		if (char) {
+			pool = pool.filter(c => c.id != char.id)
+		}
+	})
 
-	for (let i = 0; i < n; ++i) {
+	if (!party[3]) {
 		let healers = seek(pool, owned, ALL_ROLES.ROLE_HEALER, 1)
-		party[3] = healers[0]
+		suggestions[3] = healers[0]
 		pool = pool.filter(c => c.id != healers[0].id)
 	}
 
-	for (let i = 0; i < n; ++i) {
-		let supports = seek(pool, owned, ALL_ROLES.ROLE_SUPPORT, 2)
-		party[1] = supports[0]
-		party[2] = supports[1]
+	if (!party[0]) {
+		let damageDealers = seek(pool, owned, ALL_ROLES.ROLE_DAMAGE, 1)
+		suggestions[0] = damageDealers[0]
+		pool = pool.filter(c => c.id != damageDealers[0].id)
 	}
 
-	return [party]
+	if (!party[1]) {
+		let supports = seek(pool, owned, ALL_ROLES.ROLE_SUPPORT, 1)
+		suggestions[1] = supports[0]
+		pool = pool.filter(c => c.id != supports[0].id)
+	}
+
+	if (!party[2]) {
+		let supports = seek(pool, owned, ALL_ROLES.ROLE_SUPPORT, 1)
+		suggestions[2] = supports[0]
+		pool = pool.filter(c => c.id != supports[0].id)
+	}
+
+	return suggestions
 }
