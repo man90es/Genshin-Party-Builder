@@ -3,7 +3,7 @@
 		<div class="partyName">
 			Party {{ number + 1 }}
 		</div>
-		<Character v-for="(position, i) in positions" :key="i" :meta="meta.defined[i] || meta.suggestion[i]" :suggestion="!!meta.suggestion[i]" :role="position" />
+		<Character v-for="(role, i) in roles" :key="i" :meta="meta.defined[i] || meta.suggestion[i]" :suggestion="!!meta.suggestion[i]" :role="role" :pIndex="number" :cIndex="i" :clickable="true" />
 	</div>
 </template>
 
@@ -15,7 +15,7 @@
 		props: ['meta', 'number'],
 		data() {
 			return {
-				positions: ['DPS', 'Support', 'Support', 'Healer']
+				roles: ['DPS', 'Support', 'Support', 'Healer']
 			}
 		},
 		components: {

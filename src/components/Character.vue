@@ -1,6 +1,6 @@
 <template>
-	<div v-if="meta" :class="{ 'character-wrapper': true, suggestion }">
-		<img :src="src" :class="{ portrait: true, yellow: meta.stars == 5, purple: meta.stars == 4 }">
+	<div v-if="meta" :class="{ 'character-wrapper': true, clickable, suggestion }">
+		<img :src="src" :class="{ portrait: true, yellow: meta.stars == 5, purple: meta.stars == 4 }" @click="clickHandler">
 		<div class="character-tags">
 			<Element :meta="meta.element" />
 			<Constellation :level="$store.getters.constellation(meta.id)" />
@@ -9,14 +9,14 @@
 			{{ meta.name + (role ? ` as ${role}` : '') }}
 		</div>
 	</div>
-	<div v-else :class="{ wrapper: true, suggestion: true }">
-		<img :src="src" class="portrait">
+	<div v-else :class="{ 'character-wrapper': true, clickable, suggestion: true }">
+		<img :src="src" class="portrait" @click="clickHandler">
 		<div class="character-tags">
 			<Element :meta="null"/>
 			<Constellation :level="null" />
 		</div>
 		<div>
-			Character
+			None
 		</div>
 	</div>
 </template>
@@ -27,10 +27,21 @@
 
 	export default {
 		name: 'Character',
-		props: ['meta', 'role', 'suggestion'],
+		props: ['meta', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
 		components: {
 			Element,
 			Constellation
+		},
+		methods: {
+			clickHandler() {
+				if (this.clickable) {
+					window.mitt.emit('character-clicked', {
+						pIndex: this.pIndex,
+						cIndex: this.cIndex,
+						cID: this.meta ? this.meta.id : ''
+					})
+				}
+			}
 		},
 		computed: {
 			src() {
@@ -52,7 +63,7 @@
 	}
 
 	.character-tags {
-		margin-top: -4.85rem;
+		margin-top: -4.6rem;
 		margin-left: -4.65rem;
 		margin-bottom: 1rem;
 	}
@@ -62,7 +73,7 @@
 		width: 4.5rem;
 		border-radius: 5%;
 		border: 0.15em solid grey;
-		margin: 0.5em;
+		margin: 0.25em;
 	}
 
 	.yellow {
@@ -74,7 +85,10 @@
 	}
 
 	.suggestion {
-		/*opacity: 0.75;*/
 		filter: grayscale(75%); 
+	}
+
+	.clickable {
+		cursor: pointer;
 	}
 </style>

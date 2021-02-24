@@ -15,7 +15,7 @@ function seek(characters, userData, role, n) {
 }
 
 export default function suggestParty(party, owned) {
-	let pool = ALL_CHARACTERS.filter(c => c.id in owned)
+	let pool = Object.values(ALL_CHARACTERS).filter(c => c.id in owned)
 	let suggestions = []
 
 	party.forEach(char => {

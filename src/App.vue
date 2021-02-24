@@ -5,11 +5,13 @@
 	<div class="main_column">
 		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :number="i" />
 	</div>
+	<CharacterSelectionDialogue v-if="characterSelectionDialogueData" :meta="characterSelectionDialogueData" />
 </template>
 
 <script>
 	import SelectionRow from './components/SelectionRow.vue'
 	import PartyRow from './components/PartyRow.vue'
+	import CharacterSelectionDialogue from './components/CharacterSelectionDialogue.vue'
 	import { ALL_CHARACTERS } from './assets/data.js'
 	import suggestParty from './calculator.js'
 
@@ -17,18 +19,20 @@
 		name: 'App',
 		data() {
 			return {
-				characters: ALL_CHARACTERS.sort((a, b) => a.name > b.name ? 1 : -1),
+				characters: Object.values(ALL_CHARACTERS).sort((a, b) => a.name > b.name ? 1 : -1),
 				parties: [
 					{
 						defined: [null, null, null, null], 
 						suggestion: [null, null, null, null]
 					}
-				]
+				],
+				characterSelectionDialogueData: null
 			}
 		},
 		components: {
 			SelectionRow,
-			PartyRow
+			PartyRow,
+			CharacterSelectionDialogue
 		},
 		methods: {
 			calculateParties() {
@@ -38,12 +42,31 @@
 						suggestion: suggestParty(party.defined, this.$store.getters.characters)
 					}
 				})
+			},
+
+			selectCharacterReplacement(data) {
+				if (data.pIndex !== undefined && data.cIndex !== undefined) {
+					this.characterSelectionDialogueData = data
+				} else {
+					let pI = this.characterSelectionDialogueData.pIndex
+					let cI = this.characterSelectionDialogueData.cIndex
+					this.parties[pI].defined[cI] = ALL_CHARACTERS[data.cID]
+
+					this.calculateParties()
+					this.closeCharacterSelectionDialogue()
+				}
+			},
+
+			closeCharacterSelectionDialogue() {
+				this.characterSelectionDialogueData = null
 			}
 		},
 		created() {
 			this.calculateParties()
 
 			window.mitt.on('characters-updated', this.calculateParties)
+			window.mitt.on('character-clicked', this.selectCharacterReplacement)
+			window.mitt.on('character-selection-dialogue-backdrop-clicked', this.closeCharacterSelectionDialogue)
 		}
 	}
 </script>
@@ -68,6 +91,7 @@
 
 	.characterter_selection {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
+		/*grid-template-columns: 1fr 1fr 1fr;*/
+		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 	}
 </style>
