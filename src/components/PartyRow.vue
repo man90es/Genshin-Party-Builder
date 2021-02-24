@@ -3,7 +3,7 @@
 		<div class="partyName">
 			Party {{ number + 1 }}
 		</div>
-		<Character v-for="(role, i) in roles" :key="i" :meta="meta.defined[i] || meta.suggestion[i]" :suggestion="!!meta.suggestion[i]" :role="role" :pIndex="number" :cIndex="i" :clickable="true" />
+		<Character v-for="(role, i) in roles" :key="i" :meta="meta.defined[i] || meta.suggestion[i]" :suggestion="!meta.defined[i]" :role="role" :pIndex="number" :cIndex="i" :clickable="true" />
 	</div>
 </template>
 
