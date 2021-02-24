@@ -20,12 +20,7 @@
 		data() {
 			return {
 				characters: Object.values(ALL_CHARACTERS).sort((a, b) => a.name > b.name ? 1 : -1),
-				parties: [
-					{
-						defined: [null, null, null, null], 
-						suggestion: [null, null, null, null]
-					}
-				],
+				parties: [],
 				characterSelectionDialogueData: null
 			}
 		},
@@ -62,6 +57,13 @@
 			}
 		},
 		created() {
+			for (let i = 0; i < 4; ++i) {
+				this.parties.push({
+					defined: [null, null, null, null],
+					suggestion: [null, null, null, null]
+				})
+			}
+
 			this.calculateParties()
 
 			window.mitt.on('characters-updated', this.calculateParties)
@@ -91,7 +93,6 @@
 
 	.characterter_selection {
 		display: grid;
-		/*grid-template-columns: 1fr 1fr 1fr;*/
 		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 	}
 </style>

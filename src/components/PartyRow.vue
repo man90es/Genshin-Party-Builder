@@ -29,7 +29,7 @@
 		border-radius: 0.5em;
 		display: grid;
 		grid-template-rows: 1em 1fr;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-template-columns: repeat(4, 1fr);
 		gap: 0.5em;
 		margin-bottom: 2em;
 		background-color: #0005;
