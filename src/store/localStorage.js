@@ -1,6 +1,9 @@
 const persistentMutations = {
 	toggleHave: 'ownedCharacters',
-	updateConstellation: 'ownedCharacters'
+	updateConstellation: 'ownedCharacters',
+	pushParty: 'parties',
+	setPartyMember: 'parties',
+	deleteParty: 'parties'
 }
 
 let data = {}

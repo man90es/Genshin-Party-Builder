@@ -2,10 +2,15 @@ import Vue from 'vue'
 import { createStore } from 'vuex'
 import { lSPlugin } from './localStorage.js'
 
+function Party() {
+	this.name = null
+	this.members = [null, null, null, null]
+}
+
 export default createStore({
 	state: {
 		ownedCharacters: {},
-		parties: []
+		parties: [new Party()]
 	},
 	plugins: [ lSPlugin ],
 	mutations: {
@@ -28,10 +33,7 @@ export default createStore({
 		},
 
 		pushParty(state, payload) {
-			state.parties.push({
-				name: null,
-				members: [null, null, null, null]
-			})
+			state.parties.push(new Party())
 		},
 
 		setPartyMember(state, payload) {

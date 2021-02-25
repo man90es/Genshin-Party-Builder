@@ -4,7 +4,7 @@
 	</div>
 	<div class="main_column">
 		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" />
-		<button id="add-party-button" @click="addParty">Add party +</button>
+		<button id="add-party-button" @click="pushParty">Add party +</button>
 	</div>
 	<CharacterSelectionDialogue v-if="characterSelectionDialogueData" :meta="characterSelectionDialogueData" />
 </template>
@@ -30,7 +30,7 @@
 			CharacterSelectionDialogue
 		},
 		methods: {
-			addParty() {
+			pushParty() {
 				this.$store.commit('pushParty')
 			},
 
@@ -66,7 +66,6 @@
 			}
 		},
 		created() {
-			this.addParty()
 			window.mitt.on('character-clicked', this.characterClickHandler)
 			window.mitt.on('character-selection-dialogue-backdrop-clicked', this.closeCharacterSelectionDialogue)
 		}
