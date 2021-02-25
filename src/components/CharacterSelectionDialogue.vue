@@ -23,7 +23,7 @@
 		},
 		computed: {
 			characters() {
-				return Object.keys(this.$store.getters.characters).sort()
+				return Object.keys(this.$store.getters.characters)
 			},
 		}
 	}

@@ -20,7 +20,7 @@
 		name: 'App',
 		data() {
 			return {
-				characters: Object.keys(ALL_CHARACTERS).sort(),
+				characters: Object.keys(ALL_CHARACTERS),
 				characterSelectionDialogueData: null
 			}
 		},
