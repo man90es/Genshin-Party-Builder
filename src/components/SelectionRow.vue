@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<Character :meta="character" />
+		<Character :characterID="characterID" />
 		<div class="inputs">
-			<Checkbox :clickHandler="toggleHave" :value="character.id in $store.getters.characters" />
-			<ConstellationInput :value="($store.getters.characters[character.id] || {constellation: 0}).constellation" :incrementHandler="incrementHandler" :decrementHandler="decrementHandler" />
+			<Checkbox :clickHandler="toggleHave" :value="characterID in $store.getters.characters" />
+			<ConstellationInput :value="($store.getters.characters[characterID] || {constellation: 0}).constellation" :incrementHandler="incrementHandler" :decrementHandler="decrementHandler" />
 		</div>
 	</div>
 </template>
@@ -15,7 +15,7 @@
 
 	export default {
 		name: 'SelectionRow',
-		props: ['character'],
+		props: ['characterID'],
 		components: {
 			Character,
 			Checkbox,
@@ -23,18 +23,15 @@
 		},
 		methods: {
 			incrementHandler(event) {
-				this.$store.commit('updateConstellation', { id: this.character.id, value: 1 })
-				window.mitt.emit('characters-updated')
+				this.$store.commit('updateConstellation', { id: this.characterID, value: 1 })
 			},
 
 			decrementHandler(event) {
-				this.$store.commit('updateConstellation', { id: this.character.id, value: -1 })
-				window.mitt.emit('characters-updated')
+				this.$store.commit('updateConstellation', { id: this.characterID, value: -1 })
 			},
 
 			toggleHave(event) {
-				this.$store.commit('toggleHave', { id: this.character.id })
-				window.mitt.emit('characters-updated')
+				this.$store.commit('toggleHave', { id: this.characterID })
 			}
 		}
 	}

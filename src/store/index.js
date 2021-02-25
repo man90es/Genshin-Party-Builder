@@ -4,7 +4,8 @@ import { lSPlugin } from './localStorage.js'
 
 export default createStore({
 	state: {
-		ownedCharacters: {}
+		ownedCharacters: {},
+		parties: []
 	},
 	plugins: [ lSPlugin ],
 	mutations: {
@@ -26,6 +27,21 @@ export default createStore({
 			state.ownedCharacters[payload.id] = { constellation: value }
 		},
 
+		pushParty(state, payload) {
+			state.parties.push({
+				name: null,
+				members: [null, null, null, null]
+			})
+		},
+
+		setPartyMember(state, payload) {
+			state.parties[payload.pI].members[payload.cI] = payload.cID
+		},
+
+		deleteParty(state, payload) {
+			state.parties.splice(payload.index, 1)
+		},
+
 		import(state, payload) {
 			for (const [key, value] of Object.entries(payload)) {
 				state[key] = value
@@ -35,6 +51,10 @@ export default createStore({
 	getters: {
 		characters: (state) => {
 			return state.ownedCharacters
+		},
+
+		parties: (state) => {
+			return state.parties
 		},
 
 		constellation: (state) => (characterID) => {

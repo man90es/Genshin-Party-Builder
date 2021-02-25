@@ -30,13 +30,13 @@ export default function suggestParty(party, owned) {
 	// Process characters added by the user
 	party.forEach((char, i) => {
 		if (char) {
-			suggestions[i] = char
-			pool = pool.filter(c => c.id != char.id)
+			suggestions[i] = ALL_CHARACTERS[char]
+			pool = pool.filter(c => c.id != char)
 		}
 	})
 
 	if (!pool.length) {
-		return suggestions
+		return suggestions.map(c => c.id)
 	}
 
 	// Find a DPS
@@ -46,7 +46,7 @@ export default function suggestParty(party, owned) {
 	}
 
 	if (!pool.length) {
-		return suggestions
+		return suggestions.map(c => c.id)
 	}
 
 	// Find a healer
@@ -56,7 +56,7 @@ export default function suggestParty(party, owned) {
 	}
 
 	if (!pool.length) {
-		return suggestions
+		return suggestions.map(c => c.id)
 	}
 
 	// Find a support
@@ -66,7 +66,7 @@ export default function suggestParty(party, owned) {
 	}
 
 	if (!pool.length) {
-		return suggestions
+		return suggestions.map(c => c.id)
 	}
 
 	// Find a support
@@ -75,5 +75,5 @@ export default function suggestParty(party, owned) {
 		pool = pool.filter(c => c.id != suggestions[2].id)
 	}
 
-	return suggestions
+	return suggestions.map(c => c.id)
 }

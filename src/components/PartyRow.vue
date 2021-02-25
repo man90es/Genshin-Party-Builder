@@ -2,9 +2,9 @@
 	<div class="party-wrapper">
 		<div class="partyName">
 			Party {{ index + 1 }}
-			<button class="button-x" @click="() => deleteHandler(index)">x</button>
+			<button class="button-x" @click="deleteParty">x</button>
 		</div>
-		<Character v-for="(role, i) in roles" :key="i" :meta="meta.defined[i] || meta.suggestion[i]" :suggestion="!meta.defined[i]" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
+		<Character v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
 	</div>
 </template>
 
@@ -21,6 +21,20 @@
 		},
 		components: {
 			Character
+		},
+		methods: {
+			deleteParty() {
+				this.$store.commit('deleteParty', { index: this.index })
+			}
+		},
+		computed: {
+			characterID() {
+				return i => this.meta.defined[i] || this.meta.suggestion[i]
+			},
+
+			isSuggested() {
+				return i => !this.meta.defined[i]
+			}
 		}
 	}
 </script>

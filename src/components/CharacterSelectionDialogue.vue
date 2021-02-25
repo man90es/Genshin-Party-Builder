@@ -1,7 +1,7 @@
 <template>
 	<div class="backdrop" @click="backdropClickHandler"></div>
 	<div id="character-selection-dialogue">
-		<Character v-for="char in characters" :key="char.id" :meta="char" :clickable="true" />
+		<Character v-for="char in characters" :key="char" :characterID="char" :clickable="true" />
 		<Character :clickable="true" />
 	</div>
 </template>
@@ -23,9 +23,7 @@
 		},
 		computed: {
 			characters() {
-				return Object.keys(this.$store.getters.characters)
-					.map((id) => ALL_CHARACTERS[id])
-					.sort((a, b) => a.name > b.name ? 1 : -1)
+				return Object.keys(this.$store.getters.characters).sort()
 			},
 		}
 	}

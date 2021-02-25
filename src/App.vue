@@ -1,9 +1,9 @@
 <template>
 	<div class="main_column characterter_selection">
-		<SelectionRow v-for="character in characters" :key="character.id" :character="character" />
+		<SelectionRow v-for="char in characters" :key="char" :characterID="char" />
 	</div>
 	<div class="main_column">
-		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" :deleteHandler="deleteParty"/>
+		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" />
 		<button id="add-party-button" @click="addParty">Add party +</button>
 	</div>
 	<CharacterSelectionDialogue v-if="characterSelectionDialogueData" :meta="characterSelectionDialogueData" />
@@ -20,8 +20,7 @@
 		name: 'App',
 		data() {
 			return {
-				characters: Object.values(ALL_CHARACTERS).sort((a, b) => a.name > b.name ? 1 : -1),
-				parties: [],
+				characters: Object.keys(ALL_CHARACTERS).sort(),
 				characterSelectionDialogueData: null
 			}
 		},
@@ -31,50 +30,44 @@
 			CharacterSelectionDialogue
 		},
 		methods: {
-			calculateParties() {
-				this.parties = this.parties.map((party) => {
-					return {
-						defined: party.defined,
-						suggestion: suggestParty(party.defined, this.$store.getters.characters)
-					}
-				})
+			addParty() {
+				this.$store.commit('pushParty')
 			},
 
-			selectCharacterReplacement(data) {
+			characterClickHandler(data) {
 				if (data.pIndex !== undefined && data.cIndex !== undefined) {
 					this.characterSelectionDialogueData = data
 				} else {
-					let pI = this.characterSelectionDialogueData.pIndex
-					let cI = this.characterSelectionDialogueData.cIndex
-					this.parties[pI].defined[cI] = ALL_CHARACTERS[data.cID]
+					this.$store.commit('setPartyMember', {
+						pI: this.characterSelectionDialogueData.pIndex,
+						cI: this.characterSelectionDialogueData.cIndex,
+						cID: data.cID
+					})
 
-					this.calculateParties()
 					this.closeCharacterSelectionDialogue()
 				}
 			},
 
 			closeCharacterSelectionDialogue() {
 				this.characterSelectionDialogueData = null
-			},
+			}
+		},
+		computed: {
+			parties() {
+				let availableCharacters = this.$store.getters.characters
 
-			addParty() {
-				this.parties.push({
-					defined: [null, null, null, null],
-					suggestion: [null, null, null, null]
+				return this.$store.getters.parties.map((storedParty) => {
+					return {
+						name: storedParty.name,
+						defined: storedParty.members,
+						suggestion: suggestParty(storedParty.members, availableCharacters)
+					}
 				})
-				this.calculateParties()
-			},
-
-			deleteParty(index) {
-				this.parties.splice(index, 1)
 			}
 		},
 		created() {
 			this.addParty()
-			this.calculateParties()
-
-			window.mitt.on('characters-updated', this.calculateParties)
-			window.mitt.on('character-clicked', this.selectCharacterReplacement)
+			window.mitt.on('character-clicked', this.characterClickHandler)
 			window.mitt.on('character-selection-dialogue-backdrop-clicked', this.closeCharacterSelectionDialogue)
 		}
 	}

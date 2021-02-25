@@ -3,7 +3,7 @@
 		<img :src="src" :class="{ portrait: true, yellow: meta.stars == 5, purple: meta.stars == 4 }" @click="clickHandler">
 		<div class="character-tags">
 			<Element :meta="meta.element" />
-			<Constellation :level="$store.getters.constellation(meta.id)" />
+			<Constellation :level="$store.getters.constellation(characterID)" />
 		</div>
 		<div>
 			{{ meta.name + (role ? ` as ${role}` : '') }}
@@ -24,13 +24,19 @@
 <script>
 	import Element from './Element.vue'
 	import Constellation from './Constellation.vue'
+	import { ALL_CHARACTERS } from '../assets/data.js'
 
 	export default {
 		name: 'Character',
-		props: ['meta', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
+		props: ['characterID', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
 		components: {
 			Element,
 			Constellation
+		},
+		data() {
+			return {
+				meta: ALL_CHARACTERS[this.characterID]
+			}
 		},
 		methods: {
 			clickHandler() {
