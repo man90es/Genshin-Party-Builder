@@ -7,7 +7,6 @@
 </template>
 
 <script>
-	import { ALL_CHARACTERS } from '../assets/data.js'
 	import Character from './Character.vue'
 
 	export default {
