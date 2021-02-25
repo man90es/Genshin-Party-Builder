@@ -3,7 +3,8 @@
 		<SelectionRow v-for="character in characters" :key="character.id" :character="character" />
 	</div>
 	<div class="main_column">
-		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :number="i" />
+		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" :deleteHandler="deleteParty"/>
+		<button id="add-party-button" @click="addParty">Add party +</button>
 	</div>
 	<CharacterSelectionDialogue v-if="characterSelectionDialogueData" :meta="characterSelectionDialogueData" />
 </template>
@@ -54,16 +55,22 @@
 
 			closeCharacterSelectionDialogue() {
 				this.characterSelectionDialogueData = null
-			}
-		},
-		created() {
-			for (let i = 0; i < 4; ++i) {
+			},
+
+			addParty() {
 				this.parties.push({
 					defined: [null, null, null, null],
 					suggestion: [null, null, null, null]
 				})
-			}
+				this.calculateParties()
+			},
 
+			deleteParty(index) {
+				this.parties.splice(index, 1)
+			}
+		},
+		created() {
+			this.addParty()
 			this.calculateParties()
 
 			window.mitt.on('characters-updated', this.calculateParties)
@@ -94,5 +101,18 @@
 	.characterter_selection {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+		grid-template-rows: repeat(auto-fit, 7.5rem);
+	}
+
+	#add-party-button {
+		width: 100%;
+		height: 2em;
+		background-color: #0005;
+		border: none;
+		border-radius: 0.5rem;
+		font-size: 1.5rem;
+		color: #bbc;
+		outline: none;
+		cursor: pointer;
 	}
 </style>

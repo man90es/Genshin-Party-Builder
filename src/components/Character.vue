@@ -16,7 +16,7 @@
 			<Constellation :level="null" />
 		</div>
 		<div>
-			None
+			Auto
 		</div>
 	</div>
 </template>
