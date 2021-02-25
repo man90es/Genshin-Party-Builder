@@ -10,7 +10,7 @@ function seek(characters, userData, role, element) {
 }
 
 function hasDPSResonance(party) {
-	// This check isn't needed as finding a DPS is higher priority 
+	// This check isn't needed as finding a DPS is a higher priority 
 	// than ensuring a resonance
 	// if (!party[0]) return false
 
@@ -35,10 +35,18 @@ export default function suggestParty(party, owned) {
 		}
 	})
 
+	if (!pool.length) {
+		return suggestions
+	}
+
 	// Find a DPS
 	if (!suggestions[0]) {
 		suggestions[0] = seek(pool, owned, ALL_ROLES.ROLE_DAMAGE)
 		pool = pool.filter(c => c.id != suggestions[0].id)
+	}
+
+	if (!pool.length) {
+		return suggestions
 	}
 
 	// Find a healer
@@ -47,10 +55,18 @@ export default function suggestParty(party, owned) {
 		pool = pool.filter(c => c.id != suggestions[3].id)
 	}
 
+	if (!pool.length) {
+		return suggestions
+	}
+
 	// Find a support
 	if (!suggestions[1]) {
 		suggestions[1] = seek(pool, owned, ALL_ROLES.ROLE_SUPPORT, !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
 		pool = pool.filter(c => c.id != suggestions[1].id)
+	}
+
+	if (!pool.length) {
+		return suggestions
 	}
 
 	// Find a support
