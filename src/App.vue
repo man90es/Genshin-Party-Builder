@@ -3,6 +3,13 @@
 		<SelectionRow v-for="char in characters" :key="char" :characterID="char" />
 	</div>
 	<div class="main_column">
+		<header>
+			<ul>
+				<li>Select your owned characters and their constellation levels in the left part of the screen.</li>
+				<li>The algorithm will recommend you an optimal party in the right part of the screen.</li>
+				<li>Click a party member's portrait to select a specific character; the algorithm will adapt to your choice.</li>
+			</ul>
+		</header>
 		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" />
 		<button id="add-party-button" @click="pushParty">Add party +</button>
 	</div>
@@ -80,9 +87,14 @@
 		text-align: center;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr;
 		background-color: #21252b;
 		color: #bbc;
+	}
+
+	header ul {
+		text-align: left;
+		font-size: 1.2rem;
+		padding-left: 1.5rem;
 	}
 
 	.main_column {
