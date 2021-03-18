@@ -410,6 +410,18 @@ const CHARACTER_AMBER = {
 	},
 }
 
+const CHARACTER_HU_TAO = {
+	name: 'Hu Tao',
+	id: 'CHARACTER_HU_TAO',
+	stars: 5,
+	element: ELEMENT_PYRO,
+	rating: {
+		ROLE_DAMAGE: [4, 5, 5, 5, 5, 5, 5],
+		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 export const ALL_CHARACTERS = {
 	CHARACTER_ALBEDO,
 	CHARACTER_AMBER,
@@ -421,6 +433,7 @@ export const ALL_CHARACTERS = {
 	CHARACTER_DIONA,
 	CHARACTER_FISCHL,
 	CHARACTER_GANYU,
+	CHARACTER_HU_TAO,
 	CHARACTER_JEAN,
 	CHARACTER_KAEYA,
 	CHARACTER_KEQING,
