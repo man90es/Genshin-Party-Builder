@@ -1,12 +1,16 @@
 import { ALL_CHARACTERS, ALL_ROLES } from './assets/data.js'
 
 function seek(characters, userData, role, element) {
-	return characters.sort((a, b) => {
-		let aR = a.rating[role.id][userData[a.id].constellation] + (element && a.element.id == element ? 1.5 : 0)
-		let bR = b.rating[role.id][userData[b.id].constellation] + (element && b.element.id == element ? 1.5 : 0)
+	return characters
+		.sort((a, b) => {
+			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
+		})
+		.sort((a, b) => {
+			let aR = a.rating[role.id][userData[a.id].constellation] + (element && a.element.id == element ? 1.5 : 0)
+			let bR = b.rating[role.id][userData[b.id].constellation] + (element && b.element.id == element ? 1.5 : 0)
 
-		return aR < bR ? 1 : -1
-	})[0]
+			return aR < bR ? 1 : -1
+		})[0]
 }
 
 function hasDPSResonance(party) {
