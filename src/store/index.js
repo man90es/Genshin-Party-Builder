@@ -44,10 +44,8 @@ export default createStore({
 			state.parties.splice(payload.index, 1)
 		},
 
-		import(state, payload) {
-			for (const [key, value] of Object.entries(payload)) {
-				state[key] = value
-			}
+		import(state, backup) {
+			Object.assign(state, backup)
 		},
 	},
 	getters: {
