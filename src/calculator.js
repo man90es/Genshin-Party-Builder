@@ -1,7 +1,17 @@
 import { ALL_CHARACTERS, ALL_ROLES } from './assets/data.js'
 
+function shuffle(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		let j = Math.floor(Math.random() * (i + 1))
+
+		;[array[i], array[j]] = [array[j], array[i]]
+	}
+
+	return array
+}
+
 function seek(characters, userData, role, element) {
-	return characters
+	return shuffle(characters)
 		.sort((a, b) => {
 			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
 		})
