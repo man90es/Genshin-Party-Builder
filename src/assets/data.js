@@ -428,8 +428,8 @@ const CHARACTER_ROSARIA = {
 	stars: 4,
 	element: ELEMENT_CRYO,
 	rating: {
-		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
-		ROLE_SUPPORT: [3, 3, 3, 3, 3, 3, 3],
+		ROLE_DAMAGE: [3, 3.2, 4, 4.1, 4.2, 4.3, 4.4],
+		ROLE_SUPPORT: [3, 3.2, 4, 4.1, 4.3, 4.4, 4.4],
 		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
