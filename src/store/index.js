@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { createStore } from 'vuex'
 import { lSPlugin } from './localStorage.js'
 
