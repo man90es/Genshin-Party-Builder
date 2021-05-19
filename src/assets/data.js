@@ -434,6 +434,18 @@ const CHARACTER_ROSARIA = {
 	},
 }
 
+const CHARACTER_YANFEI = {
+	name: 'Yanfei',
+	id: 'CHARACTER_YANFEI',
+	stars: 4,
+	element: ELEMENT_PYRO,
+	rating: {
+		ROLE_DAMAGE: [2, 3, 3.1, 3.2, 3.3, 3.4, 3.5],
+		ROLE_SUPPORT: [3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 export const ALL_CHARACTERS = {
 	CHARACTER_ALBEDO,
 	CHARACTER_AMBER,
@@ -466,6 +478,7 @@ export const ALL_CHARACTERS = {
 	CHARACTER_XIAO,
 	CHARACTER_XINGQIU,
 	CHARACTER_XINYAN,
+	CHARACTER_YANFEI,
 	CHARACTER_ZHONGLI,
 }
 
