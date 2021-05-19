@@ -446,6 +446,18 @@ const CHARACTER_YANFEI = {
 	},
 }
 
+const CHARACTER_EULA = {
+	name: 'Eula',
+	id: 'CHARACTER_EULA',
+	stars: 5,
+	element: ELEMENT_CRYO,
+	rating: {
+		ROLE_DAMAGE: [5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6],
+		ROLE_SUPPORT: [3, 3, 3.2, 3.2, 3.3, 3.4, 3.5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 export const ALL_CHARACTERS = {
 	CHARACTER_ALBEDO,
 	CHARACTER_AMBER,
@@ -455,6 +467,7 @@ export const ALL_CHARACTERS = {
 	CHARACTER_CHONGYUN,
 	CHARACTER_DILUC,
 	CHARACTER_DIONA,
+	CHARACTER_EULA,
 	CHARACTER_FISCHL,
 	CHARACTER_GANYU,
 	CHARACTER_HU_TAO,
