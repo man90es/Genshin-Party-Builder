@@ -458,6 +458,18 @@ const CHARACTER_EULA = {
 	},
 }
 
+const CHARACTER_KAZUHA = {
+	name: 'Kazuha',
+	id: 'CHARACTER_KAZUHA',
+	stars: 5,
+	element: ELEMENT_ANEMO,
+	rating: {
+		ROLE_DAMAGE: [3.9, 4, 4.1, 4.2, 4.2, 4.3, 4.4],
+		ROLE_SUPPORT: [4, 4.1, 4.2, 4.2, 4.3, 4.3, 4.3],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 export const ALL_CHARACTERS = {
 	CHARACTER_ALBEDO,
 	CHARACTER_AMBER,
@@ -473,6 +485,7 @@ export const ALL_CHARACTERS = {
 	CHARACTER_HU_TAO,
 	CHARACTER_JEAN,
 	CHARACTER_KAEYA,
+	CHARACTER_KAZUHA,
 	CHARACTER_KEQING,
 	CHARACTER_KLEE,
 	CHARACTER_LISA,
