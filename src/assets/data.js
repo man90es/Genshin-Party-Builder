@@ -470,9 +470,22 @@ const CHARACTER_KAZUHA = {
 	},
 }
 
+const CHARACTER_AYAKA = {
+	name: 'Ayaka',
+	id: 'CHARACTER_AYAKA',
+	stars: 5,
+	element: ELEMENT_CRYO,
+	rating: {
+		ROLE_DAMAGE: [5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6],
+		ROLE_SUPPORT: [5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.5],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 export const ALL_CHARACTERS = {
 	CHARACTER_ALBEDO,
 	CHARACTER_AMBER,
+	CHARACTER_AYAKA,
 	CHARACTER_BARBARA,
 	CHARACTER_BEIDOU,
 	CHARACTER_BENNETT,
