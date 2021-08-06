@@ -5420,6 +5420,11 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
+memento-vuex@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/memento-vuex/-/memento-vuex-0.1.0.tgz#e82cd82fb5b15f8356a0176345bfc6134f457016"
+  integrity sha512-I+1Ku+QzZA7f1PnwGkRq0ex6AYVRTdJYzweBdNWNnp/m3HTpr1uNLFh2e/vLcSy4hdoHkYGjiRwNhDtMOOkcAQ==
+
 memory-fs@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"

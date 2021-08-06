@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import { lSPlugin } from './localStorage.js'
+import { createStore } from "vuex"
+import Memento from "memento-vuex"
 
 function Party() {
 	this.name = null
@@ -11,7 +11,18 @@ export default createStore({
 		ownedCharacters: {},
 		parties: [new Party()]
 	},
-	plugins: [ lSPlugin ],
+	plugins: [
+		Memento(
+			{
+				toggleHave:          "ownedCharacters",
+				updateConstellation: "ownedCharacters",
+				pushParty:           "parties",
+				setPartyMember:      "parties",
+				deleteParty:         "parties",
+			},
+			"gpb-vuex"
+		)
+	],
 	mutations: {
 		toggleHave(state, payload) {
 			if (state.ownedCharacters[payload.id]) {
