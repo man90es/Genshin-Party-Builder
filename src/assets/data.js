@@ -104,8 +104,8 @@ const CHARACTER_TRAVELLER_ANEMO = {
 	stars: 5,
 	element: ELEMENT_ANEMO,
 	rating: {
-		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
-		ROLE_SUPPORT: [1, 1, 1, 1, 1, 1, 2],
+		ROLE_DAMAGE: [0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5],
+		ROLE_SUPPORT: [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6],
 		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
@@ -392,8 +392,8 @@ const CHARACTER_TRAVELLER_GEO = {
 	stars: 5,
 	element: ELEMENT_GEO,
 	rating: {
-		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
-		ROLE_SUPPORT: [1, 2, 2, 2, 2, 2, 2],
+		ROLE_DAMAGE: [0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5],
+		ROLE_SUPPORT: [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6],
 		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
 	},
 }
@@ -482,6 +482,18 @@ const CHARACTER_AYAKA = {
 	},
 }
 
+const CHARACTER_TRAVELLER_ELECTRO = {
+	name: 'Traveller',
+	id: 'CHARACTER_TRAVELLER_ELECTRO',
+	stars: 5,
+	element: ELEMENT_ELECTRO,
+	rating: {
+		ROLE_DAMAGE: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6],
+		ROLE_SUPPORT: [3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 const CHARACTER_YOIMIYA = {
 	name: 'Yoimiya',
 	id: 'CHARACTER_YOIMIYA',
@@ -536,6 +548,7 @@ export const ALL_CHARACTERS = {
 	CHARACTER_SUCROSE,
 	CHARACTER_TARTAGLIA,
 	CHARACTER_TRAVELLER_ANEMO,
+	CHARACTER_TRAVELLER_ELECTRO,
 	CHARACTER_TRAVELLER_GEO,
 	CHARACTER_VENTI,
 	CHARACTER_XIANGLING,
