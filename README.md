@@ -1,24 +1,8 @@
-# genshinautoteam
+# Genshin Party Builder
+[![license](https://img.shields.io/github/license/octoman90/Genshin-Party-Builder)](https://github.com/octoman90/Genshin-Party-Builder/blob/master/LICENSE)
 
-## Project setup
-```
-yarn install
-```
+This is a helper web application for Genshin Impact that assists in creating balanced team compositions based on which characters you have, how high their constellation level is, which elemental resonances they form, how well received they usually are and which roles they fill the best.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+See it yourself: [https://genshin.hemlo.cc/partybuilder](https://genshin.hemlo.cc/partybuilder)
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![](./.github/screencap.png)
