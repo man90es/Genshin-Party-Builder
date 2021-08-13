@@ -482,6 +482,18 @@ const CHARACTER_AYAKA = {
 	},
 }
 
+const CHARACTER_YOIMIYA = {
+	name: 'Yoimiya',
+	id: 'CHARACTER_YOIMIYA',
+	stars: 5,
+	element: ELEMENT_PYRO,
+	rating: {
+		ROLE_DAMAGE: [4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.5],
+		ROLE_SUPPORT: [3.9, 4.0, 4.1, 4.2, 4.3, 4.4],
+		ROLE_HEALER: [0, 0, 0, 0, 0, 0, 0],
+	},
+}
+
 export const ALL_CHARACTERS = {
 	CHARACTER_ALBEDO,
 	CHARACTER_AMBER,
@@ -518,6 +530,7 @@ export const ALL_CHARACTERS = {
 	CHARACTER_XINGQIU,
 	CHARACTER_XINYAN,
 	CHARACTER_YANFEI,
+	CHARACTER_YOIMIYA,
 	CHARACTER_ZHONGLI,
 }
 
