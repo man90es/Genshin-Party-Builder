@@ -42,7 +42,7 @@ export default createStore({
 			state.ownedCharacters[payload.id] = { constellation: value }
 		},
 
-		pushParty(state, payload) {
+		pushParty(state) {
 			state.parties.push(new Party())
 		},
 

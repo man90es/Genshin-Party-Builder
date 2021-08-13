@@ -44,6 +44,7 @@ const ELEMENT_GEO = {
 	colour: 'yellow'
 }
 
+// eslint-disable-next-line no-unused-vars
 const ELEMENT_DENDRO = {
 	name: 'Dendro',
 	id: 'ELEMENT_DENDRO',

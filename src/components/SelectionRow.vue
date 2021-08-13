@@ -22,15 +22,15 @@
 			ConstellationInput
 		},
 		methods: {
-			incrementHandler(event) {
+			incrementHandler() {
 				this.$store.commit('updateConstellation', { id: this.characterID, value: 1 })
 			},
 
-			decrementHandler(event) {
+			decrementHandler() {
 				this.$store.commit('updateConstellation', { id: this.characterID, value: -1 })
 			},
 
-			toggleHave(event) {
+			toggleHave() {
 				this.$store.commit('toggleHave', { id: this.characterID })
 			}
 		}
