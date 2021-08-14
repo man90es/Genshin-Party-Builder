@@ -1,20 +1,14 @@
 <template>
 	<div v-if="meta" :class="{ 'character-wrapper': true, clickable, suggestion }">
 		<img :src="src" :class="{ portrait: true, yellow: meta.stars == 5, purple: meta.stars == 4 }" @click="clickHandler">
-		<div class="character-tags">
-			<Element :meta="meta.element" />
-			<Constellation :level="$store.getters.constellation(characterID)" />
-		</div>
+		<Element :meta="meta.element" />
 		<div>
-			{{ meta.name + (role ? ` as ${role}` : '') }}
+			{{ meta.name + (0 && role ? ` as ${role}` : '') }}
 		</div>
 	</div>
 	<div v-else :class="{ 'character-wrapper': true, clickable, suggestion: true }">
 		<img :src="src" class="portrait" @click="clickHandler">
-		<div class="character-tags">
-			<Element :meta="null"/>
-			<Constellation :level="null" />
-		</div>
+		<Element :meta="null"/>
 		<div>
 			Auto
 		</div>
@@ -23,7 +17,6 @@
 
 <script>
 	import Element from './Element.vue'
-	import Constellation from './Constellation.vue'
 	import { ALL_CHARACTERS } from '../assets/data.js'
 
 	export default {
@@ -31,7 +24,6 @@
 		props: ['characterID', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
 		components: {
 			Element,
-			Constellation
 		},
 		data() {
 			return {
@@ -54,44 +46,51 @@
 				let images = require.context('../assets/portraits', false, /\.png$/)
 				return this.meta
 					? images(`./${this.meta.name}.png`)
-					: images('./Bao\'er.png')
+					: images('./Placeholder.png')
 			}
 		}
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.character-wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		position: relative;
-	}
+		background-color: var(--button-background-color);
+		color: var(--button-font-color);
+		border-radius: 5%;
 
-	.character-tags {
-		margin-top: -4.6rem;
-		margin-left: -4.65rem;
-		margin-bottom: 1rem;
+		& > div {
+			line-height: 1.5em;
+		}
+
+		img {
+			&:not(.element):not(.yellow):not(.purple) {
+				background-color: #767a7d;
+			}
+
+			&.yellow {
+				background-color: #b27329;
+			}
+
+			&.purple {
+				background-color: #8870ab;
+			}
+		}
 	}
 
 	.portrait {
-		height: 4.5rem;
-		width: 4.5rem;
-		border-radius: 5%;
-		border: 0.15em solid grey;
-		margin: 0.25em;
-	}
-
-	.yellow {
-		border-color: yellow;
-	}
-
-	.purple {
-		border-color: darkviolet;
+		height: 6em;
+		width: 6em;
+		border-radius: inherit;
+		border-bottom-right-radius: 20%;
+		border-bottom-left-radius: 0;
 	}
 
 	.suggestion {
-		filter: grayscale(75%); 
+		filter: grayscale(75%);
 	}
 
 	.clickable {

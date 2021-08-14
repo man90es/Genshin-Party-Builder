@@ -4,15 +4,18 @@
 	</div>
 	<div class="main_column">
 		<header>
+			<h1>Genshin Party Builder</h1>
 			<ul>
 				<li>Select your owned characters and their constellation levels in the left part of the screen.</li>
 				<li>The algorithm will recommend you an optimal party in the right part of the screen.</li>
+				<li>Each party has a DPS in the first slot, then two supports/sub-DPS and a healer</li>
 				<li>Click a party member's portrait to select a specific character; the algorithm will adapt to your choice.</li>
 			</ul>
 		</header>
 		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" />
-		<button id="add-party-button" @click="pushParty">Add party +</button>
+		<button id="add-party-button" @click="pushParty">Add party</button>
 	</div>
+	<footer><a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a></footer>
 	<CharacterSelectionDialogue v-if="characterSelectionDialogueData" :meta="characterSelectionDialogueData" />
 </template>
 
@@ -79,44 +82,90 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	#app {
+		--button-background-color: #ece5d8;
+		--button-font-color: #3b4255;
+
 		font-family: Avenir, Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		background-color: #21252b;
-		color: #bbc;
+		color: #fafafa;
+		background-image: url(./assets/background.png);
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+		padding: 2em;
 	}
 
-	header ul {
-		text-align: left;
-		font-size: 1.2rem;
-		padding-left: 1.5rem;
+	header {
+		h1 {
+			color: #d3bc8e;
+			text-align: left;
+			margin: 0;
+			font-size: 1.8em;
+		}
+
+		ul {
+			text-align: left;
+			font-size: 1.3em;
+			padding-left: 1.5rem;
+			list-style: square url(./assets/bullet.png);
+		}
 	}
 
 	.main_column {
-		padding: 2em;
-		min-height: 100vh;
-	}
+		&.characterter_selection {
+			display: flex;
+			flex-flow: wrap;
+			gap: 1em 3em;
+		}
 
-	.characterter_selection {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-		grid-template-rows: repeat(auto-fit, 7.5rem);
+		&:not(.characterter_selection) {
+			position: sticky;
+			top: 0;
+			right: 0;
+		}
 	}
 
 	#add-party-button {
-		width: 100%;
+		display: block;
+		float: right;
+		padding: 0 1.5em 0 0.5em;
 		height: 2em;
-		background-color: #0005;
+		background-color: var(--button-background-color);
+		color: var(--button-font-color);
 		border: none;
-		border-radius: 0.5rem;
+		border-radius: 2em;
 		font-size: 1.5rem;
-		color: #bbc;
 		outline: none;
 		cursor: pointer;
+
+		&::before {
+			content: "+";
+			background-color: #313131;
+			color: #ffcb32;
+			border-radius: 50%;
+			padding: 0 0.25em;
+			margin-right: 1em;
+		}
+	}
+
+	footer {
+		position: fixed;
+		right: 1em;
+		bottom: 1em;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 </style>

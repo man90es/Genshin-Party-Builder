@@ -18,11 +18,11 @@
 
 <style scoped>
 	.element {
+		position: absolute;
+		left: 0.25em;
+		top: 0.25em;
 		height: 1em;
 		width: 1em;
-		padding: 0.25em;
-		border-radius: 50%;
-		border: 0.15em solid transparent;
-		background-color: #000;
+		filter: drop-shadow(0 0 0.1em rgba(0, 0, 0, 0.5));
 	}
 </style>

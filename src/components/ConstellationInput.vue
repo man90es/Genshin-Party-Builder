@@ -23,12 +23,13 @@
 	input {
 		border: none;
 		outline: none;
-		background-color: #fff1;
+		background-color: var(--button-background-color);
+		color: var(--button-font-color);
 		margin: 0 0.5em;
 		height: 1.5em;
 		width: 1.5em;
-		color: white;
-		border-radius: 10%;
+		font-weight: bold;
+		border-radius: 50%;
 		cursor: pointer;
 	}
 </style>

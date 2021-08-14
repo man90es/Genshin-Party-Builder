@@ -1,10 +1,12 @@
 <template>
 	<div class="party-wrapper">
-		<div class="partyName">
+		<div class="party-name">
 			Party {{ index + 1 }}
 			<button class="button-x" @click="deleteParty">x</button>
 		</div>
-		<Character v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
+		<div class="party-body">
+			<Character v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
+		</div>
 	</div>
 </template>
 
@@ -42,18 +44,20 @@
 <style scoped>
 	.party-wrapper {
 		border-radius: 0.5em;
-		display: grid;
-		grid-template-rows: 1em 1fr;
-		grid-template-columns: repeat(4, 1fr);
-		gap: 0.5em;
 		margin-bottom: 0.5rem;
-		background-color: #0005;
+		background-color: #fff1;
 		padding: 0.75em;
 	}
 
-	.partyName {
-		grid-column: 1/5;
-		text-align: left;
+	.party-name {
+		display: flex;
+		justify-content: space-between;
+		padding-bottom: 0.5em;
+	}
+
+	.party-body {
+		display: flex;
+		justify-content: space-around;
 	}
 
 	.inputs {
@@ -65,10 +69,14 @@
 	}
 
 	.button-x {
-		background-color: #eef1;
-		border: none;
-		border-radius: 0.125rem;
-		color: #bbc;
+		color: var(--button-background-color);
+		color: var(--button-font-color);
+		padding: 0;
+		height: 2em;
+		width: 2em;
+		border: 0.3em solid #7b7c7b;
+		border-radius: 50%;
+		font-weight: bold;
 		outline: none;
 		cursor: pointer;
 	}

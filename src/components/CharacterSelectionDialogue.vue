@@ -22,7 +22,7 @@
 		},
 		computed: {
 			characters() {
-				return Object.keys(this.$store.getters.characters)
+				return Object.keys(this.$store.getters.characters).sort()
 			},
 		}
 	}
@@ -30,7 +30,7 @@
 
 <style>
 	.backdrop {
-		background-color: #0005;
+		background-color: #0007;
 		position: fixed;
 		top: 0;
 		bottom: 0;
@@ -43,10 +43,12 @@
 		background-color: #21252b;
 		top: 10vh;
 		left: 20vw;
-		right: 20vw;
+		max-width: 60vw;
 		padding: 2em;
 		border-radius: 0.5em;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+		display: flex;
+		flex-flow: wrap;
+		gap: 1em;
+		justify-content: center;
 	}
 </style>
