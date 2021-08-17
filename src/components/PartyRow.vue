@@ -1,12 +1,9 @@
 <template>
 	<div class="party-wrapper">
-		<div class="party-name">
-			Party {{ index + 1 }}
-			<button class="button-x" @click="deleteParty">x</button>
-		</div>
 		<div class="party-body">
 			<Character v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
 		</div>
+		<button class="button-x" @click="deleteParty">x</button>
 	</div>
 </template>
 
@@ -46,12 +43,7 @@
 		margin-bottom: 0.5rem;
 		background-color: #fff1;
 		padding: 0.75em;
-	}
-
-	.party-name {
-		display: flex;
-		justify-content: space-between;
-		padding-bottom: 0.5em;
+		position: relative;
 	}
 
 	.party-body {
@@ -60,15 +52,16 @@
 	}
 
 	.button-x {
+		position: absolute;
+		right: 1em;
+		top: 1em;
 		color: var(--button-background-color);
 		color: var(--button-font-color);
-		padding: 0;
 		height: 2em;
 		width: 2em;
 		border: 0.3em solid #7b7c7b;
 		border-radius: 50%;
 		font-weight: bold;
-		outline: none;
 		cursor: pointer;
 	}
 </style>
