@@ -10,7 +10,6 @@
 	import Character from './Character.vue'
 
 	export default {
-		name: 'CharacterSelectionDialogue',
 		components: {
 			Character,
 		},

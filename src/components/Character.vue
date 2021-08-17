@@ -1,17 +1,12 @@
 <template>
-	<div v-if="meta" :class="{ 'character-wrapper': true, clickable, suggestion }">
-		<img :src="src" :class="{ portrait: true, yellow: meta.stars == 5, purple: meta.stars == 4 }" @click="clickHandler">
+	<div v-if="meta" class="character-wrapper" :class="{ clickable, suggestion }">
+		<img :src="src" :class="{ yellow: meta.stars == 5, purple: meta.stars == 4 }" @click="clickHandler">
 		<Element :meta="meta.element" />
-		<div>
-			{{ meta.name + (0 && role ? ` as ${role}` : '') }}
-		</div>
+		<div>{{ meta.name }}</div>
 	</div>
-	<div v-else :class="{ 'character-wrapper': true, clickable, suggestion: true }">
-		<img :src="src" class="portrait" @click="clickHandler">
-		<Element :meta="null"/>
-		<div>
-			Auto
-		</div>
+	<div v-else class="character-wrapper clickable suggestion">
+		<img :src="src" @click="clickHandler">
+		<div>Auto</div>
 	</div>
 </template>
 
@@ -20,7 +15,6 @@
 	import { ALL_CHARACTERS } from '../assets/data.js'
 
 	export default {
-		name: 'Character',
 		props: ['characterID', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
 		components: {
 			Element,
@@ -36,17 +30,15 @@
 					window.mitt.emit('character-clicked', {
 						pIndex: this.pIndex,
 						cIndex: this.cIndex,
-						cID: this.meta ? this.meta.id : ''
+						cID:    this.meta?.id,
 					})
 				}
 			}
 		},
 		computed: {
 			src() {
-				let images = require.context('../assets/portraits', false, /\.png$/)
-				return this.meta
-					? images(`./${this.meta.name}.png`)
-					: images('./Placeholder.png')
+				const images = require.context('../assets/portraits', false, /\.png$/)
+				return images(`./${this.meta?.name}.png`)
 			}
 		}
 	}
@@ -62,13 +54,26 @@
 		color: var(--button-font-color);
 		border-radius: 5%;
 
+		&.suggestion {
+			filter: grayscale(75%);
+		}
+
+		&.clickable {
+			cursor: pointer;
+		}
+
 		& > div {
 			line-height: 1.5em;
 		}
 
 		img {
-			&:not(.element):not(.yellow):not(.purple) {
+			&:first-child {
 				background-color: #767a7d;
+				height: 6em;
+				width: 6em;
+				border-radius: inherit;
+				border-bottom-right-radius: 20%;
+				border-bottom-left-radius: 0;
 			}
 
 			&.yellow {
@@ -79,21 +84,5 @@
 				background-color: #8870ab;
 			}
 		}
-	}
-
-	.portrait {
-		height: 6em;
-		width: 6em;
-		border-radius: inherit;
-		border-bottom-right-radius: 20%;
-		border-bottom-left-radius: 0;
-	}
-
-	.suggestion {
-		filter: grayscale(75%);
-	}
-
-	.clickable {
-		cursor: pointer;
 	}
 </style>

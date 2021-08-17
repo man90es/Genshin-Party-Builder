@@ -14,7 +14,6 @@
 	import Character from './Character.vue'
 
 	export default {
-		name: 'PartyRow',
 		props: ['meta', 'index', 'deleteHandler'],
 		data() {
 			return {
@@ -58,14 +57,6 @@
 	.party-body {
 		display: flex;
 		justify-content: space-around;
-	}
-
-	.inputs {
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		margin-bottom: 1.6em;
-		gap: 0.25em;
 	}
 
 	.button-x {

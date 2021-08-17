@@ -5,7 +5,6 @@
 
 <script>
 	export default {
-		name: 'Checkbox',
 		props: ['value', 'clickHandler'],
 	}
 </script>

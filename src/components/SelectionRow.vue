@@ -14,7 +14,6 @@
 	import ConstellationInput from './ConstellationInput.vue'
 
 	export default {
-		name: 'SelectionRow',
 		props: ['characterID'],
 		components: {
 			Character,

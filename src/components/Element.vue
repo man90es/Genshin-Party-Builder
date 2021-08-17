@@ -1,15 +1,13 @@
 <template>
-	<img v-if="meta" class="element" :src="src" :style="{ borderColor: meta.colour }">
-	<div v-else class="element" style="opacity: 0"></div>
+	<img :src="src">
 </template>
 
 <script>
 	export default {
-		name: 'Element',
 		props: ['meta'],
 		computed: {
 			src() {
-				let images = require.context('../assets/elements', false, /\.png$/)
+				const images = require.context('../assets/elements', false, /\.png$/)
 				return images(`./${this.meta.name}.png`)
 			},
 		}
@@ -17,7 +15,7 @@
 </script>
 
 <style scoped>
-	.element {
+	img {
 		position: absolute;
 		left: 0.25em;
 		top: 0.25em;
