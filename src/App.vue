@@ -1,8 +1,8 @@
 <template>
-	<div class="main_column characterter_selection">
+	<div class="main-column">
 		<SelectionRow v-for="char in characters" :key="char" :characterID="char" />
 	</div>
-	<div class="main_column">
+	<div class="main-column">
 		<header>
 			<h1>Genshin Party Builder</h1>
 			<ul>
@@ -86,14 +86,14 @@
 		}
 	}
 
-	.main_column {
-		&.characterter_selection {
+	.main-column {
+		&:nth-child(1) {
 			display: flex;
 			flex-flow: wrap;
 			gap: 1em 3em;
 		}
 
-		&:not(.characterter_selection) {
+		&:nth-child(2) {
 			position: sticky;
 			top: 0;
 			right: 0;
