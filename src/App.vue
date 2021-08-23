@@ -16,69 +16,38 @@
 		<button id="add-party-button" @click="pushParty">Add party</button>
 	</div>
 	<footer><a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a></footer>
-	<CharacterSelectionDialogue v-if="characterSelectionDialogueData" :meta="characterSelectionDialogueData" />
+	<CharacterSelectionDialogue v-if="characterSelectorData" :meta="characterSelectorData" />
 </template>
 
-<script>
-	import SelectionRow from './components/SelectionRow.vue'
-	import PartyRow from './components/PartyRow.vue'
-	import CharacterSelectionDialogue from './components/CharacterSelectionDialogue.vue'
-	import { ALL_CHARACTERS } from './assets/data.js'
-	import suggestParty from './calculator.js'
+<script setup>
+	import { computed } from "vue"
+	import { useStore } from "vuex"
 
-	export default {
-		name: 'App',
-		data() {
-			return {
-				characters: Object.keys(ALL_CHARACTERS),
-				characterSelectionDialogueData: null
-			}
-		},
-		components: {
-			SelectionRow,
-			PartyRow,
-			CharacterSelectionDialogue
-		},
-		methods: {
-			pushParty() {
-				this.$store.commit('pushParty')
-			},
+	import SelectionRow from "./components/SelectionRow.vue"
+	import PartyRow from "./components/PartyRow.vue"
+	import CharacterSelectionDialogue from "./components/CharacterSelectionDialogue.vue"
 
-			characterClickHandler(data) {
-				if (data.pIndex !== undefined && data.cIndex !== undefined) {
-					this.characterSelectionDialogueData = data
-				} else {
-					this.$store.commit('setPartyMember', {
-						pI: this.characterSelectionDialogueData.pIndex,
-						cI: this.characterSelectionDialogueData.cIndex,
-						cID: data.cID
-					})
+	import useCharacterSelectorEventHandler from "./hooks/characterSelectorEventHandler.js"
+	import { ALL_CHARACTERS } from "./assets/data.js"
+	import suggestParty from "./calculator.js"
 
-					this.closeCharacterSelectionDialogue()
+	const store = useStore()
+
+	const characters = Object.keys(ALL_CHARACTERS)
+	const { characterSelectorData } = useCharacterSelectorEventHandler()
+	const parties = computed(() => {
+		return store.getters.parties
+			.map((storedParty) => {
+				return {
+					name: storedParty.name,
+					defined: storedParty.members,
+					suggestion: suggestParty(storedParty.members, store.getters.characters)
 				}
-			},
+			})
+	})
 
-			closeCharacterSelectionDialogue() {
-				this.characterSelectionDialogueData = null
-			}
-		},
-		computed: {
-			parties() {
-				let availableCharacters = this.$store.getters.characters
-
-				return this.$store.getters.parties.map((storedParty) => {
-					return {
-						name: storedParty.name,
-						defined: storedParty.members,
-						suggestion: suggestParty(storedParty.members, availableCharacters)
-					}
-				})
-			}
-		},
-		created() {
-			window.mitt.on('character-clicked', this.characterClickHandler)
-			window.mitt.on('character-selection-dialogue-backdrop-clicked', this.closeCharacterSelectionDialogue)
-		}
+	function pushParty() {
+		store.commit("pushParty")
 	}
 </script>
 
