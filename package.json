@@ -8,7 +8,7 @@
 		"core-js": "^3.16.1",
 		"memento-vuex": "^0.1.0",
 		"mitt": "^3.0.0",
-		"vue": "^3.1.4",
+		"vue": "^3.2.11",
 		"vuex": "^4.0.0-0"
 	},
 	"devDependencies": {
