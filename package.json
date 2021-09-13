@@ -21,7 +21,7 @@
 		"eslint": "^6.7.2",
 		"eslint-plugin-vue": "^7.17.0",
 		"sass": "^1.39.2",
-		"sass-loader": "^10"
+		"sass-loader": "^12"
 	},
 	"eslintConfig": {
 		"root": true,
