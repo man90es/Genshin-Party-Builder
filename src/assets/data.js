@@ -532,7 +532,7 @@ const CHARACTER_RAIDEN_SHOGUN = {
 }
 
 const CHARACTER_KUJOU_SARA = {
-	name: 'Kujou Sara',
+	name: 'Sara',
 	id: 'CHARACTER_KUJOU_SARA',
 	stars: 4,
 	element: ELEMENT_ELECTRO,
