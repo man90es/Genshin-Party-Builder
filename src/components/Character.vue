@@ -1,6 +1,6 @@
 <template>
 	<div v-if="meta" class="character-wrapper" :class="{ clickable, suggestion }">
-		<img :src="src" :class="{ yellow: meta.stars == 5, purple: meta.stars == 4 }" @click="clickHandler">
+		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" @click="clickHandler">
 		<Element :meta="meta.element" />
 		<div>{{ meta.name }}</div>
 	</div>
@@ -39,6 +39,11 @@
 			src() {
 				const images = require.context('../assets/portraits', false, /\.png$/)
 				return images(`./${this.meta?.name}.png`)
+			},
+
+			bgSrc() {
+				const images = require.context('../assets/backgrounds', false, /\.png$/)
+				return images(`./${this.meta.stars === 5 ? "yellow" : "purple"}.png`)
 			}
 		}
 	}
@@ -66,23 +71,14 @@
 			line-height: 1.5em;
 		}
 
-		img {
-			&:first-child {
-				background-color: #767a7d;
-				height: 6em;
-				width: 6em;
-				border-radius: inherit;
-				border-bottom-right-radius: 20%;
-				border-bottom-left-radius: 0;
-			}
-
-			&.yellow {
-				background-color: #b27329;
-			}
-
-			&.purple {
-				background-color: #8870ab;
-			}
+		img:first-child {
+			background-image: url(../assets/backgrounds/grey.png);
+			height: 6em;
+			width: 6em;
+			border-radius: inherit;
+			border-bottom-right-radius: 20%;
+			border-bottom-left-radius: 0;
+			background-size: cover;
 		}
 	}
 </style>
