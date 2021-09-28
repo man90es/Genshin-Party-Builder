@@ -43,7 +43,7 @@
 
 			bgSrc() {
 				const images = require.context('../assets/backgrounds', false, /\.png$/)
-				return images(`./${this.meta.stars === 5 ? "yellow" : "purple"}.png`)
+				return images(`./${this.meta?.colour}.png`)
 			}
 		}
 	}

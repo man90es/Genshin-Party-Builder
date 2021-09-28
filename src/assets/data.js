@@ -55,6 +55,7 @@ const CHARACTER_XIAO = {
 	name: 'Xiao',
 	id: 'CHARACTER_XIAO',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
@@ -67,6 +68,7 @@ const CHARACTER_SUCROSE = {
 	name: 'Sucrose',
 	id: 'CHARACTER_SUCROSE',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
@@ -79,6 +81,7 @@ const CHARACTER_JEAN = {
 	name: 'Jean',
 	id: 'CHARACTER_JEAN',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
@@ -91,6 +94,7 @@ const CHARACTER_VENTI = {
 	name: 'Venti',
 	id: 'CHARACTER_VENTI',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
@@ -103,6 +107,7 @@ const CHARACTER_TRAVELLER_ANEMO = {
 	name: 'Traveller',
 	id: 'CHARACTER_TRAVELLER_ANEMO',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5],
@@ -115,6 +120,7 @@ const CHARACTER_KEQING = {
 	name: 'Keqing',
 	id: 'CHARACTER_KEQING',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE: [4, 4, 4, 4, 4, 4, 4],
@@ -127,6 +133,7 @@ const CHARACTER_BENNETT = {
 	name: 'Bennett',
 	id: 'CHARACTER_BENNETT',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
@@ -139,6 +146,7 @@ const CHARACTER_DILUC = {
 	name: 'Diluc',
 	id: 'CHARACTER_DILUC',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
@@ -151,6 +159,7 @@ const CHARACTER_GANYU = {
 	name: 'Ganyu',
 	id: 'CHARACTER_GANYU',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
@@ -163,6 +172,7 @@ const CHARACTER_KLEE = {
 	name: 'Klee',
 	id: 'CHARACTER_KLEE',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [5, 5, 5, 5, 5, 5, 5],
@@ -175,6 +185,7 @@ const CHARACTER_MONA = {
 	name: 'Mona',
 	id: 'CHARACTER_MONA',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_HYDRO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
@@ -187,6 +198,7 @@ const CHARACTER_TARTAGLIA = {
 	name: 'Tartaglia',
 	id: 'CHARACTER_TARTAGLIA',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_HYDRO,
 	rating: {
 		ROLE_DAMAGE: [4, 4, 4, 4, 4, 4, 5],
@@ -199,6 +211,7 @@ const CHARACTER_XINGQIU = {
 	name: 'Xingqiu',
 	id: 'CHARACTER_XINGQIU',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_HYDRO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
@@ -211,6 +224,7 @@ const CHARACTER_ZHONGLI = {
 	name: 'Zhongli',
 	id: 'CHARACTER_ZHONGLI',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_GEO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
@@ -223,6 +237,7 @@ const CHARACTER_ALBEDO = {
 	name: 'Albedo',
 	id: 'CHARACTER_ALBEDO',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_GEO,
 	rating: {
 		ROLE_DAMAGE: [3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5],
@@ -235,6 +250,7 @@ const CHARACTER_NINGGUANG = {
 	name: 'Ningguang',
 	id: 'CHARACTER_NINGGUANG',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_GEO,
 	rating: {
 		ROLE_DAMAGE: [3, 4, 4, 4, 4, 4, 4],
@@ -247,6 +263,7 @@ const CHARACTER_DIONA = {
 	name: 'Diona',
 	id: 'CHARACTER_DIONA',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
@@ -259,6 +276,7 @@ const CHARACTER_QIQI = {
 	name: 'Qiqi',
 	id: 'CHARACTER_QIQI',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
@@ -271,6 +289,7 @@ const CHARACTER_FISCHL = {
 	name: 'Fischl',
 	id: 'CHARACTER_FISCHL',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 4],
@@ -283,6 +302,7 @@ const CHARACTER_RAZOR = {
 	name: 'Razor',
 	id: 'CHARACTER_RAZOR',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 4, 4, 4],
@@ -295,6 +315,7 @@ const CHARACTER_XIANGLING = {
 	name: 'Xiangling',
 	id: 'CHARACTER_XIANGLING',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [3, 3, 3, 3, 3, 3, 3],
@@ -307,6 +328,7 @@ const CHARACTER_CHONGYUN = {
 	name: 'Chongyun',
 	id: 'CHARACTER_CHONGYUN',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
@@ -319,6 +341,7 @@ const CHARACTER_KAEYA = {
 	name: 'Kaeya',
 	id: 'CHARACTER_KAEYA',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
@@ -331,6 +354,7 @@ const CHARACTER_BARBARA = {
 	name: 'Barbara',
 	id: 'CHARACTER_BARBARA',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_HYDRO,
 	rating: {
 		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
@@ -343,6 +367,7 @@ const CHARACTER_BEIDOU = {
 	name: 'Beidou',
 	id: 'CHARACTER_BEIDOU',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 3, 3, 3],
@@ -355,6 +380,7 @@ const CHARACTER_XINYAN = {
 	name: 'Xinyan',
 	id: 'CHARACTER_XINYAN',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 3, 3, 3, 3],
@@ -367,6 +393,7 @@ const CHARACTER_LISA = {
 	name: 'Lisa',
 	id: 'CHARACTER_LISA',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
@@ -379,6 +406,7 @@ const CHARACTER_NOELLE = {
 	name: 'Noelle',
 	id: 'CHARACTER_NOELLE',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_GEO,
 	rating: {
 		ROLE_DAMAGE: [2, 2, 2, 2, 2, 2, 2],
@@ -391,6 +419,7 @@ const CHARACTER_TRAVELLER_GEO = {
 	name: 'Traveller',
 	id: 'CHARACTER_TRAVELLER_GEO',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_GEO,
 	rating: {
 		ROLE_DAMAGE: [0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5],
@@ -403,6 +432,7 @@ const CHARACTER_AMBER = {
 	name: 'Amber',
 	id: 'CHARACTER_AMBER',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [1, 1, 1, 1, 1, 1, 1],
@@ -415,6 +445,7 @@ const CHARACTER_HU_TAO = {
 	name: 'Hu Tao',
 	id: 'CHARACTER_HU_TAO',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [4, 5, 5, 5, 5, 5, 5],
@@ -427,6 +458,7 @@ const CHARACTER_ROSARIA = {
 	name: 'Rosaria',
 	id: 'CHARACTER_ROSARIA',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [3, 3.2, 4, 4.1, 4.2, 4.3, 4.4],
@@ -439,6 +471,7 @@ const CHARACTER_YANFEI = {
 	name: 'Yanfei',
 	id: 'CHARACTER_YANFEI',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [2, 3, 3.1, 3.2, 3.3, 3.4, 3.5],
@@ -451,6 +484,7 @@ const CHARACTER_EULA = {
 	name: 'Eula',
 	id: 'CHARACTER_EULA',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6],
@@ -463,6 +497,7 @@ const CHARACTER_KAZUHA = {
 	name: 'Kazuha',
 	id: 'CHARACTER_KAZUHA',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [3.9, 4, 4.1, 4.2, 4.2, 4.3, 4.4],
@@ -475,6 +510,7 @@ const CHARACTER_AYAKA = {
 	name: 'Ayaka',
 	id: 'CHARACTER_AYAKA',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_CRYO,
 	rating: {
 		ROLE_DAMAGE: [5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6],
@@ -487,6 +523,7 @@ const CHARACTER_TRAVELLER_ELECTRO = {
 	name: 'Traveller',
 	id: 'CHARACTER_TRAVELLER_ELECTRO',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6],
@@ -499,6 +536,7 @@ const CHARACTER_YOIMIYA = {
 	name: 'Yoimiya',
 	id: 'CHARACTER_YOIMIYA',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_PYRO,
 	rating: {
 		ROLE_DAMAGE: [4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.5],
@@ -511,6 +549,7 @@ const CHARACTER_SAYU = {
 	name: 'Sayu',
 	id: 'CHARACTER_SAYU',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ANEMO,
 	rating: {
 		ROLE_DAMAGE: [3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6],
@@ -523,6 +562,7 @@ const CHARACTER_RAIDEN_SHOGUN = {
 	name: 'Shogun',
 	id: 'CHARACTER_RAIDEN_SHOGUN',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE:  [4, 4, 4, 4, 4, 4, 4],
@@ -535,6 +575,7 @@ const CHARACTER_KUJOU_SARA = {
 	name: 'Sara',
 	id: 'CHARACTER_KUJOU_SARA',
 	stars: 4,
+	colour: 'purple',
 	element: ELEMENT_ELECTRO,
 	rating: {
 		ROLE_DAMAGE:  [1, 1, 1, 1, 1, 1, 1],
@@ -547,6 +588,7 @@ const CHARACTER_SANGONOMIYA_KOKOMI = {
 	name: 'Kokomi',
 	id: 'CHARACTER_SANGONOMIYA_KOKOMI',
 	stars: 5,
+	colour: 'yellow',
 	element: ELEMENT_HYDRO,
 	rating: {
 		ROLE_DAMAGE:  [1, 1, 1, 1, 1, 1, 1],
