@@ -1,13 +1,14 @@
 <template>
 	<div class="backdrop" @click="backdropClickHandler"></div>
 	<div id="character-selection-dialogue">
-		<Character v-for="char in characters" :key="char" :characterID="char" :clickable="true" />
+		<Character v-for="characterID in characterIDs" :key="characterID" :characterID="characterID" :clickable="true" />
 		<Character :clickable="true" />
 	</div>
 </template>
 
 <script>
 	import Character from './Character.vue'
+	import { ALL_CHARACTERS } from '../assets/data.js'
 
 	export default {
 		components: {
@@ -20,8 +21,10 @@
 			},
 		},
 		computed: {
-			characters() {
-				return Object.keys(this.$store.getters.characters).sort()
+			characterIDs() {
+				return Object.values(ALL_CHARACTERS)
+					.filter(character => character.id in this.$store.getters.characters)
+					.map(character => character.id)
 			},
 		}
 	}
