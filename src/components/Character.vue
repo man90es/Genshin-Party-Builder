@@ -1,7 +1,7 @@
 <template>
 	<div v-if="meta" class="character-wrapper" :class="{ clickable, suggestion }">
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" @click="clickHandler">
-		<Element :meta="meta.element" />
+		<Element :elementId="meta.element" />
 		<div>{{ meta.name }}</div>
 	</div>
 	<div v-else class="character-wrapper clickable suggestion">
@@ -12,7 +12,7 @@
 
 <script>
 	import Element from './Element.vue'
-	import { ALL_CHARACTERS } from '../assets/data.js'
+	import data from "../assets/data.json"
 
 	export default {
 		props: ['characterID', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
@@ -21,7 +21,7 @@
 		},
 		data() {
 			return {
-				meta: ALL_CHARACTERS[this.characterID]
+				meta: data.characters.find(c => c.id === this.characterID)
 			}
 		},
 		methods: {

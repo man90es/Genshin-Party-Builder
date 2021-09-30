@@ -3,12 +3,14 @@
 </template>
 
 <script>
+	import data from "../assets/data.json"
+
 	export default {
-		props: ['meta'],
+		props: ["elementId"],
 		computed: {
 			src() {
 				const images = require.context('../assets/elements', false, /\.png$/)
-				return images(`./${this.meta.name}.png`)
+				return images(`./${data.elements.find(e => e.id === this.elementId).name}.png`)
 			},
 		}
 	}

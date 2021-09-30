@@ -8,7 +8,7 @@
 
 <script>
 	import Character from './Character.vue'
-	import { ALL_CHARACTERS } from '../assets/data.js'
+	import data from "../assets/data.json"
 
 	export default {
 		components: {
@@ -22,7 +22,7 @@
 		},
 		computed: {
 			characterIDs() {
-				return Object.values(ALL_CHARACTERS)
+				return data.characters
 					.filter(character => character.id in this.$store.getters.characters)
 					.map(character => character.id)
 			},

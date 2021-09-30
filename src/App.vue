@@ -28,12 +28,12 @@
 	import CharacterSelectionDialogue from "./components/CharacterSelectionDialogue.vue"
 
 	import useCharacterSelectorEventHandler from "./hooks/characterSelectorEventHandler.js"
-	import { ALL_CHARACTERS } from "./assets/data.js"
+	import data from "./assets/data.json"
 	import suggestParty from "./calculator.js"
 
 	const store = useStore()
 
-	const characters = Object.keys(ALL_CHARACTERS)
+	const characters = data.characters.map(c => c.id)
 	const { characterSelectorData } = useCharacterSelectorEventHandler()
 	const parties = computed(() => {
 		return store.getters.parties

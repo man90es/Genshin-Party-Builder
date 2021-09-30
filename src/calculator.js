@@ -1,4 +1,4 @@
-import { ALL_CHARACTERS, ALL_ROLES } from './assets/data.js'
+import data from "./assets/data.json"
 
 function shuffle(array) {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -24,7 +24,7 @@ function seek(characters, userData, role, element) {
 }
 
 function hasDPSResonance(party) {
-	// This check isn't needed as finding a DPS is a higher priority 
+	// This check isn't needed since finding a DPS has a higher priority
 	// than ensuring a resonance
 	// if (!party[0]) return false
 
@@ -38,13 +38,13 @@ function hasDPSResonance(party) {
 }
 
 export default function suggestParty(party, owned) {
-	let pool = Object.values(ALL_CHARACTERS).filter(c => c.id in owned)
+	let pool = data.characters.filter(c => c.id in owned)
 	let suggestions = []
 
 	// Process characters added by the user
 	party.forEach((char, i) => {
 		if (char) {
-			suggestions[i] = ALL_CHARACTERS[char]
+			suggestions[i] = data.characters.find(c => c.id === char)
 			pool = pool.filter(c => c.id != char)
 		}
 	})
@@ -55,7 +55,7 @@ export default function suggestParty(party, owned) {
 
 	// Find a DPS
 	if (!suggestions[0]) {
-		suggestions[0] = seek(pool, owned, ALL_ROLES.ROLE_DAMAGE)
+		suggestions[0] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_DAMAGE"))
 		pool = pool.filter(c => c.id != suggestions[0].id)
 	}
 
@@ -65,7 +65,7 @@ export default function suggestParty(party, owned) {
 
 	// Find a healer
 	if (!suggestions[3]) {
-		suggestions[3] = seek(pool, owned, ALL_ROLES.ROLE_HEALER)
+		suggestions[3] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_HEALER"))
 		pool = pool.filter(c => c.id != suggestions[3].id)
 	}
 
@@ -75,7 +75,7 @@ export default function suggestParty(party, owned) {
 
 	// Find a support
 	if (!suggestions[1]) {
-		suggestions[1] = seek(pool, owned, ALL_ROLES.ROLE_SUPPORT, !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
+		suggestions[1] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
 		pool = pool.filter(c => c.id != suggestions[1].id)
 	}
 
@@ -85,7 +85,7 @@ export default function suggestParty(party, owned) {
 
 	// Find a support
 	if (!suggestions[2]) {
-		suggestions[2] = seek(pool, owned, ALL_ROLES.ROLE_SUPPORT, !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
+		suggestions[2] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
 		pool = pool.filter(c => c.id != suggestions[2].id)
 	}
 
