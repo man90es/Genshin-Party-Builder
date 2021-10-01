@@ -4,16 +4,18 @@
 
 <script setup>
 	import { computed, defineProps } from "vue"
+	import { useStore } from "vuex"
 	import useAPI from "../hooks/api.js"
 
-	const { data, getAssetURI } = useAPI()
+	const store = useStore()
+	const { getAssetURI } = useAPI()
 
 	const props = defineProps({
 		"elementId": { "type": String, "required": true }
 	})
 
 	const src = computed(() => {
-		const name = data.value.elements.find(e => e.id === props.elementId)?.name
+		const name = store.state.data.elements.find(e => e.id === props.elementId)?.name
 		return name ? getAssetURI("element", name) : ""
 	})
 </script>

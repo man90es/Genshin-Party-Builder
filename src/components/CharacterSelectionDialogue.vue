@@ -8,11 +8,9 @@
 
 <script setup>
 	import { computed, defineProps } from "vue"
-	import Character from "./Character.vue"
 	import { useStore } from "vuex"
-	import useAPI from "../hooks/api.js"
+	import Character from "./Character.vue"
 
-	const { data } = useAPI()
 	const store = useStore()
 
 	defineProps({
@@ -20,7 +18,7 @@
 	})
 
 	const characterIDs = computed(() => {
-		return data.value.characters
+		return store.state.data.characters
 			.filter(c => c.id in store.getters.characters)
 			.map(c => c.id)
 	})

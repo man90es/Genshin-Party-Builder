@@ -12,10 +12,12 @@
 
 <script setup>
 	import { computed, defineProps } from "vue"
-	import Element from "./Element.vue"
+	import { useStore } from "vuex"
 	import useAPI from "../hooks/api.js"
+	import Element from "./Element.vue"
 
-	const { data, getAssetURI } = useAPI()
+	const store = useStore()
+	const { getAssetURI } = useAPI()
 
 	const props = defineProps({
 		"characterID": { "type": String },
@@ -26,7 +28,7 @@
 	})
 
 	const meta = computed(() => {
-		return data.value.characters.find(c => c.id === props.characterID) || { colour: "grey" }
+		return store.state.data.characters.find(c => c.id === props.characterID) || { colour: "grey" }
 	})
 
 	const src = computed(() => {

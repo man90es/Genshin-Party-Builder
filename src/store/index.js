@@ -8,8 +8,13 @@ function Party() {
 
 export default createStore({
 	state: {
+		data: {
+			roles:      [],
+			elements:   [],
+			characters: [],
+		},
 		ownedCharacters: {},
-		parties: [new Party()]
+		parties: [new Party()],
 	},
 	plugins: [
 		Memento(
@@ -24,6 +29,10 @@ export default createStore({
 		)
 	],
 	mutations: {
+		setData(state, payload) {
+			state.data = payload
+		},
+
 		toggleHave(state, payload) {
 			if (state.ownedCharacters[payload.id]) {
 				delete state.ownedCharacters[payload.id]

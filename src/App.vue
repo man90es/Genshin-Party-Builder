@@ -32,10 +32,10 @@
 	import useAPI from "./hooks/api.js"
 
 	const store = useStore()
-	const { data } = useAPI()
+	const { fetchData } = useAPI()
 
 	const characters = computed(() => {
-		return data.value.characters.map(c => c.id)
+		return store.state.data.characters.map(c => c.id)
 	})
 	const { characterSelectorData } = useCharacterSelectorEventHandler()
 	const parties = computed(() => {
@@ -44,7 +44,7 @@
 				return {
 					name: storedParty.name,
 					defined: storedParty.members,
-					suggestion: suggestParty(storedParty.members, store.getters.characters, data.value)
+					suggestion: suggestParty(storedParty.members, store.getters.characters, store.state.data)
 				}
 			})
 	})
@@ -52,6 +52,8 @@
 	function pushParty() {
 		store.commit("pushParty")
 	}
+
+	fetchData()
 </script>
 
 <style lang="scss">
