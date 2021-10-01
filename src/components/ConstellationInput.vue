@@ -13,6 +13,10 @@
 </script>
 
 <style scoped>
+	div {
+		display: flex;
+	}
+
 	img {
 		height: 2em;
 		width: 2em;

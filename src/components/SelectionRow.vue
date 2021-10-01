@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="selection-row">
 		<Character :characterID="characterID" />
 		<div class="inputs">
 			<Checkbox :clickHandler="toggleHave" :value="characterID in $store.getters.characters" />
@@ -37,11 +37,13 @@
 </script>
 
 <style scoped>
-	div {
-		display: flex;
+	.selection-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 	}
 
 	.inputs {
+		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;

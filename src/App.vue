@@ -102,7 +102,7 @@
 		&:nth-child(1) {
 			display: flex;
 			flex-flow: wrap;
-			gap: 1em 3em;
+			gap: 1em 2em;
 		}
 
 		&:nth-child(2) {
