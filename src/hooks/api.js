@@ -10,7 +10,8 @@ export default function() {
 	}
 
 	function getAssetURI(category, name) {
-		return `${process.env.VUE_APP_ASSETS_ENDPOINT}${category}s/${name}.png`
+		const extension = category === "font" ? "ttf" : "png"
+		return `${process.env.VUE_APP_ASSETS_ENDPOINT}${category}s/${name}.${extension}`
 	}
 
 	return { fetchData, getAssetURI }

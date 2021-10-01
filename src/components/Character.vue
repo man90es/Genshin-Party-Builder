@@ -69,7 +69,8 @@
 		}
 
 		& > div {
-			line-height: 1.5em;
+			padding: 0.25em 0;
+			font-size: 0.9em;
 		}
 
 		img:first-child {

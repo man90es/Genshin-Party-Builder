@@ -61,7 +61,7 @@
 		--button-background-color: #ece5d8;
 		--button-font-color: #3b4255;
 
-		font-family: Avenir, Helvetica, Arial, sans-serif;
+		font-family: Hoyofont, Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
@@ -76,18 +76,25 @@
 	}
 
 	header {
+		font-size: 0.8em;
 		h1 {
 			color: #d3bc8e;
 			text-align: left;
 			margin: 0;
 			font-size: 1.8em;
+			font-weight: normal;
 		}
 
 		ul {
 			text-align: left;
 			font-size: 1.3em;
 			padding-left: 1.5rem;
-			list-style: square url(./assets/bullet.png);
+			list-style: none;
+
+			li {
+				padding: 0.3em 1.5em;
+				background: url(./assets/bullet.png) no-repeat left 0.25em;
+			}
 		}
 	}
 
@@ -115,6 +122,7 @@
 		border: none;
 		border-radius: 2em;
 		font-size: 1.5rem;
+		font-family: inherit;
 		outline: none;
 		cursor: pointer;
 
@@ -123,7 +131,7 @@
 			background-color: #313131;
 			color: #ffcb32;
 			border-radius: 50%;
-			padding: 0 0.25em;
+			padding: 0 0.27em;
 			margin-right: 1em;
 		}
 	}
