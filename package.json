@@ -5,7 +5,7 @@
 		"lint": "vue-cli-service lint"
 	},
 	"dependencies": {
-		"core-js": "^3.17.3",
+		"core-js": "^3.18.1",
 		"memento-vuex": "^0.1.0",
 		"mitt": "^3.0.0",
 		"vue": "^3.2.11",
