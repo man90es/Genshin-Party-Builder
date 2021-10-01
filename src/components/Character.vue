@@ -1,50 +1,49 @@
 <template>
-	<div v-if="meta" class="character-wrapper" :class="{ clickable, suggestion }">
-		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" @click="clickHandler">
+	<div v-if="meta.name" class="character-wrapper" :class="{ clickable, suggestion }">
+		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})`, backgroundColor: meta.colour }" @click="clickHandler">
 		<Element :elementId="meta.element" />
 		<div>{{ meta.name }}</div>
 	</div>
 	<div v-else class="character-wrapper clickable suggestion">
-		<img :src="src" @click="clickHandler">
+		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})`, backgroundColor: meta.colour }" @click="clickHandler">
 		<div>Auto</div>
 	</div>
 </template>
 
-<script>
-	import Element from './Element.vue'
-	import data from "../assets/data.json"
+<script setup>
+	import { computed, defineProps } from "vue"
+	import Element from "./Element.vue"
+	import useAPI from "../hooks/api.js"
 
-	export default {
-		props: ['characterID', 'role', 'suggestion', 'clickable', 'pIndex', 'cIndex'],
-		components: {
-			Element,
-		},
-		data() {
-			return {
-				meta: data.characters.find(c => c.id === this.characterID)
-			}
-		},
-		methods: {
-			clickHandler() {
-				if (this.clickable) {
-					window.mitt.emit('character-clicked', {
-						pIndex: this.pIndex,
-						cIndex: this.cIndex,
-						cID:    this.meta?.id,
-					})
-				}
-			}
-		},
-		computed: {
-			src() {
-				const images = require.context('../assets/portraits', false, /\.png$/)
-				return images(`./${this.meta?.name}.png`)
-			},
+	const { data, getAssetURI } = useAPI()
 
-			bgSrc() {
-				const images = require.context('../assets/backgrounds', false, /\.png$/)
-				return images(`./${this.meta?.colour}.png`)
-			}
+	const props = defineProps({
+		"characterID": { "type": String },
+		"suggestion":  { "type": Boolean, "default": false },
+		"clickable":   { "type": Boolean, "default": false },
+		"pIndex":      { "type": Number },
+		"cIndex":      { "type": Number },
+	})
+
+	const meta = computed(() => {
+		return data.value.characters.find(c => c.id === props.characterID) || { colour: "grey" }
+	})
+
+	const src = computed(() => {
+		return getAssetURI("portrait", meta.value.name)
+	})
+
+	const bgSrc = computed(() => {
+		return getAssetURI("background", meta.value.colour)
+	})
+
+	function clickHandler() {
+		if (props.clickable) {
+			window.mitt.emit('character-clicked', {
+				pIndex: props.pIndex,
+				cIndex: props.cIndex,
+				cID:    meta.value.id,
+			})
 		}
 	}
 </script>
@@ -72,7 +71,6 @@
 		}
 
 		img:first-child {
-			background-image: url(../assets/backgrounds/grey.png);
 			height: 6em;
 			width: 6em;
 			border-radius: inherit;

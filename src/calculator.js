@@ -1,5 +1,3 @@
-import data from "./assets/data.json"
-
 function shuffle(array) {
 	for (let i = array.length - 1; i > 0; i--) {
 		let j = Math.floor(Math.random() * (i + 1))
@@ -37,7 +35,11 @@ function hasDPSResonance(party) {
 	return false
 }
 
-export default function suggestParty(party, owned) {
+export default function suggestParty(party, owned, data) {
+	if (data.characters.length === 0) {
+		return [undefined, undefined, undefined, undefined]
+	}
+
 	let pool = data.characters.filter(c => c.id in owned)
 	let suggestions = []
 

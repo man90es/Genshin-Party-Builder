@@ -2,18 +2,20 @@
 	<img :src="src">
 </template>
 
-<script>
-	import data from "../assets/data.json"
+<script setup>
+	import { computed, defineProps } from "vue"
+	import useAPI from "../hooks/api.js"
 
-	export default {
-		props: ["elementId"],
-		computed: {
-			src() {
-				const images = require.context('../assets/elements', false, /\.png$/)
-				return images(`./${data.elements.find(e => e.id === this.elementId).name}.png`)
-			},
-		}
-	}
+	const { data, getAssetURI } = useAPI()
+
+	const props = defineProps({
+		"elementId": { "type": String, "required": true }
+	})
+
+	const src = computed(() => {
+		const name = data.value.elements.find(e => e.id === props.elementId)?.name
+		return name ? getAssetURI("element", name) : ""
+	})
 </script>
 
 <style scoped>

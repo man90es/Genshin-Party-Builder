@@ -28,12 +28,15 @@
 	import CharacterSelectionDialogue from "./components/CharacterSelectionDialogue.vue"
 
 	import useCharacterSelectorEventHandler from "./hooks/characterSelectorEventHandler.js"
-	import data from "./assets/data.json"
 	import suggestParty from "./calculator.js"
+	import useAPI from "./hooks/api.js"
 
 	const store = useStore()
+	const { data } = useAPI()
 
-	const characters = data.characters.map(c => c.id)
+	const characters = computed(() => {
+		return data.value.characters.map(c => c.id)
+	})
 	const { characterSelectorData } = useCharacterSelectorEventHandler()
 	const parties = computed(() => {
 		return store.getters.parties
@@ -41,7 +44,7 @@
 				return {
 					name: storedParty.name,
 					defined: storedParty.members,
-					suggestion: suggestParty(storedParty.members, store.getters.characters)
+					suggestion: suggestParty(storedParty.members, store.getters.characters, data.value)
 				}
 			})
 	})

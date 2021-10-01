@@ -6,27 +6,27 @@
 	</div>
 </template>
 
-<script>
-	import Character from './Character.vue'
-	import data from "../assets/data.json"
+<script setup>
+	import { computed, defineProps } from "vue"
+	import Character from "./Character.vue"
+	import { useStore } from "vuex"
+	import useAPI from "../hooks/api.js"
 
-	export default {
-		components: {
-			Character,
-		},
-		props: ['meta'],
-		methods: {
-			backdropClickHandler() {
-				window.mitt.emit('character-selection-dialogue-backdrop-clicked')
-			},
-		},
-		computed: {
-			characterIDs() {
-				return data.characters
-					.filter(character => character.id in this.$store.getters.characters)
-					.map(character => character.id)
-			},
-		}
+	const { data } = useAPI()
+	const store = useStore()
+
+	defineProps({
+		"meta": { type: Object }
+	})
+
+	const characterIDs = computed(() => {
+		return data.value.characters
+			.filter(c => c.id in store.getters.characters)
+			.map(c => c.id)
+	})
+
+	function backdropClickHandler() {
+		window.mitt.emit("character-selection-dialogue-backdrop-clicked")
 	}
 </script>
 
