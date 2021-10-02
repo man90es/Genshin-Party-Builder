@@ -13,7 +13,13 @@ export default createStore({
 			elements:   [],
 			characters: [],
 		},
-		ownedCharacters: {},
+		ownedCharacters: {
+			CHARACTER_NOELLE:          { constellation: 0 },
+			CHARACTER_AMBER:           { constellation: 0 },
+			CHARACTER_KAEYA:           { constellation: 0 },
+			CHARACTER_LISA:            { constellation: 0 },
+			CHARACTER_TRAVELLER_ANEMO: { constellation: 0 },
+		},
 		parties: [new Party()],
 	},
 	plugins: [
