@@ -64,23 +64,21 @@ function analyseParty(party, userData) {
 }
 
 export default function suggestParty(party, owned, data) {
+	let suggestions = [undefined, undefined, undefined, undefined]
 	if (data.characters.length === 0) {
-		return [undefined, undefined, undefined, undefined]
+		return suggestions
 	}
 
 	let pool = data.characters.filter(c => c.id in owned)
-	let suggestions = []
 
 	// Process characters added by the user
 	for (let i = 0; i < 4; ++i) {
 		const char = party[i]
 
 		if (char) {
-			suggestions.push(data.characters.find(c => c.id === char))
+			suggestions[i] = data.characters.find(c => c.id === char)
 			pool = pool.filter(c => c.id != char)
 		}
-
-		suggestions.push(undefined)
 	}
 
 	if (!pool.length === 0) {
