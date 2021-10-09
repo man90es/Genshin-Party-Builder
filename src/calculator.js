@@ -8,31 +8,59 @@ function shuffle(array) {
 	return array
 }
 
-function seek(characters, userData, role, element) {
-	return shuffle(characters)
+function seek(characters, userData, role, elementId) {
+	const found = shuffle(characters)
 		.sort((a, b) => {
 			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
 		})
 		.sort((a, b) => {
-			let aR = a.rating[role.id][userData[a.id].constellation] + (element && a.element.id == element ? 1.5 : 0)
-			let bR = b.rating[role.id][userData[b.id].constellation] + (element && b.element.id == element ? 1.5 : 0)
+			let aR = a.rating[role.id][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
+			let bR = b.rating[role.id][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
 
 			return aR < bR ? 1 : -1
 		})[0]
+	return found
 }
 
-function hasDPSResonance(party) {
-	// This check isn't needed since finding a DPS has a higher priority
-	// than ensuring a resonance
-	// if (!party[0]) return false
+function analyseParty(party, userData) {
+	let hasDamage = false
+	let hasHealer = false
+	let damageDealer
+	let damageElement
+	let hasDamageResonance = false
 
-	for (let i = 1; i <= 4; ++i) {
-		if (party[i] && party[i].element === party[0].element) {
-			return true
+	for (let i = 0; i < 4; ++i) {
+		const curCharacter = party[i]
+
+		if (curCharacter === undefined) {
+			continue
+		}
+
+		const curConstellation = userData[curCharacter.id].constellation
+
+		if (curCharacter.rating["ROLE_HEALER"][curConstellation] > 0) {
+			hasHealer = true
+		}
+
+		if (curCharacter.rating["ROLE_DAMAGE"][curConstellation] > curCharacter.rating["ROLE_SUPPORT"][curConstellation]) {
+			hasDamage = true
+			damageDealer = curCharacter
+			damageElement = curCharacter.element
 		}
 	}
 
-	return false
+	if (damageElement !== undefined) {
+		hasDamageResonance = party.findIndex((character) => {
+			return character?.id !== damageDealer.id && character?.element === damageElement
+		}) > -1
+	}
+
+	return {
+		hasDamage,
+		hasHealer,
+		hasDamageResonance,
+		damageElement,
+	}
 }
 
 export default function suggestParty(party, owned, data) {
@@ -44,51 +72,36 @@ export default function suggestParty(party, owned, data) {
 	let suggestions = []
 
 	// Process characters added by the user
-	party.forEach((char, i) => {
+	for (let i = 0; i < 4; ++i) {
+		const char = party[i]
+
 		if (char) {
-			suggestions[i] = data.characters.find(c => c.id === char)
+			suggestions.push(data.characters.find(c => c.id === char))
 			pool = pool.filter(c => c.id != char)
 		}
-	})
 
-	if (!pool.length) {
+		suggestions.push(undefined)
+	}
+
+	if (!pool.length === 0) {
 		return suggestions.map(c => c.id)
 	}
 
-	// Find a DPS
-	if (!suggestions[0]) {
-		suggestions[0] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_DAMAGE"))
-		pool = pool.filter(c => c.id != suggestions[0].id)
-	}
+	while (suggestions.includes(undefined)) {
+		const { hasDamage, hasHealer, hasDamageResonance, damageElement } = analyseParty(suggestions, owned, data)
+		const undefinedIndex = suggestions.indexOf(undefined)
+		let found
 
-	if (!pool.length) {
-		return suggestions.map(c => c.id)
-	}
+		if (!hasHealer) {
+			found = seek(pool, owned, data.roles.find(r => r.id === "ROLE_HEALER"))
+		} else if (!hasDamage) {
+			found = seek(pool, owned, data.roles.find(r => r.id === "ROLE_DAMAGE"))
+		} else {
+			found = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDamageResonance ? damageElement : undefined)
+		}
 
-	// Find a healer
-	if (!suggestions[3]) {
-		suggestions[3] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_HEALER"))
-		pool = pool.filter(c => c.id != suggestions[3].id)
-	}
-
-	if (!pool.length) {
-		return suggestions.map(c => c.id)
-	}
-
-	// Find a support
-	if (!suggestions[1]) {
-		suggestions[1] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
-		pool = pool.filter(c => c.id != suggestions[1].id)
-	}
-
-	if (!pool.length) {
-		return suggestions.map(c => c.id)
-	}
-
-	// Find a support
-	if (!suggestions[2]) {
-		suggestions[2] = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDPSResonance(suggestions) ? suggestions[0].element.id : null)
-		pool = pool.filter(c => c.id != suggestions[2].id)
+		suggestions.splice(undefinedIndex, 1, found)
+		pool = pool.filter(c => c.id != found.id)
 	}
 
 	return suggestions.map(c => c.id)
