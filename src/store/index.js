@@ -48,13 +48,14 @@ export default createStore({
 		},
 
 		updateConstellation(state, payload) {
-			let bounds = [0, 6]
+			const characterData = state.data.characters.find(c => c.id == payload.id)
+			const desired = state.ownedCharacters[payload.id]
+				? state.ownedCharacters[payload.id].constellation + payload.value
+				: payload.value
 
-			let value = state.ownedCharacters[payload.id]
-				? Math.min(Math.max(state.ownedCharacters[payload.id].constellation + payload.value, bounds[0]), bounds[1])
-				: Math.min(Math.max(payload.value, bounds[0]), bounds[1])
-
-			state.ownedCharacters[payload.id] = { constellation: value }
+			state.ownedCharacters[payload.id] = {
+				constellation: Math.min(Math.max(desired, 0), characterData.maxConstellation ?? 6)
+			}
 		},
 
 		pushParty(state) {
