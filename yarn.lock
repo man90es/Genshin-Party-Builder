@@ -1226,10 +1226,10 @@
     lodash.kebabcase "^4.1.1"
     svg-tags "^1.0.0"
 
-"@vue/babel-preset-app@^5.0.0-beta.5":
-  version "5.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-5.0.0-beta.5.tgz#3585c18abf919691f01ba97195165f5cf6e1075b"
-  integrity sha512-r6axGbc0Gi/zkH7TUzmWhgt5j0pscldOAo5oUiGnfyeorZ5XNOt8tHjQVQgBbJx68lv4ZYN0s7T+/IOegy1sSA==
+"@vue/babel-preset-app@^5.0.0-beta.7":
+  version "5.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-5.0.0-beta.7.tgz#fbff6a4198e69f6283b41bd71db10b8ae2c9440e"
+  integrity sha512-V4GqcBz+qx3EqCVvw1PAOVLc6HlOF+UaJdaC5Jd5oeD+VpUaZDaOTHydtVz1TLN4VHW3vkCABYf+BDRPLNkfpg==
   dependencies:
     "@babel/core" "^7.12.16"
     "@babel/helper-compilation-targets" "^7.12.16"
@@ -1316,14 +1316,14 @@
   resolved "https://registry.yarnpkg.com/@vue/cli-overlay/-/cli-overlay-5.0.0-beta.5.tgz#af6ed2133a6db9ab863fdd2886eb5ac80a71f1d0"
   integrity sha512-VaCWjAGCacH1YUau54+tVJ/2+hoCGb7BAdsKKBX9nhkTU5+dfXSDYPPUcxxebhFA0IEiXFD7wE76d9Pb8/sFTw==
 
-"@vue/cli-plugin-babel@~5.0.0-beta.5":
-  version "5.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-5.0.0-beta.5.tgz#bc3a3271afca26b49fcebea5b83eefc81d0c0c0a"
-  integrity sha512-SYFF9pMjkD8e4ovhZDGVgNwaD3avu+UY0yhywLjHFK1F/pbCTKGR5STLOvnAMmDaG9Q9acVZTuTVPE11POnk/Q==
+"@vue/cli-plugin-babel@~5.0.0-beta.7":
+  version "5.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-5.0.0-beta.7.tgz#2e149bf26b9001aa8cb9622ed49b3a5973b7b2db"
+  integrity sha512-xB7NFldn+k17NXY5JsoNB6ZCwNd6yAZ+Xn9tEEaH3B/J+VQjCsSIgT4NxTpl0xBptq5CeCvFS7hW3fHIexcKFw==
   dependencies:
     "@babel/core" "^7.12.16"
-    "@vue/babel-preset-app" "^5.0.0-beta.5"
-    "@vue/cli-shared-utils" "^5.0.0-beta.5"
+    "@vue/babel-preset-app" "^5.0.0-beta.7"
+    "@vue/cli-shared-utils" "^5.0.0-beta.7"
     babel-loader "^8.2.2"
     thread-loader "^3.0.0"
     webpack "^5.22.0"
@@ -1417,10 +1417,10 @@
     webpack-virtual-modules "^0.4.2"
     whatwg-fetch "^3.6.2"
 
-"@vue/cli-shared-utils@^5.0.0-beta.5":
-  version "5.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.0-beta.5.tgz#e4cac7368f7ef51f80515fddb83699e87886be0e"
-  integrity sha512-aerbLTYPon+o5lrt3zYNxIstN223YltclkT2G+zvLn07R2Sw17vpJpGBMKGhMtojfFdi/b4Sygtg5Msggm0Azw==
+"@vue/cli-shared-utils@^5.0.0-beta.5", "@vue/cli-shared-utils@^5.0.0-beta.7":
+  version "5.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.0-beta.7.tgz#b7dc167d6e7a66ae2e02065c2ff46acefe21b569"
+  integrity sha512-5z+z+pSjM55aGbLf2HF4ND4rQhOYACRWmn+9P2va8bL5ZPP2K3162m1R1YGP3ftCsZwIzII7ksIFBba75TNjkg==
   dependencies:
     chalk "^4.1.2"
     execa "^1.0.0"
