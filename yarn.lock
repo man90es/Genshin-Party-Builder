@@ -1336,15 +1336,15 @@
     thread-loader "^3.0.0"
     webpack "^5.22.0"
 
-"@vue/cli-plugin-eslint@~5.0.0-beta.7":
-  version "5.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-5.0.0-rc.0.tgz#d3d1ff6a62312418058e15c354756a8d4c341627"
-  integrity sha512-yd4lLrKQEHUncMa6kN4TcuoBUvYYtbpttAmAaCWV8qiZvIi3s6d+PAqNFNGwkZG9M7QaVNR4U8DOXDqGOGgn6A==
+"@vue/cli-plugin-eslint@~5.0.0-rc.1":
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-5.0.0-rc.1.tgz#d6525834d54249ed5df5ba55614eeea3fa836812"
+  integrity sha512-CK/T00XeibQCMHzSenBWDROB11HbCL69bEc1nwT8gjXq5MMw9AB8qlaZzSuoHbbUE0PDyD272V/RDePO1ExT7w==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.0-rc.0"
+    "@vue/cli-shared-utils" "^5.0.0-rc.1"
     eslint-webpack-plugin "^3.1.0"
     globby "^11.0.2"
-    webpack "^5.22.0"
+    webpack "^5.54.0"
     yorkie "^2.0.0"
 
 "@vue/cli-plugin-router@^5.0.0-rc.0":
@@ -1422,10 +1422,10 @@
     webpack-virtual-modules "^0.4.2"
     whatwg-fetch "^3.6.2"
 
-"@vue/cli-shared-utils@^5.0.0-rc.0":
-  version "5.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.0-rc.0.tgz#62429b8baaec3a9c9afe49bb14ea1cdd237c7a8b"
-  integrity sha512-pcNDDXSP4PXO3EZCBmOGKH8xeqkcgglsNV91/f6IwjGYCCcnA2RpS79Ev+jTBUe+n4WmShndcHg7R9jCFzR8cg==
+"@vue/cli-shared-utils@^5.0.0-rc.0", "@vue/cli-shared-utils@^5.0.0-rc.1":
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.0-rc.1.tgz#0587c663775e666227d896ebbb365ea9909047d8"
+  integrity sha512-rZVTGfSQ0Sqw76BD/Z6iARfnO2r5ICSxt0iIpzjM8w9ohpRtI2B45NrngF0rILwy9d8we4A/n7gQQ0rqwkAX7g==
   dependencies:
     chalk "^4.1.2"
     execa "^1.0.0"
@@ -5969,10 +5969,10 @@ vuex@^4.0.0-0:
   dependencies:
     "@vue/devtools-api" "^6.0.0-beta.11"
 
-watchpack@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.2.0.tgz#47d78f5415fe550ecd740f99fe2882323a58b1ce"
-  integrity sha512-up4YAn/XHgZHIxFBVCdlMiWDj6WaLKpwVeGQk2I5thdYxF/KmF0aaz6TfJZ/hfl1h/XlcDr7k1KH7ThDagpFaA==
+watchpack@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.3.0.tgz#a41bca3da6afaff31e92a433f4c856a0c25ea0c4"
+  integrity sha512-MnN0Q1OsvB/GGHETrFeZPQaOelWh/7O+EiFlj8sM9GPjtQkis7k01aAxrg/18kTfoIVcLL+haEVFlXDaSRwKRw==
   dependencies:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
@@ -6069,20 +6069,20 @@ webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-sources@^3.2.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.1.tgz#251a7d9720d75ada1469ca07dbb62f3641a05b6d"
-  integrity sha512-t6BMVLQ0AkjBOoRTZgqrWm7xbXMBzD+XDq2EZ96+vMfn3qKgsvdXZhbPZ4ElUOpdv4u+iiGe+w3+J75iy/bYGA==
+webpack-sources@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.2.tgz#d88e3741833efec57c4c789b6010db9977545260"
+  integrity sha512-cp5qdmHnu5T8wRg2G3vZZHoJPN14aqQ89SyQ11NpGH5zEMDCclt49rzo+MaRazk7/UeILhAI+/sEtcM+7Fr0nw==
 
 webpack-virtual-modules@^0.4.2:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/webpack-virtual-modules/-/webpack-virtual-modules-0.4.3.tgz#cd597c6d51d5a5ecb473eea1983a58fa8a17ded9"
   integrity sha512-5NUqC2JquIL2pBAAo/VfBP6KuGkHIZQXW/lNKupLPfhViwh8wNsu0BObtl09yuKZszeEUfbXz8xhrHvSG16Nqw==
 
-webpack@*, webpack@^5.22.0, webpack@^5.38.1:
-  version "5.64.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.64.0.tgz#db3e12546f755930ccc9e0e21ba660871940c615"
-  integrity sha512-UclnN24m054HaPC45nmDEosX6yXWD+UGC12YtUs5i356DleAUGMDC9LBAw37xRRfgPKYIdCYjGA7RZ1AA+ZnGg==
+webpack@*, webpack@^5.22.0, webpack@^5.38.1, webpack@^5.54.0:
+  version "5.64.4"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.64.4.tgz#e1454b6a13009f57cc2c78e08416cd674622937b"
+  integrity sha512-LWhqfKjCLoYJLKJY8wk2C3h77i8VyHowG3qYNZiIqD6D0ZS40439S/KVuc/PY48jp2yQmy0mhMknq8cys4jFMw==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.50"
@@ -6106,8 +6106,8 @@ webpack@*, webpack@^5.22.0, webpack@^5.38.1:
     schema-utils "^3.1.0"
     tapable "^2.1.1"
     terser-webpack-plugin "^5.1.3"
-    watchpack "^2.2.0"
-    webpack-sources "^3.2.0"
+    watchpack "^2.3.0"
+    webpack-sources "^3.2.2"
 
 websocket-driver@>=0.5.1, websocket-driver@^0.7.4:
   version "0.7.4"
