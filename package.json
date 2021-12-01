@@ -21,7 +21,7 @@
 		"@vue/compiler-sfc": "^3.2.19",
 		"eslint": "^7.20.0",
 		"eslint-plugin-vue": "^7.18.0",
-		"sass": "^1.43.4",
+		"sass": "^1.44.0",
 		"sass-loader": "^12.3.0"
 	},
 	"eslintConfig": {
