@@ -1,23 +1,23 @@
 <template>
 	<div class="selection-row">
-		<Character :characterID="characterID" />
+		<CharacterCard :characterID="characterID" />
 		<div class="inputs">
-			<Checkbox :clickHandler="toggleHave" :value="characterID in $store.getters.characters" />
+			<OwnedCheckbox :clickHandler="toggleHave" :value="characterID in $store.getters.characters" />
 			<ConstellationInput :value="($store.getters.characters[characterID] || {constellation: 0}).constellation" :incrementHandler="incrementHandler" :decrementHandler="decrementHandler" />
 		</div>
 	</div>
 </template>
 
 <script>
-	import Character from './Character.vue'
-	import Checkbox from './Checkbox.vue'
+	import CharacterCard from './CharacterCard.vue'
+	import OwnedCheckbox from './OwnedCheckbox.vue'
 	import ConstellationInput from './ConstellationInput.vue'
 
 	export default {
 		props: ['characterID'],
 		components: {
-			Character,
-			Checkbox,
+			CharacterCard,
+			OwnedCheckbox,
 			ConstellationInput
 		},
 		methods: {

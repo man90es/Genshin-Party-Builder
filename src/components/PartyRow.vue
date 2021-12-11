@@ -1,14 +1,14 @@
 <template>
 	<div class="party-wrapper">
 		<div class="party-body">
-			<Character v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
+			<CharacterCard v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
 		</div>
 		<button class="button-x" @click="deleteParty">x</button>
 	</div>
 </template>
 
 <script>
-	import Character from './Character.vue'
+	import CharacterCard from './CharacterCard.vue'
 
 	export default {
 		props: ['meta', 'index', 'deleteHandler'],
@@ -18,7 +18,7 @@
 			}
 		},
 		components: {
-			Character
+			CharacterCard
 		},
 		methods: {
 			deleteParty() {

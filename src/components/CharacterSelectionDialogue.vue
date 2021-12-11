@@ -1,15 +1,15 @@
 <template>
 	<div class="backdrop" @click="backdropClickHandler"></div>
 	<div id="character-selection-dialogue">
-		<Character v-for="characterID in characterIDs" :key="characterID" :characterID="characterID" :clickable="true" />
-		<Character :clickable="true" />
+		<CharacterCard v-for="characterID in characterIDs" :key="characterID" :characterID="characterID" :clickable="true" />
+		<CharacterCard :clickable="true" />
 	</div>
 </template>
 
 <script setup>
 	import { computed, defineProps } from "vue"
 	import { useStore } from "vuex"
-	import Character from "./Character.vue"
+	import CharacterCard from "./CharacterCard.vue"
 
 	const store = useStore()
 

@@ -1,7 +1,7 @@
 <template>
 	<div v-if="meta.name" class="character-wrapper" :class="{ clickable, suggestion }">
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})`, backgroundColor: meta.colour }" @click="clickHandler">
-		<Element :elementId="meta.element" />
+		<ElementBadge :elementId="meta.element" />
 		<div>{{ meta.name }}</div>
 	</div>
 	<div v-else class="character-wrapper clickable suggestion">
@@ -14,7 +14,7 @@
 	import { computed, defineProps } from "vue"
 	import { useStore } from "vuex"
 	import useAPI from "../hooks/api.js"
-	import Element from "./Element.vue"
+	import ElementBadge from "./ElementBadge.vue"
 
 	const store = useStore()
 	const { getAssetURI } = useAPI()
