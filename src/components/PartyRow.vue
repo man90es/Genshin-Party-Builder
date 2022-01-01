@@ -1,40 +1,29 @@
 <template>
 	<div class="party-wrapper">
 		<div class="party-body">
-			<CharacterCard v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
+			<character-card v-for="(role, i) in roles" :key="characterID(i)" :characterID="characterID(i)" :suggestion="isSuggested(i)" :role="role" :pIndex="index" :cIndex="i" :clickable="true" />
 		</div>
 		<button class="button-x" @click="deleteParty">x</button>
 	</div>
 </template>
 
-<script>
-	import CharacterCard from './CharacterCard.vue'
+<script setup>
+	import { defineProps } from "vue"
+	import { useStore } from "vuex"
 
-	export default {
-		props: ['meta', 'index', 'deleteHandler'],
-		data() {
-			return {
-				roles: ['DPS', 'Support', 'Support', 'Healer']
-			}
-		},
-		components: {
-			CharacterCard
-		},
-		methods: {
-			deleteParty() {
-				this.$store.commit('deleteParty', { index: this.index })
-			}
-		},
-		computed: {
-			characterID() {
-				return i => this.meta.defined[i] || this.meta.suggestion[i]
-			},
+	import CharacterCard from "./CharacterCard.vue"
 
-			isSuggested() {
-				return i => !this.meta.defined[i]
-			}
-		}
+	const props = defineProps(["meta", "index"])
+	const store = useStore()
+
+	const roles = ["DPS", "Support", "Support", "Healer"]
+
+	function deleteParty() {
+		store.commit("deleteParty", { index: props.index })
 	}
+
+	const characterID = (i) => props.meta.defined[i] || props.meta.suggestion[i]
+	const isSuggested = (i) => !props.meta.defined[i]
 </script>
 
 <style scoped>
