@@ -20,12 +20,12 @@
 </template>
 
 <script setup>
-	import { computed } from "vue"
+	import { computed, defineAsyncComponent } from "vue"
 	import { useStore } from "vuex"
 
 	import SelectionRow from "./components/SelectionRow.vue"
 	import PartyRow from "./components/PartyRow.vue"
-	import CharacterSelectionDialogue from "./components/CharacterSelectionDialogue.vue"
+	const CharacterSelectionDialogue = defineAsyncComponent(() => import("./components/CharacterSelectionDialogue.vue"))
 
 	import useCharacterSelectorEventHandler from "./hooks/characterSelectorEventHandler.js"
 	import suggestParty from "./calculator.js"
