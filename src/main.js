@@ -5,4 +5,4 @@ import mitt from 'mitt'
 
 window.mitt = window.mitt || new mitt()
 
-createApp(App).use(store).mount('#app')
+createApp(App).use(store).mount("body")

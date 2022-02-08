@@ -57,25 +57,6 @@
 </script>
 
 <style lang="scss">
-	#app {
-		--button-background-color: #ece5d8;
-		--button-font-color: #3b4255;
-
-		font-family: Hoyofont, Helvetica, Arial, sans-serif;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		text-align: center;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		color: #fafafa;
-		background-color: #060d1f;
-		background-image: url(./assets/background.png);
-		background-size: cover;
-		background-position: center;
-		background-attachment: fixed;
-		padding: 2em;
-	}
-
 	header {
 		font-size: 0.8em;
 		h1 {
