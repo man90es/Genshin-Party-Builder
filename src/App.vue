@@ -68,6 +68,7 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		color: #fafafa;
+		background-color: #060d1f;
 		background-image: url(./assets/background.png);
 		background-size: cover;
 		background-position: center;
