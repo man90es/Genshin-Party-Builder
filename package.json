@@ -9,6 +9,7 @@
 		"memento-vuex": "^0.1.0",
 		"mitt": "^3.0.0",
 		"vue": "^3.2.23",
+		"vue-router": "^4.0.12",
 		"vuex": "^4.0.0-0"
 	},
 	"devDependencies": {
