@@ -13,14 +13,8 @@ export default createStore({
 			elements:   [],
 			characters: [],
 		},
-		ownedCharacters: {
-			CHARACTER_NOELLE:          { constellation: 0 },
-			CHARACTER_AMBER:           { constellation: 0 },
-			CHARACTER_KAEYA:           { constellation: 0 },
-			CHARACTER_LISA:            { constellation: 0 },
-			CHARACTER_TRAVELLER_ANEMO: { constellation: 0 },
-		},
-		parties: [new Party()],
+		ownedCharacters: {},
+		parties: [],
 	},
 	plugins: [
 		Memento(
@@ -39,11 +33,12 @@ export default createStore({
 			state.data = payload
 		},
 
-		toggleHave(state, payload) {
-			if (state.ownedCharacters[payload.id]) {
-				delete state.ownedCharacters[payload.id]
+		setHave(state, { id, have }) {
+			if (have === true) {
+				if (state.ownedCharacters[id] !== undefined) return
+				state.ownedCharacters[id] = { constellation: 0 }
 			} else {
-				state.ownedCharacters[payload.id] = { constellation: 0 }
+				delete state.ownedCharacters[id]
 			}
 		},
 
