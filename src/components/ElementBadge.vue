@@ -1,27 +1,28 @@
 <template>
-	<img :src="src">
+	<img :src="src" :style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }">
 </template>
 
 <script setup>
 	import { computed, defineProps } from "vue"
 	import { useStore } from "vuex"
-	import useAPI from "../hooks/api.js"
 
 	const store = useStore()
-	const { getAssetURI } = useAPI()
 
 	const props = defineProps({
 		"elementId": { "type": String, "required": true }
 	})
 
-	const src = computed(() => {
-		const name = store.state.data.elements.find(e => e.id === props.elementId)?.name
-		return name ? getAssetURI("element", name) : ""
+	const src = `${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.elements.path}`
+	const offset = computed(() => {
+		const index = store.state.data.spritesheets.elements.indices[props.elementId]
+
+		return [index[0] * -1, index[1] * -1]
 	})
 </script>
 
 <style scoped>
 	img {
+		object-fit: cover;
 		position: absolute;
 		left: 0.25em;
 		top: 0.25em;
