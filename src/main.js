@@ -1,8 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import store from './store'
-import mitt from 'mitt'
+import { createApp } from "vue"
+import mitt from "mitt"
+
+import App from "./App.vue"
+import router from "./router"
+import store from "./store"
 
 window.mitt = window.mitt || new mitt()
 
-createApp(App).use(store).mount("body")
+createApp(App)
+	.use(router)
+	.use(store)
+	.mount("body")
