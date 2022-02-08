@@ -1,5 +1,9 @@
 <template>
+	<site-logo :full="shouldShowFullLogo"/>
 	<router-view />
+	<footer>
+		<a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a>
+	</footer>
 	<!-- <div class="main-column">
 		<SelectionRow v-for="char in characters" :key="char" :characterID="char" />
 	</div>
@@ -16,11 +20,21 @@
 		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" />
 		<button id="add-party-button" @click="pushParty">Add party</button>
 	</div>
-	<footer><a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a></footer>
 	<CharacterSelectionDialogue v-if="characterSelectorData" :meta="characterSelectorData" /> -->
 </template>
 
 <script setup>
+	import { computed } from "vue"
+	import { useRoute } from "vue-router"
+
+	import SiteLogo from "@/components/SiteLogo.vue"
+
+	const route = useRoute()
+
+	const shouldShowFullLogo = computed(() => {
+		return route.name === "landing"
+	})
+
 	// import { computed, defineAsyncComponent } from "vue"
 	// import { useStore } from "vuex"
 
@@ -58,6 +72,24 @@
 </script>
 
 <style lang="scss">
+	footer {
+		font-size: 0.9rem;
+		position: fixed;
+		right: 1em;
+		bottom: 1em;
+
+		a {
+			opacity: 0.7;
+			color: inherit;
+			text-decoration: none;
+
+			&:hover {
+				opacity: 1;
+				text-decoration: underline;
+			}
+		}
+	}
+
 	// header {
 	// 	font-size: 0.8em;
 	// 	h1 {
@@ -116,21 +148,6 @@
 	// 		border-radius: 50%;
 	// 		padding: 0 0.27em;
 	// 		margin-right: 1em;
-	// 	}
-	// }
-
-	// footer {
-	// 	position: fixed;
-	// 	right: 1em;
-	// 	bottom: 1em;
-
-	// 	a {
-	// 		color: inherit;
-	// 		text-decoration: none;
-
-	// 		&:hover {
-	// 			text-decoration: underline;
-	// 		}
 	// 	}
 	// }
 </style>
