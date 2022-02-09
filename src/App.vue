@@ -72,6 +72,22 @@
 </script>
 
 <style lang="scss">
+	main {
+		width: 100vmin;
+		display: flex;
+		flex-direction: column;
+		text-align: justify;
+		margin: 1em;
+
+		p {
+			margin: 0.5em 20vmin;
+		}
+
+		button {
+			margin: 1em 30vmin;
+		}
+	}
+
 	footer {
 		font-size: 0.9rem;
 		position: fixed;

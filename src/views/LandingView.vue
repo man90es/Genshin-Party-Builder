@@ -19,21 +19,3 @@
 		router.push({ name: "characters" })
 	}
 </script>
-
-<style lang="scss" scoped>
-	main {
-		width: 100vmin;
-		display: flex;
-		flex-direction: column;
-		text-align: justify;
-		margin: 1em;
-
-		p {
-			margin: 0.5em 20vmin;
-		}
-
-		button {
-			margin: 1em 30vmin;
-		}
-	}
-</style>

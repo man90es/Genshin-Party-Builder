@@ -1,12 +1,12 @@
 <template>
-	<div v-if="meta" class="character-wrapper" :class="{ suggestion }">
+	<div v-if="meta" class="character-wrapper">
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" :class="meta.colour" @click="clickHandler">
 		<element-badge :elementId="meta.element" />
 		<div>{{ meta.name }}</div>
 	</div>
-	<div v-else class="character-wrapper suggestion">
+	<div v-else class="character-wrapper">
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" @click="clickHandler">
-		<div>Auto</div>
+		<div>Empty</div>
 	</div>
 </template>
 
@@ -20,23 +20,18 @@
 	const store = useStore()
 	const { getAssetURI } = useAPI()
 
-	const props = defineProps({
-		"characterId": { "type": String },
-		"suggestion":  { "type": Boolean, "default": false },
-		"pIndex":      { "type": Number },
-		"cIndex":      { "type": Number },
-	})
+	const props = defineProps({ "characterId": String })
 
 	const meta = computed(() => {
 		return store.state.data.characters.find(c => c.id === props.characterId)
 	})
 
 	const src = computed(() => {
-		return getAssetURI("portrait", meta.value.name)
+		return getAssetURI("portrait", meta.value?.name)
 	})
 
 	const bgSrc = computed(() => {
-		return getAssetURI("background", meta.value.colour)
+		return getAssetURI("background", meta.value?.colour || "grey")
 	})
 </script>
 
@@ -53,10 +48,6 @@
 
 		* {
 			user-select: none;
-		}
-
-		&.suggestion {
-			filter: grayscale(75%);
 		}
 
 		& > div {
