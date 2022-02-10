@@ -1,13 +1,13 @@
 <template>
-	<div v-if="meta" class="character-wrapper">
-		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" :class="meta.colour" @click="clickHandler">
+	<figure v-if="meta">
+		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" :class="meta.colour" :alt="meta.name" @click="clickHandler">
 		<element-badge :elementId="meta.element" />
-		<div>{{ meta.name }}</div>
-	</div>
-	<div v-else class="character-wrapper">
-		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" @click="clickHandler">
-		<div>Empty</div>
-	</div>
+		<figcaption>{{ meta.name }}</figcaption>
+	</figure>
+	<figure v-else>
+		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" alt="Character placeholder" @click="clickHandler">
+		<figcaption>Empty</figcaption>
+	</figure>
 </template>
 
 <script setup>
@@ -36,7 +36,7 @@
 </script>
 
 <style scoped lang="scss">
-	.character-wrapper {
+	figure {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -45,12 +45,13 @@
 		color: var(--button-font-color);
 		border-radius: 5%;
 		cursor: pointer;
+		margin: 0;
 
 		* {
 			user-select: none;
 		}
 
-		& > div {
+		figcaption {
 			padding: 0.25em 0;
 			font-family: Hoyofont;
 			font-size: 0.8em;

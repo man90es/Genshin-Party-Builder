@@ -1,9 +1,9 @@
 <template>
-	<div id="logo">
+	<header>
 		<h1>Man90's Party Builder</h1>
 		<div v-if="props.full">for</div>
-		<img v-if="props.full" src="@/assets/Genshin_Impact_logo.svg">
-	</div>
+		<img v-if="props.full" src="@/assets/Genshin_Impact_logo.svg" alt="Genshin Impact">
+	</header>
 </template>
 
 <script setup>
@@ -15,7 +15,7 @@
 </script>
 
 <style lang="scss">
-	#logo {
+	header {
 		font-family: Hoyofont;
 
 		h1 {
