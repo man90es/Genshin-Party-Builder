@@ -19,7 +19,7 @@ export default createStore({
 	plugins: [
 		Memento(
 			{
-				toggleHave:          "ownedCharacters",
+				setHave:             "ownedCharacters",
 				updateConstellation: "ownedCharacters",
 				pushParty:           "parties",
 				setPartyMember:      "parties",
