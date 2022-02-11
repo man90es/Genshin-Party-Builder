@@ -3,14 +3,13 @@
 		<p>
 			This is the list of parties that you've created. Click one of them to to edit it.
 		</p>
-		<party-row v-for="(party, i) in parties" :key="i" :meta="party" @click="() => editParty(i)" />
+		<party-row v-for="(party, i) in store.getters.parties" :key="i" :meta="party" @click="() => editParty(i)" />
 		<button @click="pushParty">New party</button>
 		<button @click="prevStage">Characters</button>
 	</main>
 </template>
 
 <script setup>
-	import { computed } from "vue"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 
@@ -23,8 +22,6 @@
 
 	const router = useRouter()
 	const store = useStore()
-
-	const parties = computed(() => store.getters.parties)
 
 	function pushParty() {
 		const emptyI = store.getters.parties.findIndex(p => {
@@ -39,6 +36,10 @@
 			store.commit("pushParty")
 			editParty(store.getters.parties.length - 1)
 		}
+	}
+
+	if (store.getters.parties.length < 1) {
+		pushParty()
 	}
 
 	function prevStage() {
