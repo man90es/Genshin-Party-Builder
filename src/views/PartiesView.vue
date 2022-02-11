@@ -23,6 +23,10 @@
 	const router = useRouter()
 	const store = useStore()
 
+	if (Object.keys(store.state.ownedCharacters).length < 5) {
+		router.push({ name: "landing" })
+	}
+
 	function pushParty() {
 		const emptyI = store.getters.parties.findIndex(p => {
 			return p.members.reduce((s, m) => {

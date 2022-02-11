@@ -25,6 +25,10 @@
 	const router = useRouter()
 	const store = useStore()
 
+	if (Object.keys(store.state.ownedCharacters).length < 5) {
+		router.push({ name: "landing" })
+	}
+
 	const party = computed(() => {
 		return store.state.parties[route.params.index] || [null, null, null, null]
 	})
