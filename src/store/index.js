@@ -61,8 +61,8 @@ export default createStore({
 			state.parties[payload.pI].members[payload.cI] = payload.cID
 		},
 
-		deleteParty(state, payload) {
-			state.parties.splice(payload.index, 1)
+		deleteParty(state, index) {
+			state.parties.splice(index, 1)
 		},
 
 		import(state, backup) {
