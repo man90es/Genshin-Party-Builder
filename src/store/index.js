@@ -57,8 +57,8 @@ export default createStore({
 			state.parties.push(new Party())
 		},
 
-		setPartyMember(state, payload) {
-			state.parties[payload.pI].members[payload.cI] = payload.cID
+		setPartyMember(state, { pI, cI, cId }) {
+			state.parties[pI].members[cI] = cId
 		},
 
 		deleteParty(state, index) {
