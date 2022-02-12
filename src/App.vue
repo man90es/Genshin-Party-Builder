@@ -4,23 +4,6 @@
 	<footer>
 		<a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a>
 	</footer>
-	<!-- <div class="main-column">
-		<SelectionRow v-for="char in characters" :key="char" :characterID="char" />
-	</div>
-	<div class="main-column">
-		<header>
-			<h1>Genshin Party Builder</h1>
-			<ul>
-				<li>Select your owned characters and their constellation levels in the left part of the screen.</li>
-				<li>The algorithm will recommend you an optimal party in the right part of the screen.</li>
-				<li>Each party has a DPS in the first slot, then two supports/sub-DPS and a healer</li>
-				<li>Click a party member's portrait to select a specific character; the algorithm will adapt to your choice.</li>
-			</ul>
-		</header>
-		<PartyRow v-for="(party, i) in parties" :key="i" :meta="party" :index="i" />
-		<button id="add-party-button" @click="pushParty">Add party</button>
-	</div>
-	<CharacterSelectionDialogue v-if="characterSelectorData" :meta="characterSelectorData" /> -->
 </template>
 
 <script setup>
@@ -34,41 +17,6 @@
 	const shouldShowFullLogo = computed(() => {
 		return route.name === "landing"
 	})
-
-	// import { computed, defineAsyncComponent } from "vue"
-	// import { useStore } from "vuex"
-
-	// import SelectionRow from "./components/SelectionRow.vue"
-	// import PartyRow from "./components/PartyRow.vue"
-	// const CharacterSelectionDialogue = defineAsyncComponent(() => import("./components/CharacterSelectionDialogue.vue"))
-
-	// import useCharacterSelectorEventHandler from "./hooks/characterSelectorEventHandler.js"
-	// import suggestParty from "./calculator.js"
-	// import useAPI from "./hooks/api.js"
-
-	// const store = useStore()
-	// const { fetchData } = useAPI()
-
-	// const characters = computed(() => {
-	// 	return store.state.data.characters.map(c => c.id)
-	// })
-	// const { characterSelectorData } = useCharacterSelectorEventHandler()
-	// const parties = computed(() => {
-	// 	return store.getters.parties
-	// 		.map((storedParty) => {
-	// 			return {
-	// 				name: storedParty.name,
-	// 				defined: storedParty.members,
-	// 				suggestion: suggestParty(storedParty.members, store.getters.characters, store.state.data)
-	// 			}
-	// 		})
-	// })
-
-	// function pushParty() {
-	// 	store.commit("pushParty")
-	// }
-
-	// fetchData()
 </script>
 
 <style lang="scss">
@@ -105,65 +53,4 @@
 			}
 		}
 	}
-
-	// header {
-	// 	font-size: 0.8em;
-	// 	h1 {
-	// 		color: #d3bc8e;
-	// 		text-align: left;
-	// 		margin: 0;
-	// 		font-size: 1.8em;
-	// 		font-weight: normal;
-	// 	}
-
-	// 	ul {
-	// 		text-align: left;
-	// 		font-size: 1.3em;
-	// 		padding-left: 1.5rem;
-	// 		list-style: none;
-
-	// 		li {
-	// 			padding: 0.3em 1.5em;
-	// 			background: url(./assets/bullet.png) no-repeat left 0.25em;
-	// 		}
-	// 	}
-	// }
-
-	// .main-column {
-	// 	&:nth-child(1) {
-	// 		display: flex;
-	// 		flex-flow: wrap;
-	// 		gap: 1em 2em;
-	// 	}
-
-	// 	&:nth-child(2) {
-	// 		position: sticky;
-	// 		top: 0;
-	// 		right: 0;
-	// 	}
-	// }
-
-	// #add-party-button {
-	// 	display: block;
-	// 	float: right;
-	// 	padding: 0 1.5em 0 0.5em;
-	// 	height: 2em;
-	// 	background-color: var(--button-background-color);
-	// 	color: var(--button-font-color);
-	// 	border: none;
-	// 	border-radius: 2em;
-	// 	font-size: 1.5rem;
-	// 	font-family: inherit;
-	// 	outline: none;
-	// 	cursor: pointer;
-
-	// 	&::before {
-	// 		content: "+";
-	// 		background-color: #313131;
-	// 		color: #ffcb32;
-	// 		border-radius: 50%;
-	// 		padding: 0 0.27em;
-	// 		margin-right: 1em;
-	// 	}
-	// }
 </style>
