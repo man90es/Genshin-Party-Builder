@@ -118,6 +118,11 @@ export default function() {
 			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDamageResonance ? damageElement : undefined, limit)
 		}
 
+		if (suggestedCharacters.length < 1) {
+			suggestedPosition = "support"
+			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDamageResonance ? damageElement : undefined, limit)
+		}
+
 		return [suggestedPosition, suggestedCharacters.map(c => c.id)]
 	}
 
