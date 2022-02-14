@@ -22,7 +22,8 @@ function seek(characters, userData, role, elementId, limit) {
 			return aR < bR ? 1 : -1
 		})
 		.filter((c) => {
-			if (role === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"] < c.rating["ROLE_SUPPORT"]) {
+			const constellation = userData[c.id].constellation
+			if (role.id === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"][constellation] <= c.rating["ROLE_SUPPORT"][constellation]) {
 				return false
 			}
 
