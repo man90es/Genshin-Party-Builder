@@ -106,8 +106,9 @@ export default function() {
 
 		// Choose suggested position
 		const { hasDamage, hasHealer, hasDamageResonance, damageElement } = analyseParty(party.map(cId => data.characters.find(c => c.id === cId) || null), owned, data)
+		const prioritiseHealer = !hasHealer && party.reduce((empty, c) => empty + Number(c === null), 0) == 1
 
-		if (!hasDamage) {
+		if (!hasDamage && !prioritiseHealer) {
 			suggestedPosition = "damage dealer"
 			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_DAMAGE"), undefined, limit)
 		} else if (!hasHealer) {
