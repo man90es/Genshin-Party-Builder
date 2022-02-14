@@ -12,15 +12,6 @@ function shuffle(array) {
 
 function seek(characters, userData, role, elementId, limit) {
 	return shuffle(characters)
-		.sort((a, b) => {
-			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
-		})
-		.sort((a, b) => {
-			let aR = a.rating[role.id][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
-			let bR = b.rating[role.id][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
-
-			return aR < bR ? 1 : -1
-		})
 		.filter((c) => {
 			const constellation = userData[c.id].constellation
 
@@ -33,6 +24,15 @@ function seek(characters, userData, role, elementId, limit) {
 			}
 
 			return true
+		})
+		.sort((a, b) => {
+			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
+		})
+		.sort((a, b) => {
+			let aR = a.rating[role.id][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
+			let bR = b.rating[role.id][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
+
+			return aR < bR ? 1 : -1
 		})
 		.slice(0, limit)
 }
