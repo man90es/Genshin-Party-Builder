@@ -70,6 +70,7 @@
 
 				.constellation-overlay {
 					background-color: var(--button-background-color);
+					pointer-events: none;
 
 					position: absolute;
 					bottom: 1.3rem;
