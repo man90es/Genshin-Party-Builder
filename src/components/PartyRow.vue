@@ -1,15 +1,19 @@
 <template>
 	<div class="party-row">
-		<character-card v-for="pos in [0, 1, 2, 3]" :key="meta.members[pos]" :characterId="meta.members[pos]" />
+		<character-card v-for="pos in [0, 1, 2, 3]" :key="meta.members[pos]" :characterId="meta.members[pos]" :alternativeCursor="alternativeCursor" @click="() => emit('cardClick', pos)" />
 	</div>
 </template>
 
 <script setup>
-	import { defineProps } from "vue"
+	import { defineProps, defineEmits } from "vue"
 
 	import CharacterCard from "./CharacterCard.vue"
 
-	defineProps(["meta"])
+	const emit = defineEmits(["cardClick"])
+	defineProps({
+		"meta": Object,
+		"alternativeCursor": Boolean
+	})
 </script>
 
 <style>

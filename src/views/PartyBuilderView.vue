@@ -3,7 +3,7 @@
 		<p>
 			Select your {{ suggested[0] }}.
 		</p>
-		<party-row :meta="party" />
+		<party-row :meta="party" @cardClick="removeMember" :alternativeCursor="true"/>
 		<p>
 			The AI recommends these choices:
 		</p>
@@ -57,6 +57,10 @@
 	function deleteParty() {
 		store.commit("deleteParty", route.params.index)
 		prevStage()
+	}
+
+	function removeMember(cI) {
+		store.commit("setPartyMember", { pI: route.params.index, cI, cId: null })
 	}
 </script>
 
