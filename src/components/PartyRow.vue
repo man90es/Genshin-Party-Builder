@@ -1,6 +1,6 @@
 <template>
-	<div class="party-row">
-		<character-card v-for="pos in [0, 1, 2, 3]" :key="meta.members[pos]" :characterId="meta.members[pos]" :alternativeCursor="alternativeCursor" @click="() => emit('cardClick', pos)" />
+	<div class="party-row" :style="{ cursor: clickable ? 'pointer' : 'default' }">
+		<character-card v-for="pos in [0, 1, 2, 3]" :key="meta.members[pos]" :characterId="meta.members[pos]" :alternativeCursor="alternativeCardCursor" @click="() => emit('cardClick', pos)" />
 	</div>
 </template>
 
@@ -12,7 +12,8 @@
 	const emit = defineEmits(["cardClick"])
 	defineProps({
 		"meta": Object,
-		"alternativeCursor": Boolean
+		"alternativeCardCursor": Boolean,
+		"clickable": Boolean,
 	})
 </script>
 

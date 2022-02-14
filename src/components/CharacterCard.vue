@@ -4,7 +4,7 @@
 		<element-badge :elementId="meta.element" />
 		<figcaption>{{ meta.name }}</figcaption>
 	</figure>
-	<figure v-else :style="{ cursor: alternativeCursor ? 'not-allowed' : 'pointer' }">
+	<figure v-else>
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" alt="Character placeholder" @click="clickHandler">
 		<figcaption>Empty</figcaption>
 	</figure>
@@ -44,7 +44,6 @@
 		background-color: var(--button-background-color);
 		color: var(--button-font-color);
 		border-radius: 5%;
-		cursor: pointer;
 		margin: 0;
 
 		* {

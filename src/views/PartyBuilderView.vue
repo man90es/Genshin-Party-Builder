@@ -3,7 +3,7 @@
 		<p>
 			Select your {{ suggested[0] }}.
 		</p>
-		<party-row :meta="party" @cardClick="removeMember" :alternativeCursor="true"/>
+		<party-row :meta="party" @cardClick="removeMember" :alternativeCardCursor="true"/>
 		<p>
 			The AI recommends these choices:
 		</p>
