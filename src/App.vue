@@ -10,9 +10,12 @@
 	import { computed } from "vue"
 	import { useRoute } from "vue-router"
 
+	import useLoadBackground from "@/hooks/loadBackground.js"
+
 	import SiteLogo from "@/components/SiteLogo.vue"
 
 	const route = useRoute()
+	useLoadBackground()
 
 	const shouldShowFullLogo = computed(() => {
 		return route.name === "landing"
