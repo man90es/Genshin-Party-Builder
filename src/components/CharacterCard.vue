@@ -1,12 +1,12 @@
 <template>
-	<figure v-if="meta" :style="{ cursor: alternativeCursor ? 'not-allowed' : 'pointer' }">
+	<figure v-if="meta" :style="{ cursor: cursor === 'removeOrDefault' ? 'not-allowed' : cursor }">
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" :class="meta.colour" :alt="meta.name" @click="clickHandler">
 		<element-badge :elementId="meta.element" />
 		<figcaption>{{ meta.name }}</figcaption>
 	</figure>
-	<figure v-else>
+	<figure v-else :style="{ cursor: cursor === 'removeOrDefault' ? 'default' : cursor }">
 		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" alt="Character placeholder" @click="clickHandler">
-		<figcaption>Empty</figcaption>
+		<figcaption>{{ namePlaceholder || "Empty" }}</figcaption>
 	</figure>
 </template>
 
@@ -20,7 +20,7 @@
 	const store = useStore()
 	const { getAssetURI } = useAPI()
 
-	const props = defineProps({ "characterId": String, "alternativeCursor": Boolean })
+	const props = defineProps({ "characterId": String, "cursor": String, "namePlaceholder": String })
 
 	const meta = computed(() => {
 		return store.state.data.characters.find(c => c.id === props.characterId)
@@ -45,6 +45,8 @@
 		color: var(--button-font-color);
 		border-radius: 5%;
 		margin: 0;
+
+		cursor: inherit;
 
 		* {
 			user-select: none;

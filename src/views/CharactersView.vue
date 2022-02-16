@@ -8,7 +8,7 @@
 		</p>
 		<div id="character-pool">
 			<div v-for="char in characters" :key="char">
-				<character-card :characterId="char" @click="() => selectCharacter(char)"/>
+				<character-card :characterId="char" @click="() => selectCharacter(char)" :cursor="'pointer'" />
 				<div class="constellation-overlay" v-if="store.getters.constellation(char) !== null">C{{ store.getters.constellation(char) }}</div>
 			</div>
 		</div>

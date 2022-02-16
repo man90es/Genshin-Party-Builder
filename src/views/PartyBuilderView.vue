@@ -3,24 +3,27 @@
 		<p>
 			Select your {{ suggested[0] }}.
 		</p>
-		<party-row :meta="party" @cardClick="removeMember" :alternativeCardCursor="true"/>
+		<party-row :meta="party" @cardClick="removeMember" :cardCursor="'removeOrDefault'" />
 		<p>
 			The AI recommends these choices:
 		</p>
 		<section id="sugestions" v-if="party.members?.includes(null)">
-			<character-card v-for="(cId, pos) in suggested[1]" :key="pos" :characterId="cId" @click="chooseCharacter(cId)" />
+			<character-card v-for="(cId, pos) in suggested[1]" :key="pos" :characterId="cId" @click="chooseCharacter(cId)" :cursor="'pointer'" />
+			<character-card @click="chooseAnotherCharacter" :namePlaceholder="'More...'" :alternativeCursor="true" :cursor="'pointer'" />
 		</section>
 		<button v-if="store.state.parties.length > 1" @click="deleteParty">Remove party</button>
 		<button @click="prevStage">Back</button>
+		<character-selection-dialogue v-if="shouldShowDialogue" :exclude="party.members" @close="shouldShowDialogue = false" @select="chooseCharacter" />
 	</main>
 </template>
 
 <script setup>
-	import { computed } from "vue"
+	import { ref, computed } from "vue"
 	import { useRouter, useRoute } from "vue-router"
 	import { useStore } from "vuex"
 
 	import CharacterCard from "@/components/CharacterCard.vue"
+	import CharacterSelectionDialogue from "@/components/CharacterSelectionDialogue.vue"
 	import PartyRow from "@/components/PartyRow.vue"
 	import useAPI from "@/hooks/api.js"
 	import useSuggest from "@/hooks/suggest.js"
@@ -33,6 +36,8 @@
 	const route = useRoute()
 	const router = useRouter()
 	const store = useStore()
+
+	const shouldShowDialogue = ref(false)
 
 	if (Object.keys(store.state.ownedCharacters).length < 5) {
 		router.push({ name: "landing" })
@@ -47,7 +52,12 @@
 	})
 
 	function chooseCharacter(cId) {
+		shouldShowDialogue.value = false
 		store.commit("setPartyMember", { pI: route.params.index, cI: party.value.members.indexOf(null), cId })
+	}
+
+	function chooseAnotherCharacter() {
+		shouldShowDialogue.value = true
 	}
 
 	function prevStage() {
