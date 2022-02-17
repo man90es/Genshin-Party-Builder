@@ -47,6 +47,10 @@
 
 	const shouldShowDialogue = ref(false)
 
+	if (!store.state.parties[route.params.index]) {
+		prevStage()
+	}
+
 	if (Object.keys(store.state.ownedCharacters).length < 5) {
 		router.push({ name: "landing" })
 	}
@@ -64,7 +68,11 @@
 	})
 
 	const suggested = computed(() => {
-		return suggest(route.params.index, 3)
+		if (store.state.parties[route.params.index]) {
+			return suggest(route.params.index, 3)
+		}
+
+		return ["", []]
 	})
 
 	function chooseCharacter(cId) {
