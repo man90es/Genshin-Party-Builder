@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<p>
-			This is the list of parties that you've created. Click one of them to to edit it.
+			These are the parties that you've created. Click a party or create a new one to edit it.
 		</p>
 		<party-row v-for="(party, i) in store.getters.parties" :key="i" :meta="party" @click="() => editParty(i)" :clickable="true" />
 		<button @click="pushParty">New party</button>

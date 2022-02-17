@@ -1,17 +1,23 @@
 <template>
 	<main>
-		<p>
-			Select your {{ suggested[0] }}.
+		<p v-if="isEmpty">
+			This party has no characters yet. Start by picking a {{ suggested[0] }} from suggested choices below.
+		</p>
+		<p v-else-if="isFull">
+			Your team is ready to hit the ground running! To change any character, click his or her portrait.
+		</p>
+		<p v-else>
+			{{ generateReassurance() }}! Now, it's suggested that you add a {{ suggested[0] }}. You can remove a character that is already in the party by clicking his or her portrait.
 		</p>
 		<party-row :meta="party" @cardClick="removeMember" :cardCursor="'removeOrDefault'" />
-		<p>
-			The AI recommends these choices:
+		<p v-if="!isFull">
+			The AI recommends that you pick one of these {{ suggested[0] }}s to strengthen your team:
 		</p>
-		<section id="sugestions" v-if="party.members?.includes(null)">
+		<section id="sugestions" v-if="!isFull">
 			<character-card v-for="(cId, pos) in suggested[1]" :key="pos" :characterId="cId" @click="chooseCharacter(cId)" :cursor="'pointer'" />
 			<character-card @click="chooseAnotherCharacter" :namePlaceholder="'More...'" :alternativeCursor="true" :cursor="'pointer'" />
 		</section>
-		<button v-if="store.state.parties.length > 1" @click="deleteParty">Remove party</button>
+		<button v-if="store.state.parties.length > 1" @click="disband">Disband</button>
 		<button @click="prevStage">Back</button>
 		<character-selection-dialogue v-if="shouldShowDialogue" :exclude="party.members" @close="shouldShowDialogue = false" @select="chooseCharacter" />
 	</main>
@@ -27,9 +33,11 @@
 	import PartyRow from "@/components/PartyRow.vue"
 	import useAPI from "@/hooks/api.js"
 	import useSuggest from "@/hooks/suggest.js"
+	import useRandomReassurance from "@/hooks/randomReassurance.js"
 
 	const { fetchData } = useAPI()
 	const { suggest } = useSuggest()
+	const { generateReassurance } = useRandomReassurance()
 
 	fetchData()
 
@@ -45,6 +53,14 @@
 
 	const party = computed(() => {
 		return store.state.parties[route.params.index] || { members: [null, null, null, null] }
+	})
+
+	const isEmpty = computed(() => {
+		return party.value.members.reduce((empty, c) => empty + Number(c === null), 0) == 4
+	})
+
+	const isFull = computed(() => {
+		return !party.value.members?.includes(null)
 	})
 
 	const suggested = computed(() => {
@@ -64,7 +80,7 @@
 		router.push({ name: "parties" })
 	}
 
-	function deleteParty() {
+	function disband() {
 		store.commit("deleteParty", route.params.index)
 		prevStage()
 	}
