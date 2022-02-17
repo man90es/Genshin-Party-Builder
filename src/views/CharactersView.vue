@@ -7,9 +7,9 @@
 			After selecting at least 5 characters, click the button at the bottom of the page to continue to party creation. You may return to this step anytime later.
 		</p>
 		<div id="character-pool">
-			<div v-for="char in characters" :key="char">
+			<div v-for="char in characters" :key="char" :class="{ owned: store.getters.constellation(char) !== null }">
 				<character-card :characterId="char" @click="() => selectCharacter(char)" :cursor="'pointer'" />
-				<div class="constellation-overlay" v-if="store.getters.constellation(char) !== null">C{{ store.getters.constellation(char) }}</div>
+				<div class="constellation-overlay">C{{ store.getters.constellation(char) }}</div>
 			</div>
 		</div>
 		<button @click="nextStage" v-if="shouldShowNextButton">Next</button>
@@ -67,6 +67,14 @@
 
 			& > div {
 				position: relative;
+
+				&:not(.owned) {
+					filter: saturate(0.25);
+
+					.constellation-overlay {
+						display: none;
+					}
+				}
 
 				.constellation-overlay {
 					background-color: var(--button-background-color);
