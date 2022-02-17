@@ -31,11 +31,11 @@
 		margin: 1em;
 
 		p {
-			margin: 0.5em 20vmin;
+			margin: 0.5em 10vmin;
 		}
 
 		button {
-			margin: 1em 30vmin;
+			margin: 1em 25vmin;
 		}
 	}
 

@@ -57,14 +57,14 @@
 	#character-selection-dialogue {
 		background-color: #21252b;
 		border-radius: 0.5em;
+		box-sizing: border-box;
 		display: flex;
 		flex-flow: wrap;
 		gap: 1em;
 		justify-content: center;
-		box-sizing: border-box;
-		padding: 4em 1em;
 		max-height: 90vh;
-		max-width: 100vw;
+		max-width: 90vw;
 		overflow-y: auto;
+		padding: 1em;
 	}
 </style>
