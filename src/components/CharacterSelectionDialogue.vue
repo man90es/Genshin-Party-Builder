@@ -1,54 +1,70 @@
 <template>
-	<div class="backdrop" @click="backdropClickHandler"></div>
-	<div id="character-selection-dialogue">
-		<CharacterCard v-for="characterID in characterIDs" :key="characterID" :characterID="characterID" :clickable="true" />
-		<CharacterCard :clickable="true" />
+	<div class="overlay">
+		<div class="backdrop" @click="closeHandler"></div>
+		<div id="character-selection-dialogue">
+			<character-card v-for="id in characterIds" :key="id" :characterId="id" :cursor="'pointer'" @click="select(id)" />
+			<character-card :cursor="'pointer'" @click="closeHandler" />
+		</div>
 	</div>
 </template>
 
 <script setup>
-	import { computed, defineProps } from "vue"
+	import { computed, defineProps, defineEmits } from "vue"
 	import { useStore } from "vuex"
-	import CharacterCard from "./CharacterCard.vue"
+	import CharacterCard from "@/components/CharacterCard.vue"
 
 	const store = useStore()
 
-	defineProps({
-		"meta": { type: Object }
-	})
+	const props = defineProps({ meta: Object, exclude: Array })
+	const emit = defineEmits(["close", "select"])
 
-	const characterIDs = computed(() => {
+	const characterIds = computed(() => {
 		return store.state.data.characters
 			.filter(c => c.id in store.getters.characters)
+			.filter(c => !props.exclude.includes(c.id))
 			.map(c => c.id)
 	})
 
-	function backdropClickHandler() {
-		window.mitt.emit("character-selection-dialogue-backdrop-clicked")
+	function closeHandler() {
+		emit("close")
+	}
+
+	function select(id) {
+		emit("select", id)
 	}
 </script>
 
 <style>
-	.backdrop {
-		background-color: #0007;
+	.overlay, .backdrop {
 		position: fixed;
-		top: 0;
 		bottom: 0;
 		left: 0;
 		right: 0;
+		top: 0;
+	}
+
+	.overlay {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+
+	.backdrop {
+		background-color: #0007;
+		cursor: pointer;
 	}
 
 	#character-selection-dialogue {
-		position: fixed;
 		background-color: #21252b;
-		top: 10vh;
-		left: 20vw;
-		max-width: 60vw;
-		padding: 2em;
 		border-radius: 0.5em;
+		box-sizing: border-box;
 		display: flex;
 		flex-flow: wrap;
 		gap: 1em;
 		justify-content: center;
+		max-height: 90vh;
+		max-width: 90vw;
+		overflow-y: auto;
+		padding: 1em;
 	}
 </style>
