@@ -1,9 +1,7 @@
 <template>
 	<site-logo :full="shouldShowFullLogo"/>
 	<router-view />
-	<footer>
-		<a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a>
-	</footer>
+	<app-footer />
 </template>
 
 <script setup>
@@ -13,6 +11,7 @@
 	import useLoadBackground from "@/hooks/loadBackground.js"
 
 	import SiteLogo from "@/components/SiteLogo.vue"
+	import AppFooter from "./components/AppFooter.vue"
 
 	const route = useRoute()
 	useLoadBackground()
@@ -28,7 +27,7 @@
 		display: flex;
 		flex-direction: column;
 		text-align: justify;
-		margin: 1em;
+		margin: 1em auto;
 
 		p {
 			margin: 0.5em 10vmin;
@@ -36,24 +35,6 @@
 
 		button {
 			margin: 1em 25vmin;
-		}
-	}
-
-	footer {
-		font-size: 0.9rem;
-		position: fixed;
-		right: 1em;
-		bottom: 1em;
-
-		a {
-			opacity: 0.7;
-			color: inherit;
-			text-decoration: none;
-
-			&:hover {
-				opacity: 1;
-				text-decoration: underline;
-			}
 		}
 	}
 </style>

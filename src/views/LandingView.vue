@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<p>
-			Welcome to an AI-assisted team creation tool for Genshin Impact. It helps beginners to assemble well-rounded teams no matter how many or which characters they have.
+			Welcome to an AI-assisted party creation tool for Genshin Impact. It helps beginners to assemble well-rounded teams no matter how many or which characters they have.
 		</p>
 		<p>
 			Press start to select your characters.
@@ -25,3 +25,9 @@
 		router.push({ name: "characters" })
 	}
 </script>
+
+<style scoped>
+	main {
+		margin-top: 5em;
+	}
+</style>
