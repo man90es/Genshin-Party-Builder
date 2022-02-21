@@ -1,5 +1,5 @@
 <template>
-	<header>
+	<header data-nosnippet>
 		<h1>Man90's Party Builder</h1>
 		<div v-if="props.full">for</div>
 		<img v-if="props.full" src="@/assets/Genshin_Impact_logo.svg" alt="Genshin Impact">
