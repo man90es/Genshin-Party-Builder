@@ -14,6 +14,7 @@
 		display: flex;
 		justify-content: space-evenly;
 		gap: 1em;
+		grid-row: 3;
 
 		& > * {
 			opacity: 0.7;
