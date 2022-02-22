@@ -1,12 +1,8 @@
 <template>
-	<figure v-if="meta" :style="{ cursor: cursor === 'removeOrDefault' ? 'not-allowed' : cursor }">
-		<img :src="src" :style="bgStyle" :class="meta.colour" :alt="meta.name" @click="clickHandler">
-		<element-badge :elementId="meta.element" />
-		<figcaption>{{ meta.name }}</figcaption>
-	</figure>
-	<figure v-else :style="{ cursor: cursor === 'removeOrDefault' ? 'default' : cursor }">
-		<img :src="src" :style="bgStyle" alt="Character placeholder" @click="clickHandler">
-		<figcaption>{{ namePlaceholder || "Empty" }}</figcaption>
+	<figure :style="{ cursor: exactCursor }">
+		<img :src="src" :style="bgStyle" :class="meta?.colour" :alt="meta?.name || 'Character placeholder'">
+		<element-badge v-if="meta" :elementId="meta.element" />
+		<figcaption>{{ meta?.name || namePlaceholder || "Empty" }}</figcaption>
 	</figure>
 </template>
 
@@ -39,6 +35,12 @@
 			backgroundImage:    `url(${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.backgrounds.path})`,
 			backgroundPosition: `${index[0] * -100}% ${index[1] * -100}%`,
 		}
+	})
+
+	const exactCursor = computed(() => {
+		if (props.cursor === "removeOrDefault") return meta.value ? "not-allowed" : "default"
+
+		return props.cursor
 	})
 </script>
 
