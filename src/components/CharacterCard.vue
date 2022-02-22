@@ -1,11 +1,11 @@
 <template>
 	<figure v-if="meta" :style="{ cursor: cursor === 'removeOrDefault' ? 'not-allowed' : cursor }">
-		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" :class="meta.colour" :alt="meta.name" @click="clickHandler">
+		<img :src="src" :style="bgStyle" :class="meta.colour" :alt="meta.name" @click="clickHandler">
 		<element-badge :elementId="meta.element" />
 		<figcaption>{{ meta.name }}</figcaption>
 	</figure>
 	<figure v-else :style="{ cursor: cursor === 'removeOrDefault' ? 'default' : cursor }">
-		<img :src="src" :style="{ backgroundImage: `url(${bgSrc})` }" alt="Character placeholder" @click="clickHandler">
+		<img :src="src" :style="bgStyle" alt="Character placeholder" @click="clickHandler">
 		<figcaption>{{ namePlaceholder || "Empty" }}</figcaption>
 	</figure>
 </template>
@@ -30,8 +30,15 @@
 		return getAssetURI("portrait", meta.value?.name)
 	})
 
-	const bgSrc = computed(() => {
-		return getAssetURI("background", meta.value?.colour || "grey")
+	const bgStyle = computed(() => {
+		if (store.state.data.spritesheets === undefined) return {}
+
+		const index = store.state.data.spritesheets.backgrounds.indices[meta.value?.colour || "grey"]
+
+		return {
+			backgroundImage:    `url(${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.backgrounds.path})`,
+			backgroundPosition: `${index[0] * -100}% ${index[1] * -100}%`,
+		}
 	})
 </script>
 
