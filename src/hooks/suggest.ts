@@ -53,6 +53,11 @@ function analyseParty(party: Array<Character | null>, userData: OwnedIndex) {
 			continue
 		}
 
+		// Ignore not owned characters
+		if (!Object.keys(userData).includes(curCharacter.id)) {
+			continue
+		}
+
 		const curConstellation = userData[curCharacter.id].constellation
 
 		if (curCharacter.rating["ROLE_HEALER"][curConstellation] > 0) {
