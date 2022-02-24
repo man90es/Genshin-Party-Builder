@@ -32,7 +32,7 @@
 	import CharacterSelectionDialogue from "@/components/CharacterSelectionDialogue.vue"
 	import PartyRow from "@/components/PartyRow.vue"
 	import useAPI from "@/hooks/api.js"
-	import useSuggest from "@/hooks/suggest.js"
+	import useSuggest from "@/hooks/suggest.ts"
 	import useRandomReassurance from "@/hooks/randomReassurance.js"
 
 	const { fetchData } = useAPI()

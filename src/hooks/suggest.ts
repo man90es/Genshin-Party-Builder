@@ -1,8 +1,10 @@
 import { useStore } from "vuex"
 
-function shuffle(array) {
+import type { Character, ElementId, JSONData, OwnedIndex, RoleId, SimpleParty } from "@/types"
+
+function shuffle(array: any[]) {
 	for (let i = array.length - 1; i > 0; i--) {
-		let j = Math.floor(Math.random() * (i + 1))
+		const j = Math.floor(Math.random() * (i + 1))
 
 		;[array[i], array[j]] = [array[j], array[i]]
 	}
@@ -10,16 +12,16 @@ function shuffle(array) {
 	return array
 }
 
-function seek(characters, userData, role, elementId, limit) {
+function seek(characters: Character[], userData: OwnedIndex, roleId: RoleId, limit: number, elementId?: ElementId) {
 	return shuffle(characters)
 		.filter((c) => {
 			const constellation = userData[c.id].constellation
 
-			if (c.rating[role.id][constellation] < 1) {
+			if (c.rating[roleId][constellation] < 1) {
 				return false
 			}
 
-			if (role.id === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"][constellation] <= c.rating["ROLE_SUPPORT"][constellation]) {
+			if (roleId === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"][constellation] <= c.rating["ROLE_SUPPORT"][constellation]) {
 				return false
 			}
 
@@ -29,19 +31,19 @@ function seek(characters, userData, role, elementId, limit) {
 			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
 		})
 		.sort((a, b) => {
-			let aR = a.rating[role.id][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
-			let bR = b.rating[role.id][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
+			const aR = a.rating[roleId][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
+			const bR = b.rating[roleId][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
 
 			return aR < bR ? 1 : -1
 		})
 		.slice(0, limit)
 }
 
-function analyseParty(party, userData) {
+function analyseParty(party: Array<Character | null>, userData: OwnedIndex) {
+	let damageDealer: Character
+	let damageElement: ElementId | null = null
 	let hasDamage = false
 	let hasHealer = false
-	let damageDealer
-	let damageElement
 	let hasDamageResonance = false
 
 	for (let i = 0; i < 4; ++i) {
@@ -64,7 +66,7 @@ function analyseParty(party, userData) {
 		}
 	}
 
-	if (damageElement !== undefined) {
+	if (damageElement !== null) {
 		hasDamageResonance = party.findIndex((character) => {
 			return character?.id !== damageDealer.id && character?.element === damageElement
 		}) > -1
@@ -81,11 +83,12 @@ function analyseParty(party, userData) {
 export default function() {
 	const store = useStore()
 
-	function suggest(partyIndex, limit) {
-		const data = store.state.data
-		const party = store.state.parties[partyIndex].members
-		const owned = store.state.ownedCharacters
+	function suggest(partyIndex: number, limit: number) {
+		const data: JSONData = store.state.data
+		const party: SimpleParty = store.state.parties[partyIndex].members
+		const owned: OwnedIndex = store.state.ownedCharacters
 
+		// No empty slots left, nothing to suggest
 		if (!party.includes(null)) return [null, []]
 
 		let suggestedPosition
@@ -95,33 +98,34 @@ export default function() {
 		let pool = data.characters.filter(c => c.id in owned)
 
 		for (let i = 0; i < 4; ++i) {
-			const char = party[i]
+			const charId = party[i]
 
-			if (char !== null) {
-				pool = pool.filter(c => c.id != char)
+			if (charId !== null) {
+				pool = pool.filter(c => c.id != charId)
 			}
 		}
 
+		// No characters left to suggest
 		if (pool.length === 0) return [null, []]
 
 		// Choose suggested position
-		const { hasDamage, hasHealer, hasDamageResonance, damageElement } = analyseParty(party.map(cId => data.characters.find(c => c.id === cId) || null), owned, data)
+		const { hasDamage, hasHealer, hasDamageResonance, damageElement } = analyseParty(party.map(cId => data.characters.find(c => c.id === cId) || null), owned)
 		const prioritiseHealer = !hasHealer && party.reduce((empty, c) => empty + Number(c === null), 0) == 1
 
 		if (!hasDamage && !prioritiseHealer) {
 			suggestedPosition = "damage dealer"
-			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_DAMAGE"), undefined, limit)
+			suggestedCharacters = seek(pool, owned, "ROLE_DAMAGE", limit)
 		} else if (!hasHealer) {
 			suggestedPosition = "healer"
-			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_HEALER"), undefined, limit)
+			suggestedCharacters = seek(pool, owned, "ROLE_HEALER", limit)
 		} else {
 			suggestedPosition = "support"
-			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDamageResonance ? damageElement : undefined, limit)
+			suggestedCharacters = seek(pool, owned, "ROLE_SUPPORT", limit, !hasDamageResonance ? damageElement || undefined : undefined)
 		}
 
 		if (suggestedCharacters.length < 1) {
 			suggestedPosition = "support"
-			suggestedCharacters = seek(pool, owned, data.roles.find(r => r.id === "ROLE_SUPPORT"), !hasDamageResonance ? damageElement : undefined, limit)
+			suggestedCharacters = seek(pool, owned, "ROLE_SUPPORT", limit, !hasDamageResonance ? damageElement || undefined : undefined)
 		}
 
 		return [suggestedPosition, suggestedCharacters.map(c => c.id)]
