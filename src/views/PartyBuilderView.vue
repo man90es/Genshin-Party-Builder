@@ -7,7 +7,7 @@
 			Your team is ready to hit the ground running! To change any character, click his or her portrait.
 		</p>
 		<p v-else>
-			{{ generateReassurance() }}! Now, it's suggested that you add a {{ suggested[0] }}. You can remove a character that is already in the party by clicking his or her portrait.
+			{{ reassurance }}! Now, it's suggested that you add a {{ suggested[0] }}. You can remove a character that is already in the party by clicking his or her portrait.
 		</p>
 		<party-row :meta="party" @cardClick="removeMember" :cardCursor="'removeOrDefault'" />
 		<p v-if="!isFull">
@@ -46,6 +46,7 @@
 	const store = useStore()
 
 	const shouldShowDialogue = ref(false)
+	const reassurance = ref(generateReassurance())
 
 	if (!store.state.parties[route.params.index]) {
 		prevStage()
@@ -78,6 +79,7 @@
 	function chooseCharacter(cId) {
 		shouldShowDialogue.value = false
 		store.commit("setPartyMember", { pI: route.params.index, cI: party.value.members.indexOf(null), cId })
+		reassurance.value = generateReassurance()
 	}
 
 	function chooseAnotherCharacter() {
