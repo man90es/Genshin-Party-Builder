@@ -1,8 +1,4 @@
-import useAPI from "@/hooks/api.js"
-
 export default function() {
-	const { getBackgroundURI } = useAPI()
-
-	const uri = getBackgroundURI()
+	const uri = `${process.env.VUE_APP_ASSETS_ENDPOINT}background.png`
 	document.body.style.backgroundImage = `url(${uri})`
 }

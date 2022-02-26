@@ -9,12 +9,10 @@
 <script setup>
 	import { computed, defineProps } from "vue"
 	import { useStore } from "vuex"
-	import useAPI from "../hooks/api.js"
 
 	import ElementBadge from "@/components/ElementBadge.vue"
 
 	const store = useStore()
-	const { getAssetURI } = useAPI()
 
 	const props = defineProps({ "characterId": String, "cursor": String, "namePlaceholder": String })
 
@@ -23,7 +21,7 @@
 	})
 
 	const src = computed(() => {
-		return getAssetURI("portrait", meta.value?.name)
+		return `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/${meta.value?.name}.png`
 	})
 
 	const bgStyle = computed(() => {
