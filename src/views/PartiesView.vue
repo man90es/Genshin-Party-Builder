@@ -3,7 +3,7 @@
 		<p>
 			These are the parties that you've created. Click a party or create a new one to edit it.
 		</p>
-		<party-row v-for="(party, i) in store.getters.parties" :key="i" :meta="party" @click="() => editParty(i)" :clickable="true" />
+		<party-row v-for="(party, i) in store.state.parties" :key="i" :meta="party" @click="() => editParty(i)" :clickable="true" />
 		<button @click="pushParty">New party</button>
 		<button @click="prevStage">Characters</button>
 	</main>
@@ -28,7 +28,7 @@
 	}
 
 	function pushParty() {
-		const emptyI = store.getters.parties.findIndex(p => {
+		const emptyI = store.state.parties.findIndex(p => {
 			return p.members.reduce((s, m) => {
 				return s + Number(m === null)
 			}, 0) === 4
@@ -38,11 +38,11 @@
 			editParty(emptyI)
 		} else {
 			store.commit("pushParty")
-			editParty(store.getters.parties.length - 1)
+			editParty(store.state.parties.length - 1)
 		}
 	}
 
-	if (store.getters.parties.length < 1) {
+	if (store.state.parties.length < 1) {
 		pushParty()
 	}
 

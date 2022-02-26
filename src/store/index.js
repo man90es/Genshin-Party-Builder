@@ -70,18 +70,9 @@ export default createStore({
 		},
 	},
 	getters: {
-		characters: (state) => {
-			return state.ownedCharacters
-		},
-
-		parties: (state) => {
-			return state.parties
-		},
-
 		constellation: (state) => (characterID) => {
-			return state.ownedCharacters[characterID]
-				? state.ownedCharacters[characterID].constellation
-				: null
+			const c = state.ownedCharacters[characterID]?.constellation
+			return c !== undefined ? c : null
 		}
 	}
 })

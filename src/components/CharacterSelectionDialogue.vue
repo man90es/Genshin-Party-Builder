@@ -20,7 +20,7 @@
 
 	const characterIds = computed(() => {
 		return store.state.data.characters
-			.filter(c => c.id in store.getters.characters)
+			.filter(c => c.id in store.state.ownedCharacters)
 			.filter(c => !props.exclude.includes(c.id))
 			.map(c => c.id)
 	})

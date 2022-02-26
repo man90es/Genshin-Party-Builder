@@ -3,81 +3,81 @@ import { useStore } from "vuex"
 import type { Character, ElementId, JSONData, OwnedIndex, RoleId, SimpleParty } from "@/types"
 import { shuffle } from "@/utils"
 
-function seek(characters: Character[], userData: OwnedIndex, roleId: RoleId, limit: number, elementId?: ElementId) {
-	return shuffle(characters)
-		.filter((c) => {
-			const constellation = userData[c.id].constellation
-
-			if (c.rating[roleId][constellation] < 1) {
-				return false
-			}
-
-			if (roleId === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"][constellation] <= c.rating["ROLE_SUPPORT"][constellation]) {
-				return false
-			}
-
-			return true
-		})
-		.sort((a, b) => {
-			return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
-		})
-		.sort((a, b) => {
-			const aR = a.rating[roleId][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
-			const bR = b.rating[roleId][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
-
-			return aR < bR ? 1 : -1
-		})
-		.slice(0, limit)
-}
-
-function analyseParty(party: Array<Character | null>, userData: OwnedIndex) {
-	let damageDealer: Character
-	let damageElement: ElementId | null = null
-	let hasDamage = false
-	let hasHealer = false
-	let hasDamageResonance = false
-
-	for (let i = 0; i < 4; ++i) {
-		const curCharacter = party[i]
-
-		if (curCharacter === null) {
-			continue
-		}
-
-		// Ignore not owned characters
-		if (!Object.keys(userData).includes(curCharacter.id)) {
-			continue
-		}
-
-		const curConstellation = userData[curCharacter.id].constellation
-
-		if (curCharacter.rating["ROLE_HEALER"][curConstellation] > 0) {
-			hasHealer = true
-		}
-
-		if (curCharacter.rating["ROLE_DAMAGE"][curConstellation] > curCharacter.rating["ROLE_SUPPORT"][curConstellation]) {
-			hasDamage = true
-			damageDealer = curCharacter
-			damageElement = curCharacter.element
-		}
-	}
-
-	if (damageElement !== null) {
-		hasDamageResonance = party.findIndex((character) => {
-			return character?.id !== damageDealer.id && character?.element === damageElement
-		}) > -1
-	}
-
-	return {
-		hasDamage,
-		hasHealer,
-		hasDamageResonance,
-		damageElement,
-	}
-}
-
 export default function() {
 	const store = useStore()
+
+	function seek(characters: Character[], userData: OwnedIndex, roleId: RoleId, limit: number, elementId?: ElementId) {
+		return shuffle(characters)
+			.filter((c) => {
+				const constellation = store.getters.constellation(c.id)
+
+				if (c.rating[roleId][constellation] < 1) {
+					return false
+				}
+
+				if (roleId === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"][constellation] <= c.rating["ROLE_SUPPORT"][constellation]) {
+					return false
+				}
+
+				return true
+			})
+			.sort((a, b) => {
+				return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
+			})
+			.sort((a, b) => {
+				const aR = a.rating[roleId][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
+				const bR = b.rating[roleId][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
+
+				return aR < bR ? 1 : -1
+			})
+			.slice(0, limit)
+	}
+
+	function analyseParty(party: Array<Character | null>, userData: OwnedIndex) {
+		let damageDealer: Character
+		let damageElement: ElementId | null = null
+		let hasDamage = false
+		let hasHealer = false
+		let hasDamageResonance = false
+
+		for (let i = 0; i < 4; ++i) {
+			const curCharacter = party[i]
+
+			if (curCharacter === null) {
+				continue
+			}
+
+			// Ignore not owned characters
+			if (!Object.keys(userData).includes(curCharacter.id)) {
+				continue
+			}
+
+			const curConstellation = store.getters.constellation(curCharacter.id)
+
+			if (curCharacter.rating["ROLE_HEALER"][curConstellation] > 0) {
+				hasHealer = true
+			}
+
+			if (curCharacter.rating["ROLE_DAMAGE"][curConstellation] > curCharacter.rating["ROLE_SUPPORT"][curConstellation]) {
+				hasDamage = true
+				damageDealer = curCharacter
+				damageElement = curCharacter.element
+			}
+		}
+
+		if (damageElement !== null) {
+			hasDamageResonance = party.findIndex((character) => {
+				return character?.id !== damageDealer.id && character?.element === damageElement
+			}) > -1
+		}
+
+		return {
+			hasDamage,
+			hasHealer,
+			hasDamageResonance,
+			damageElement,
+		}
+	}
 
 	function suggest(partyIndex: number, limit: number) {
 		const data: JSONData = store.state.data
