@@ -9,7 +9,7 @@ export default function() {
 	function seek(characters: Character[], userData: OwnedIndex, roleId: RoleId, limit: number, elementId?: ElementId) {
 		return shuffle(characters)
 			.filter((c) => {
-				const constellation = store.getters.constellation(c.id)
+				const constellation: number = store.getters.constellation(c.id)
 
 				if (c.rating[roleId][constellation] < 1) {
 					return false
@@ -52,7 +52,7 @@ export default function() {
 				continue
 			}
 
-			const curConstellation = store.getters.constellation(curCharacter.id)
+			const curConstellation: number = store.getters.constellation(curCharacter.id)
 
 			if (curCharacter.rating["ROLE_HEALER"][curConstellation] > 0) {
 				hasHealer = true
@@ -87,8 +87,8 @@ export default function() {
 		// No empty slots left, nothing to suggest
 		if (!party.includes(null)) return [null, []]
 
-		let suggestedPosition
-		let suggestedCharacters
+		let suggestedPosition: string
+		let suggestedCharacters: Character[]
 
 		// Construct a pool of characters to suggest from
 		let pool = data.characters.filter(c => c.id in owned)
