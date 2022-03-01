@@ -1,6 +1,9 @@
 <template>
 	<figure :style="{ cursor: exactCursor }">
-		<img :src="src" :style="bgStyle" :class="meta?.colour" :alt="meta?.name || 'Character placeholder'">
+		<picture :style="bgStyle" :class="meta?.colour" :alt="meta?.name || 'Character placeholder'">
+			<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
+			<img :src="srcList.at(-1).path">
+		</picture>
 		<element-badge v-if="meta" :elementId="meta.element" />
 		<figcaption>{{ meta?.name || namePlaceholder || "Empty" }}</figcaption>
 	</figure>
@@ -20,8 +23,12 @@
 		return store.state.data.characters.find(c => c.id === props.characterId)
 	})
 
-	const src = computed(() => {
-		return `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/${meta.value?.name}.png`
+	const srcList = computed(() => {
+		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/${encodeURIComponent(meta.value?.name)}`
+		return [
+			{ path: path + ".webp", mime: "image/webp" },
+			{ path: path + ".png", mime: "image/png" },
+		]
 	})
 
 	const bgStyle = computed(() => {
@@ -65,13 +72,19 @@
 			font-size: 0.8em;
 		}
 
-		img:first-child {
+		picture {
 			height: 5rem;
 			width: 5rem;
 			border-radius: inherit;
 			border-bottom-right-radius: 20%;
 			border-bottom-left-radius: 0;
 			background-size: cover;
+
+			img {
+				height: inherit;
+				width: inherit;
+				border-radius: inherit;
+			}
 
 			&.red {
 				background-color: #a54845;
