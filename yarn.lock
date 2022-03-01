@@ -4181,10 +4181,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-memento-vuex@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/memento-vuex/-/memento-vuex-0.1.0.tgz#e82cd82fb5b15f8356a0176345bfc6134f457016"
-  integrity sha512-I+1Ku+QzZA7f1PnwGkRq0ex6AYVRTdJYzweBdNWNnp/m3HTpr1uNLFh2e/vLcSy4hdoHkYGjiRwNhDtMOOkcAQ==
+memento-vuex@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/memento-vuex/-/memento-vuex-0.2.0.tgz#887bfc92fd9b0d95a1a69496eff827ce7277a71d"
+  integrity sha512-jwWWH4EEIKs+glVHrqrYFwgHTXnpbs1kpQs5229thy/5Iw5ASyWkPSZGCZ/YSdejxga5KBOfm6xesfO1rKfbQQ==
 
 memfs@^3.1.2, memfs@^3.4.1:
   version "3.4.1"

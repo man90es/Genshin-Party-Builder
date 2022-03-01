@@ -6,7 +6,7 @@
 	},
 	"dependencies": {
 		"core-js": "^3.21.0",
-		"memento-vuex": "^0.1.0",
+		"memento-vuex": "^0.2.0",
 		"vue": "^3.2.29",
 		"vue-router": "^4.0.12",
 		"vuex": "^4.0.0-0"
