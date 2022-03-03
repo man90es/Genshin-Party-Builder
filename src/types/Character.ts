@@ -10,5 +10,6 @@ export type Character = {
 		ROLE_DAMAGE: number[],
 		ROLE_SUPPORT: number[],
 		ROLE_HEALER: number[],
-	}
+	},
+	maxConstellation: number | undefined
 }

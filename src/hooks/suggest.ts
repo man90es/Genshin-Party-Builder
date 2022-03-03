@@ -1,10 +1,11 @@
-import { useStore } from "vuex"
+import { Store, useStore } from "vuex"
 
-import type { Character, ElementId, JSONData, OwnedIndex, RoleId, SimpleParty } from "@/types"
 import { shuffle } from "@/utils"
+import type { Character, ElementId, OwnedIndex, RoleId } from "@/types"
+import type { StoreState } from "@/store/StoreState"
 
 export default function() {
-	const store = useStore()
+	const store: Store<StoreState> = useStore()
 
 	function seek(characters: Character[], userData: OwnedIndex, roleId: RoleId, limit: number, elementId?: ElementId) {
 		return shuffle(characters)
@@ -80,9 +81,9 @@ export default function() {
 	}
 
 	function suggest(partyIndex: number, limit: number) {
-		const data: JSONData = store.state.data
-		const party: SimpleParty = store.state.parties[partyIndex].members
-		const owned: OwnedIndex = store.state.ownedCharacters
+		const data = store.state.data
+		const party = store.state.parties[partyIndex].members
+		const owned = store.state.ownedCharacters
 
 		// No empty slots left, nothing to suggest
 		if (!party.includes(null)) return [null, []]
