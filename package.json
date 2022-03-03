@@ -6,28 +6,28 @@
 	},
 	"dependencies": {
 		"core-js": "^3.21.0",
-		"memento-vuex": "^0.1.0",
+		"memento-vuex": "^0.2.0",
 		"vue": "^3.2.29",
-		"vue-router": "^4.0.12",
+		"vue-router": "^4.0.13",
 		"vuex": "^4.0.0-0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.16.12",
+		"@babel/core": "^7.17.5",
 		"@babel/eslint-parser": "^7.16.5",
-		"@typescript-eslint/eslint-plugin": "^5.4.0",
-		"@typescript-eslint/parser": "^5.4.0",
+		"@typescript-eslint/eslint-plugin": "^5.13.0",
+		"@typescript-eslint/parser": "^5.13.0",
 		"@vue/cli-plugin-babel": "~5.0.0-rc.2",
 		"@vue/cli-plugin-eslint": "~5.0.0-rc.1",
 		"@vue/cli-plugin-typescript": "~5.0.0",
 		"@vue/cli-plugin-vuex": "~5.0.0-rc.1",
 		"@vue/cli-service": "~5.0.0-rc.2",
 		"@vue/compiler-sfc": "^3.2.29",
-		"@vue/eslint-config-typescript": "^9.1.0",
-		"eslint": "^8.8.0",
-		"eslint-plugin-vue": "^8.4.0",
-		"sass": "^1.49.5",
+		"@vue/eslint-config-typescript": "^10.0.0",
+		"eslint": "^8.10.0",
+		"eslint-plugin-vue": "^8.5.0",
+		"sass": "^1.49.9",
 		"sass-loader": "^12.3.0",
-		"typescript": "~4.5.5"
+		"typescript": "~4.6.2"
 	},
 	"eslintConfig": {
 		"root": true,
