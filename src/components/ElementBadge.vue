@@ -1,5 +1,8 @@
 <template>
-	<img :src="src" :style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }">
+	<picture>
+		<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
+		<img :src="srcList.at(-1).path" :style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }">
+	</picture>
 </template>
 
 <script setup>
@@ -12,7 +15,11 @@
 		"elementId": { "type": String, "required": true }
 	})
 
-	const src = `${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.elements.path}`
+	const srcList = computed(() => {
+		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.elements.filePath}`
+		return store.state.data.spritesheets.elements.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f }))
+	})
+
 	const offset = computed(() => {
 		const index = store.state.data.spritesheets.elements.indices[props.elementId]
 

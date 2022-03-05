@@ -1,6 +1,6 @@
 <template>
 	<figure :style="{ cursor: exactCursor }">
-		<picture :style="bgStyle" :class="meta?.colour" :alt="meta?.name || 'Character placeholder'">
+		<picture class="portrait" :style="bgStyle" :class="meta?.colour" :alt="meta?.name || 'Character placeholder'">
 			<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
 			<img :src="srcList.at(-1).path">
 		</picture>
@@ -72,7 +72,7 @@
 			font-size: 0.8em;
 		}
 
-		picture {
+		picture.portrait {
 			height: 5rem;
 			width: 5rem;
 			border-radius: inherit;
