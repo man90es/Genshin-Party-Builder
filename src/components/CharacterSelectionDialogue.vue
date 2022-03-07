@@ -47,6 +47,8 @@
 		align-items: center;
 		display: flex;
 		justify-content: center;
+
+		z-index: 10;
 	}
 
 	.backdrop {

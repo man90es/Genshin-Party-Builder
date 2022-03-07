@@ -1,8 +1,12 @@
 <template>
 	<figure :style="{ cursor: exactCursor }">
-		<picture class="portrait" :style="bgStyle" :class="meta?.colour" :alt="meta?.name || 'Character placeholder'">
+		<picture class="portrait" :alt="meta?.name || 'Character placeholder'">
 			<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
 			<img :src="srcList.at(-1).path">
+		</picture>
+		<picture class="background" :class="colour" v-if="bgSrcList.length > 0">
+			<source v-for="src in bgSrcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
+			<img :src="bgSrcList.at(-1).path" :style="{ objectPosition: bgOffset }">
 		</picture>
 		<element-badge v-if="meta" :elementId="meta.element" />
 		<figcaption>{{ meta?.name || namePlaceholder || "Empty" }}</figcaption>
@@ -31,15 +35,23 @@
 		]
 	})
 
-	const bgStyle = computed(() => {
-		if (store.state.data.spritesheets === undefined) return {}
+	const bgSrcList = computed(() => {
+		if (store.state.data.spritesheets === undefined) return []
 
-		const index = store.state.data.spritesheets.backgrounds.indices[meta.value?.colour || "grey"]
+		const path = process.env.VUE_APP_ASSETS_ENDPOINT + store.state.data.spritesheets.backgrounds.filePath
+		return store.state.data.spritesheets.backgrounds.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f }))
+	})
 
-		return {
-			backgroundImage:    `url(${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.backgrounds.path})`,
-			backgroundPosition: `${index[0] * -100}% ${index[1] * -100}%`,
-		}
+	const colour = computed(() => {
+		return meta.value?.colour || "grey"
+	})
+
+	const bgOffset = computed(() => {
+		if (store.state.data.spritesheets === undefined) return ""
+
+		const index = store.state.data.spritesheets.backgrounds.indices[colour.value]
+
+		return `${index[0] * 100 / 3}%`
 	})
 
 	const exactCursor = computed(() => {
@@ -72,7 +84,8 @@
 			font-size: 0.8em;
 		}
 
-		picture.portrait {
+		picture.portrait,
+		picture.background {
 			height: 5rem;
 			width: 5rem;
 			border-radius: inherit;
@@ -84,6 +97,14 @@
 				height: inherit;
 				width: inherit;
 				border-radius: inherit;
+			}
+		}
+
+		picture.background {
+			position: absolute;
+
+			img {
+				object-fit: cover;
 			}
 
 			&.red {
@@ -97,6 +118,10 @@
 			&.yellow {
 				background-color: #ab7547;
 			}
+		}
+
+		picture.portrait {
+			z-index: 1;
 		}
 	}
 </style>

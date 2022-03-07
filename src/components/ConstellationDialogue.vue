@@ -64,6 +64,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		z-index: 10;
 
 		background-color: #1117;
 	}

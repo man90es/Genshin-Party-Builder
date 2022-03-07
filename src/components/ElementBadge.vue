@@ -28,6 +28,10 @@
 </script>
 
 <style scoped>
+	picture {
+		z-index: 1;
+	}
+
 	img {
 		object-fit: cover;
 		position: absolute;
