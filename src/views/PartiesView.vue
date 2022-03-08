@@ -13,7 +13,8 @@
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 
-	import useAPI from "@/hooks/api.js"
+	import useAPI from "@/hooks/api"
+
 	import PartyRow from "@/components/PartyRow.vue"
 
 	const { fetchData } = useAPI()

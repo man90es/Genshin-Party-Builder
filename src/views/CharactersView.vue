@@ -22,7 +22,8 @@
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 
-	import useAPI from "@/hooks/api.js"
+	import useAPI from "@/hooks/api"
+
 	import CharacterCard from "@/components/CharacterCard.vue"
 	import ConstellationDialogue from "@/components/ConstellationDialogue.vue"
 

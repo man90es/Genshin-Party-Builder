@@ -31,9 +31,9 @@
 	import CharacterCard from "@/components/CharacterCard.vue"
 	import CharacterSelectionDialogue from "@/components/CharacterSelectionDialogue.vue"
 	import PartyRow from "@/components/PartyRow.vue"
-	import useAPI from "@/hooks/api.js"
-	import useSuggest from "@/hooks/suggest.ts"
-	import useRandomReassurance from "@/hooks/randomReassurance.js"
+	import useAPI from "@/hooks/api"
+	import useRandomReassurance from "@/hooks/randomReassurance"
+	import useSuggest from "@/hooks/suggest"
 
 	const { fetchData } = useAPI()
 	const { suggest } = useSuggest()
