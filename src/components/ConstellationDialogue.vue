@@ -51,6 +51,15 @@
 	function accept() {
 		emit("abort")
 	}
+
+	function escHandler(e) {
+		if (e.key === "Escape") {
+			window.removeEventListener("keydown", escHandler)
+			emit("abort")
+		}
+	}
+
+	window.addEventListener("keydown", escHandler)
 </script>
 
 <style lang="scss" scoped>
