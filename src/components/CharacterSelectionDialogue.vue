@@ -32,6 +32,15 @@
 	function select(id) {
 		emit("select", id)
 	}
+
+	function escHandler(e) {
+		if (e.key === "Escape") {
+			window.removeEventListener("keydown", escHandler)
+			emit("close")
+		}
+	}
+
+	window.addEventListener("keydown", escHandler)
 </script>
 
 <style>
