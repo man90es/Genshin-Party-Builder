@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-	import { defineProps, computed, defineEmits } from "vue"
+	import { defineProps, computed, defineEmits, onBeforeUnmount } from "vue"
 	import { useStore } from "vuex"
 
 	const emit = defineEmits(["abort"])
@@ -53,13 +53,14 @@
 	}
 
 	function escHandler(e) {
-		if (e.key === "Escape") {
-			window.removeEventListener("keydown", escHandler)
-			emit("abort")
-		}
+		if (e.key === "Escape") emit("abort")
 	}
 
 	window.addEventListener("keydown", escHandler)
+
+	onBeforeUnmount(() => {
+		window.removeEventListener("keydown", escHandler)
+	})
 </script>
 
 <style lang="scss" scoped>

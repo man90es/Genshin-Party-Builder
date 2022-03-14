@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-	import { computed, defineProps, defineEmits } from "vue"
+	import { computed, defineProps, defineEmits, onBeforeUnmount } from "vue"
 	import { useStore } from "vuex"
 	import CharacterCard from "@/components/CharacterCard.vue"
 
@@ -34,13 +34,14 @@
 	}
 
 	function escHandler(e) {
-		if (e.key === "Escape") {
-			window.removeEventListener("keydown", escHandler)
-			emit("close")
-		}
+		if (e.key === "Escape") emit("close")
 	}
 
 	window.addEventListener("keydown", escHandler)
+
+	onBeforeUnmount(() => {
+		window.removeEventListener("keydown", escHandler)
+	})
 </script>
 
 <style>
