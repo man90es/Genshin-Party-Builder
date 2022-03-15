@@ -52,15 +52,26 @@
 		emit("abort")
 	}
 
-	function escHandler(e) {
-		if (e.key === "Escape") emit("abort")
+	function hotkeyHandler(e) {
+		switch (e.key) {
+			case "Escape":
+				emit("abort")
+				break
+
+			case "=":
+			case "+":
+				inc()
+				break
+
+			case "-":
+			case "_":
+				dec()
+				break
+		}
 	}
 
-	window.addEventListener("keydown", escHandler)
-
-	onBeforeUnmount(() => {
-		window.removeEventListener("keydown", escHandler)
-	})
+	addEventListener("keydown", hotkeyHandler)
+	onBeforeUnmount(() => removeEventListener("keydown", hotkeyHandler))
 </script>
 
 <style lang="scss" scoped>
