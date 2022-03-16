@@ -55,7 +55,11 @@
 	function hotkeyHandler(e) {
 		switch (e.key) {
 			case "Escape":
-				emit("abort")
+				cancel()
+				break
+
+			case "Enter":
+				accept()
 				break
 
 			case "=":
