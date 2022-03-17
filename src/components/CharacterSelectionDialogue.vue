@@ -33,14 +33,18 @@
 		emit("select", id)
 	}
 
-	function escHandler(e) {
-		if (e.key === "Escape") emit("close")
+	function hotkeyHandler(e) {
+		switch (e.key) {
+			case "Enter":
+			case "Escape":
+				emit("close")
+		}
 	}
 
-	window.addEventListener("keydown", escHandler)
+	window.addEventListener("keydown", hotkeyHandler)
 
 	onBeforeUnmount(() => {
-		window.removeEventListener("keydown", escHandler)
+		window.removeEventListener("keydown", hotkeyHandler)
 	})
 </script>
 
