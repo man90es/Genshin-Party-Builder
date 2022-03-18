@@ -53,6 +53,14 @@
 	}
 
 	function hotkeyHandler(e) {
+		const parsedInt = parseInt(e.key)
+		if (!isNaN(parsedInt)) {
+			const delta = parsedInt - store.getters.constellation(props.characterId)
+			store.commit("updateConstellation", { id: props.characterId, value: delta })
+
+			return
+		}
+
 		switch (e.key) {
 			case "Escape":
 				cancel()
