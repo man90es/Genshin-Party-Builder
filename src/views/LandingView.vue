@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+	import { onBeforeUnmount } from "vue"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 
@@ -24,6 +25,18 @@
 	function nextStage() {
 		router.push({ name: "characters" })
 	}
+
+	function hotkeyHandler(e) {
+		if (e.key === "Enter") {
+			nextStage()
+		}
+	}
+
+	window.addEventListener("keydown", hotkeyHandler)
+
+	onBeforeUnmount(() => {
+		window.removeEventListener("keydown", hotkeyHandler)
+	})
 </script>
 
 <style scoped>

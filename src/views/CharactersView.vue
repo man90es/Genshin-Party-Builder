@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-	import { ref, computed } from "vue"
+	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 
@@ -55,6 +55,20 @@
 	function removeLastAdded() {
 		lastAdded.value = null
 	}
+
+	function hotkeyHandler(e) {
+		if (lastAdded.value !== null) return
+
+		if (e.key === "Enter" && shouldShowNextButton.value) {
+			nextStage()
+		}
+	}
+
+	window.addEventListener("keydown", hotkeyHandler)
+
+	onBeforeUnmount(() => {
+		window.removeEventListener("keydown", hotkeyHandler)
+	})
 </script>
 
 <style lang="scss" scoped>
