@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-	import { ref, computed } from "vue"
+	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useRouter, useRoute } from "vue-router"
 	import { useStore } from "vuex"
 
@@ -98,6 +98,24 @@
 	function removeMember(cI) {
 		store.commit("setPartyMember", { pI: route.params.index, cI, cId: null })
 	}
+
+	function hotkeyHandler(e) {
+		switch (e.key) {
+			case "Delete":
+				store.state.parties.length > 1 ? disband() : prevStage()
+				break
+
+			case "Escape":
+				prevStage()
+				break
+		}
+	}
+
+	window.addEventListener("keydown", hotkeyHandler)
+
+	onBeforeUnmount(() => {
+		window.removeEventListener("keydown", hotkeyHandler)
+	})
 </script>
 
 <style>
