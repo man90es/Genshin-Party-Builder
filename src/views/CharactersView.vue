@@ -59,8 +59,10 @@
 	function hotkeyHandler(e) {
 		if (lastAdded.value !== null) return
 
-		if (e.key === "Enter" && shouldShowNextButton.value) {
-			nextStage()
+		if (shouldShowNextButton.value) {
+			if (e.key === "Enter" || e.key === "Escape") {
+				nextStage()
+			}
 		}
 	}
 
