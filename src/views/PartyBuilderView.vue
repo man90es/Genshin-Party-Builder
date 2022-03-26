@@ -100,6 +100,8 @@
 	}
 
 	function hotkeyHandler(e) {
+		if (shouldShowDialogue.value) return
+
 		switch (e.key) {
 			case "Delete":
 				store.state.parties.length > 1 ? disband() : prevStage()
