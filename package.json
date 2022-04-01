@@ -8,7 +8,7 @@
 		"core-js": "^3.21.0",
 		"memento-vuex": "^0.2.0",
 		"vue": "^3.2.29",
-		"vue-router": "^4.0.13",
+		"vue-router": "^4.0.14",
 		"vuex": "^4.0.0-0"
 	},
 	"devDependencies": {
