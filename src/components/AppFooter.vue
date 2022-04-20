@@ -1,7 +1,10 @@
 <template>
 	<footer>
 		<span>Man90's Party Builder is not affiliated with or endorsed by miHoYo.</span>
-		<a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">Give project a star on GitHub!</a>
+		<span>
+			<a href="https://donate.hemlo.cc" target="_blank">Donate</a>
+			<a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">GitHub</a>
+		</span>
 	</footer>
 </template>
 
@@ -15,6 +18,11 @@
 		justify-content: space-evenly;
 		gap: 1em;
 		grid-row: 3;
+
+		span {
+			display: flex;
+			gap: 1em;
+		}
 
 		& > * {
 			opacity: 0.7;
