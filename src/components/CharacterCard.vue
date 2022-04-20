@@ -97,6 +97,7 @@
 				height: inherit;
 				width: inherit;
 				border-radius: inherit;
+				image-rendering: -webkit-optimize-contrast;
 			}
 		}
 
