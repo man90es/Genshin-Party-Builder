@@ -12,8 +12,10 @@
 				<div class="constellation-overlay">C{{ store.getters.constellation(char) }}</div>
 			</div>
 		</div>
+		<button @click="() => shouldShowImportDialogue = true">Import</button>
 		<button @click="nextStage" v-if="shouldShowNextButton">Next</button>
 	</main>
+	<import-dialogue v-if="shouldShowImportDialogue" @abort="() => shouldShowImportDialogue = false" />
 	<constellation-dialogue v-if="lastAdded" :characterId="lastAdded" @abort="removeLastAdded" />
 </template>
 
@@ -26,6 +28,7 @@
 
 	import CharacterCard from "@/components/CharacterCard.vue"
 	import ConstellationDialogue from "@/components/ConstellationDialogue.vue"
+	import ImportDialogue from "@/components/ImportDialogue.vue"
 
 	const router = useRouter()
 	const store = useStore()
@@ -35,6 +38,7 @@
 	fetchData()
 
 	const lastAdded = ref(null)
+	const shouldShowImportDialogue = ref(false)
 
 	const characters = computed(() => {
 		return store.state.data.characters.map(c => c.id)
