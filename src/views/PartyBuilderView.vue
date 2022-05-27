@@ -19,7 +19,7 @@
 		</section>
 		<button v-if="store.state.parties.length > 1" @click="disband">Disband</button>
 		<button @click="prevStage">Back</button>
-		<character-selection-dialogue v-if="shouldShowDialogue" :exclude="party.members" @close="shouldShowDialogue = false" @select="chooseCharacter" />
+		<character-selection-popup v-if="'characters' === activePopup.type" :exclude="party.members" @close="closePopup" @select="chooseCharacter" />
 	</main>
 </template>
 
@@ -27,9 +27,8 @@
 	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useRouter, useRoute } from "vue-router"
 	import { useStore } from "vuex"
-
 	import CharacterCard from "@/components/CharacterCard.vue"
-	import CharacterSelectionDialogue from "@/components/CharacterSelectionDialogue.vue"
+	import CharacterSelectionPopup from "@/components/popups/CharacterSelectionPopup.vue"
 	import PartyRow from "@/components/PartyRow.vue"
 	import useAPI from "@/hooks/api"
 	import useRandomReassurance from "@/hooks/randomReassurance"
@@ -45,7 +44,7 @@
 	const router = useRouter()
 	const store = useStore()
 
-	const shouldShowDialogue = ref(false)
+	const activePopup = ref({ type: null, data: null })
 	const reassurance = ref(generateReassurance())
 
 	if (!store.state.parties[route.params.index]) {
@@ -77,13 +76,13 @@
 	})
 
 	function chooseCharacter(cId) {
-		shouldShowDialogue.value = false
+		activePopup.value = { type: null }
 		store.commit("setPartyMember", { pI: route.params.index, cI: party.value.members.indexOf(null), cId })
 		reassurance.value = generateReassurance()
 	}
 
 	function chooseAnotherCharacter() {
-		shouldShowDialogue.value = true
+		activePopup.value = { type: "characters" }
 	}
 
 	function prevStage() {
@@ -100,7 +99,7 @@
 	}
 
 	function hotkeyHandler(e) {
-		if (shouldShowDialogue.value) return
+		if (null !== activePopup.value.type) return
 
 		switch (e.key) {
 			case "Delete":
@@ -111,6 +110,10 @@
 				prevStage()
 				break
 		}
+	}
+
+	function closePopup() {
+		activePopup.value = { type: null }
 	}
 
 	window.addEventListener("keydown", hotkeyHandler)

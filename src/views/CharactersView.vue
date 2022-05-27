@@ -12,33 +12,29 @@
 				<div class="constellation-overlay">C{{ store.getters.constellation(char) }}</div>
 			</div>
 		</div>
-		<button @click="() => shouldShowImportDialogue = true">Import</button>
+		<button @click="() => activePopup = { type: 'import' }">Import</button>
 		<button @click="nextStage" v-if="shouldShowNextButton">Next</button>
 	</main>
-	<import-dialogue v-if="shouldShowImportDialogue" @abort="() => shouldShowImportDialogue = false" />
-	<constellation-dialogue v-if="lastAdded" :characterId="lastAdded" @abort="removeLastAdded" />
+	<import-popup v-if="'import' === activePopup.type" @abort="closePopup" />
+	<constellation-popup v-else-if="'constellation' === activePopup.type" :characterId="activePopup.data" @abort="closePopup" />
 </template>
 
 <script setup>
 	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
-
+	import CharacterCard from "@/components/CharacterCard.vue"
+	import ConstellationPopup from "@/components/popups/ConstellationPopup.vue"
+	import ImportPopup from "@/components/popups/ImportPopup.vue"
 	import useAPI from "@/hooks/api"
 
-	import CharacterCard from "@/components/CharacterCard.vue"
-	import ConstellationDialogue from "@/components/ConstellationDialogue.vue"
-	import ImportDialogue from "@/components/ImportDialogue.vue"
-
+	const { fetchData } = useAPI()
 	const router = useRouter()
 	const store = useStore()
 
-	const { fetchData } = useAPI()
-
 	fetchData()
 
-	const lastAdded = ref(null)
-	const shouldShowImportDialogue = ref(false)
+	const activePopup = ref({ type: null, data: null })
 
 	const characters = computed(() => {
 		return store.state.data.characters.map(c => c.id)
@@ -53,15 +49,15 @@
 	}
 
 	function selectCharacter(characterId) {
-		lastAdded.value = characterId
+		activePopup.value = { type: "constellation", data: characterId }
 	}
 
-	function removeLastAdded() {
-		lastAdded.value = null
+	function closePopup() {
+		activePopup.value = { type: null }
 	}
 
 	function hotkeyHandler(e) {
-		if (lastAdded.value !== null) return
+		if (null !== activePopup.value.type) return
 
 		if (shouldShowNextButton.value) {
 			if (e.key === "Enter" || e.key === "Escape") {

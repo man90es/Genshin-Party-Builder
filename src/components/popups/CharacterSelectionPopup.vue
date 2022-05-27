@@ -1,17 +1,17 @@
 <template>
-	<div class="overlay">
-		<div class="backdrop" @click="closeHandler"></div>
-		<div id="character-selection-dialogue">
+	<popup-shell headline="Select another character">
+		<div id="available-characters">
 			<character-card v-for="id in characterIds" :key="id" :characterId="id" :cursor="'pointer'" @click="select(id)" />
 			<character-card :cursor="'pointer'" @click="closeHandler" />
 		</div>
-	</div>
+	</popup-shell>
 </template>
 
 <script setup>
 	import { computed, defineProps, defineEmits, onBeforeUnmount } from "vue"
 	import { useStore } from "vuex"
 	import CharacterCard from "@/components/CharacterCard.vue"
+	import PopupShell from "../PopupShell.vue"
 
 	const store = useStore()
 
@@ -49,29 +49,7 @@
 </script>
 
 <style>
-	.overlay, .backdrop {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		top: 0;
-	}
-
-	.overlay {
-		align-items: center;
-		display: flex;
-		justify-content: center;
-
-		z-index: 10;
-	}
-
-	.backdrop {
-		background-color: #0007;
-		cursor: pointer;
-	}
-
-	#character-selection-dialogue {
-		background-color: #21252b;
+	#available-characters {
 		border-radius: 0.5em;
 		box-sizing: border-box;
 		display: flex;
@@ -81,6 +59,5 @@
 		max-height: 90vh;
 		max-width: 90vw;
 		overflow-y: auto;
-		padding: 1em;
 	}
 </style>
