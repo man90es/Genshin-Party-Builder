@@ -33,3 +33,7 @@ button {
 	outline: none;
 	cursor: pointer;
 }
+
+a {
+	color: #309be2;
+}
