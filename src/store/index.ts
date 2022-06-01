@@ -29,11 +29,12 @@ export default createStore<StoreState>({
 	plugins: [
 		Memento(
 			{
+				importGOOD:          "ownedCharacters",
 				setHave:             "ownedCharacters",
 				updateConstellation: "ownedCharacters",
+				deleteParty:         "parties",
 				pushParty:           "parties",
 				setPartyMember:      "parties",
-				deleteParty:         "parties",
 			},
 			"gpb-vuex"
 		)
