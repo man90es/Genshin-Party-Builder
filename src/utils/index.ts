@@ -11,3 +11,7 @@ export function shuffle<Type>(array: Type[]): Type[] {
 export function capitalise(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+export function pascalToScreamingSnake(str: string) {
+	return str.split(/(?=[A-Z])/).join("_").toUpperCase()
+}

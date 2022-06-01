@@ -16,6 +16,7 @@ body {
 	display: grid;
 	grid-template-rows: 2em 1fr 1.5em;
 	min-height: 100vh;
+	overflow-x: hidden;
 	margin: 0;
 }
 
@@ -31,4 +32,8 @@ button {
 	font-size: 1.5rem;
 	outline: none;
 	cursor: pointer;
+}
+
+a {
+	color: #309be2;
 }

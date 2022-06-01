@@ -1,4 +1,5 @@
 import { createStore } from "vuex"
+import { pascalToScreamingSnake } from "@/utils"
 import Memento from "memento-vuex"
 
 import type { JSONData, SimpleParty } from "@/types"
@@ -28,11 +29,12 @@ export default createStore<StoreState>({
 	plugins: [
 		Memento(
 			{
+				importGOOD:          "ownedCharacters",
 				setHave:             "ownedCharacters",
 				updateConstellation: "ownedCharacters",
+				deleteParty:         "parties",
 				pushParty:           "parties",
 				setPartyMember:      "parties",
-				deleteParty:         "parties",
 			},
 			"gpb-vuex"
 		)
@@ -65,6 +67,12 @@ export default createStore<StoreState>({
 			state.ownedCharacters[id] = {
 				constellation: Math.min(Math.max(desired, 0), characterData.maxConstellation ?? 6)
 			}
+		},
+
+		importGOOD(state, data: { key: string, constellation: number }[]) {
+			state.ownedCharacters = Object.fromEntries(data.map(({ key, constellation }) => (
+				["CHARACTER_" + pascalToScreamingSnake(key), { constellation }]
+			)))
 		},
 
 		pushParty(state) {
