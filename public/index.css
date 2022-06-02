@@ -20,6 +20,12 @@ body {
 	margin: 0;
 }
 
+.row {
+	display: flex;
+	gap: 1em;
+	justify-content: center;
+}
+
 button {
 	font-family: Hoyofont;
 	display: block;

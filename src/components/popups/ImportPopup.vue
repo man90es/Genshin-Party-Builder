@@ -65,12 +65,6 @@
 </script>
 
 <style scoped>
-	.row {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-	}
-
 	.error {
 		color: brown;
 	}

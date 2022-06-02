@@ -83,12 +83,6 @@
 </script>
 
 <style scoped>
-	.row {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-	}
-
 	.result {
 		font-size: 1.5em;
 		padding: 0.5em 0;
