@@ -9,13 +9,13 @@
 		<p v-else>
 			{{ reassurance }}! Now, it's suggested that you add a {{ suggested[0] }}. You can remove a character that is already in the party by clicking his or her portrait.
 		</p>
-		<party-row :meta="party" @cardClick="removeMember" :cardCursor="'removeOrDefault'" />
+		<party-row :meta="party" @cardClick="removeMember" :hoverRemove="true" />
 		<p v-if="!isFull">
 			The AI recommends that you pick one of these {{ suggested[0] }}s to strengthen your team:
 		</p>
 		<section id="sugestions" v-if="!isFull">
-			<character-card v-for="(cId, pos) in suggested[1]" :key="pos" :characterId="cId" @click="chooseCharacter(cId)" :cursor="'pointer'" />
-			<character-card @click="chooseAnotherCharacter" :namePlaceholder="'More...'" :alternativeCursor="true" :cursor="'pointer'" />
+			<character-card v-for="(cId, pos) in suggested[1]" :key="pos" :characterId="cId" @click="chooseCharacter(cId)" />
+			<character-card @click="chooseAnotherCharacter" :namePlaceholder="'More...'" :alternativeCursor="true" />
 		</section>
 		<button v-if="store.state.parties.length > 1" @click="disband">Disband</button>
 		<button @click="prevStage">Back</button>

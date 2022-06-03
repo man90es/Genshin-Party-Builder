@@ -1,19 +1,25 @@
 <template>
 	<div class="party-row" :style="{ cursor: clickable ? 'pointer' : 'default' }">
-		<character-card v-for="pos in [0, 1, 2, 3]" :key="meta.members[pos]" :characterId="meta.members[pos]" @click="() => emit('cardClick', pos)" :cursor="cardCursor" />
+		<character-card
+			:characterId="meta.members[pos]"
+			:clickable="hoverRemove ? Boolean(meta.members[pos]) : true"
+			:hoverIntention="(hoverRemove && meta.members[pos]) ? 'remove' : 'pick'"
+			:key="meta.members[pos]"
+			@click="() => emit('cardClick', pos)"
+			v-for="pos in [0, 1, 2, 3]"
+		/>
 	</div>
 </template>
 
 <script setup>
 	import { defineProps, defineEmits } from "vue"
-
 	import CharacterCard from "./CharacterCard.vue"
 
 	const emit = defineEmits(["cardClick"])
 	defineProps({
-		"meta": Object,
-		"cardCursor": String,
-		"clickable": Boolean,
+		clickable: Boolean,
+		meta: Object,
+		hoverRemove: { default: false, type: Boolean },
 	})
 </script>
 

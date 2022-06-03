@@ -1,5 +1,5 @@
 <template>
-	<figure :style="{ cursor: exactCursor }">
+	<figure :style="{ cursor: clickable ? 'pointer' : 'default' }">
 		<picture class="portrait" :alt="meta?.name || 'Character placeholder'">
 			<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
 			<img :src="srcList.at(-1).path">
@@ -8,6 +8,7 @@
 			<source v-for="src in bgSrcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
 			<img :src="bgSrcList.at(-1).path" :style="{ objectPosition: bgOffset }">
 		</picture>
+		<div class="removeOverlay" v-if="'remove' === hoverIntention">✖</div>
 		<element-badge v-if="meta" :elementId="meta.element" />
 		<figcaption>{{ meta?.name || namePlaceholder || "Empty" }}</figcaption>
 	</figure>
@@ -16,12 +17,15 @@
 <script setup>
 	import { computed, defineProps } from "vue"
 	import { useStore } from "vuex"
-
 	import ElementBadge from "@/components/ElementBadge.vue"
 
 	const store = useStore()
-
-	const props = defineProps({ "characterId": String, "cursor": String, "namePlaceholder": String })
+	const props = defineProps({
+		characterId: String,
+		clickable: { default: true, type: Boolean },
+		hoverIntention: { default: "pick", type: String },
+		namePlaceholder: String,
+	})
 
 	const meta = computed(() => {
 		return store.state.data.characters.find(c => c.id === props.characterId)
@@ -53,12 +57,6 @@
 
 		return `${index[0] * 100 / 3}%`
 	})
-
-	const exactCursor = computed(() => {
-		if (props.cursor === "removeOrDefault") return meta.value ? "not-allowed" : "default"
-
-		return props.cursor
-	})
 </script>
 
 <style scoped lang="scss">
@@ -71,8 +69,6 @@
 		color: var(--button-font-color);
 		border-radius: 5%;
 		margin: 0;
-
-		cursor: inherit;
 
 		* {
 			user-select: none;
@@ -123,6 +119,27 @@
 
 		picture.portrait {
 			z-index: 1;
+		}
+
+		.removeOverlay {
+			bottom: 0;
+			left: 0;
+			right: 0;
+			top: 0;
+			align-items: center;
+			background-color: #0004;
+			color: #fff;
+			display: flex;
+			font-size: 3em;
+			justify-content: center;
+			opacity: 0;
+			position: absolute;
+			transition-duration: 0.2s;
+			z-index: 2;
+		}
+
+		&:hover .removeOverlay {
+			opacity: 1;
 		}
 	}
 </style>
