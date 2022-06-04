@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-	import { defineEmits, ref } from "vue"
+	import { ref } from "vue"
 	import { useStore } from "vuex"
 	import PopupShell from "../PopupShell.vue"
 

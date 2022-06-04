@@ -15,14 +15,12 @@
 </template>
 
 <script setup>
-	import { defineProps, computed, defineEmits, onBeforeUnmount } from "vue"
+	import { computed, onBeforeUnmount } from "vue"
 	import { useStore } from "vuex"
 	import PopupShell from "../PopupShell.vue"
 
 	const emit = defineEmits(["abort"])
-	const props = defineProps({
-		characterId: String
-	})
+	const props = defineProps({ characterId: String })
 	const store = useStore()
 
 	const characterName = computed(() => {

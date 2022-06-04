@@ -8,15 +8,15 @@
 </template>
 
 <script setup>
-	import { computed, defineProps, defineEmits, onBeforeUnmount } from "vue"
+	import { computed, onBeforeUnmount } from "vue"
 	import { useStore } from "vuex"
 	import CharacterCard from "@/components/CharacterCard.vue"
 	import PopupShell from "../PopupShell.vue"
 
 	const store = useStore()
 
-	const props = defineProps({ meta: Object, exclude: Array })
 	const emit = defineEmits(["close", "select"])
+	const props = defineProps({ meta: Object, exclude: Array })
 
 	const characterIds = computed(() => {
 		return store.state.data.characters

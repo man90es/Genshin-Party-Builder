@@ -6,13 +6,13 @@
 </template>
 
 <script setup>
-	import { computed, defineProps } from "vue"
+	import { computed } from "vue"
 	import { useStore } from "vuex"
 
 	const store = useStore()
 
 	const props = defineProps({
-		"elementId": { "type": String, "required": true }
+		elementId: { type: String, required: true }
 	})
 
 	const srcList = computed(() => {

@@ -7,12 +7,7 @@
 </template>
 
 <script setup>
-	import { defineProps } from "vue"
-
-	const props = defineProps({
-		full: Boolean
-	})
-
+	const props = defineProps({ full: Boolean })
 	const logoSrc = `${process.env.VUE_APP_ASSETS_ENDPOINT}GI-logo.svg`
 </script>
 

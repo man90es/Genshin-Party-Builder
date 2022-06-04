@@ -12,14 +12,13 @@
 </template>
 
 <script setup>
-	import { defineProps, defineEmits } from "vue"
 	import CharacterCard from "./CharacterCard.vue"
 
 	const emit = defineEmits(["cardClick"])
 	defineProps({
 		clickable: Boolean,
-		meta: Object,
 		hoverRemove: { default: false, type: Boolean },
+		meta: Object,
 	})
 </script>
 
