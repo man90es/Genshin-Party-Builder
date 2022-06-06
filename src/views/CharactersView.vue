@@ -37,7 +37,7 @@
 	const activePopup = ref({ type: null, data: null })
 
 	const characters = computed(() => {
-		return store.state.data.characters.map(c => c.id)
+		return Object.keys(store.state.data.characters)
 	})
 
 	const shouldShowNextButton = computed(() => {

@@ -18,10 +18,9 @@
 	const props = defineProps({ meta: Object, exclude: Array })
 
 	const characterIds = computed(() => {
-		return store.state.data.characters
-			.filter(c => c.id in store.state.ownedCharacters)
-			.filter(c => !props.exclude.includes(c.id))
-			.map(c => c.id)
+		return Object.keys(store.state.data.characters)
+			.filter(id => id in store.state.ownedCharacters)
+			.filter(id => !props.exclude.includes(id))
 	})
 
 	function closeHandler() {

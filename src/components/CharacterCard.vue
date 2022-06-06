@@ -10,11 +10,12 @@
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">✖</div>
 		<element-badge v-if="meta" :elementId="meta.element" />
-		<figcaption>{{ meta?.name || namePlaceholder || "Empty" }}</figcaption>
+		<figcaption>{{ characterName || props.namePlaceholder || "Empty" }}</figcaption>
 	</figure>
 </template>
 
 <script setup>
+	import { characterIdToName } from "@/utils"
 	import { computed } from "vue"
 	import { useStore } from "vuex"
 	import ElementBadge from "@/components/ElementBadge.vue"
@@ -28,11 +29,15 @@
 	})
 
 	const meta = computed(() => {
-		return store.state.data.characters.find(c => c.id === props.characterId)
+		return store.state.data.characters[props.characterId]
+	})
+
+	const characterName = computed(() => {
+		return meta.value?.name || characterIdToName(props.characterId)
 	})
 
 	const srcList = computed(() => {
-		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/${encodeURIComponent(meta.value?.name)}`
+		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/${encodeURIComponent(characterName.value)}`
 		return [
 			{ path: path + ".webp", mime: "image/webp" },
 			{ path: path + ".png", mime: "image/png" },
@@ -42,12 +47,12 @@
 	const bgSrcList = computed(() => {
 		if (store.state.data.spritesheets === undefined) return []
 
-		const path = process.env.VUE_APP_ASSETS_ENDPOINT + store.state.data.spritesheets.backgrounds.filePath
-		return store.state.data.spritesheets.backgrounds.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f }))
+		const path = process.env.VUE_APP_ASSETS_ENDPOINT + store.state.data.spritesheets.backgrounds?.path
+		return store.state.data.spritesheets.backgrounds?.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f })) || []
 	})
 
 	const colour = computed(() => {
-		return meta.value?.colour || "grey"
+		return meta.value?.background || ({ 4: "purple", 5: "yellow" })[meta.value?.stars] || "grey"
 	})
 
 	const bgOffset = computed(() => {

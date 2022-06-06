@@ -1,5 +1,5 @@
 import { createStore } from "vuex"
-import { pascalToScreamingSnake } from "@/utils"
+import { pascalToSnake } from "@/utils"
 import Memento from "memento-vuex"
 
 import type { JSONData, SimpleParty } from "@/types"
@@ -19,9 +19,11 @@ class Party implements StateParty {
 export default createStore<StoreState>({
 	state: {
 		data: {
-			roles:      [],
-			elements:   [],
-			characters: [],
+			roles:      {},
+			elements:   {},
+			characters: {},
+			spritesheets: {},
+			weapons: {},
 		},
 		ownedCharacters: {},
 		parties: [],
@@ -54,7 +56,7 @@ export default createStore<StoreState>({
 		},
 
 		updateConstellation(state, { id, value }: { id: string, value: number }) {
-			const characterData = state.data.characters.find(c => c.id == id)
+			const characterData = state.data.characters[id]
 			if (characterData === undefined) {
 				console.error("Unknown character id", id)
 				return
@@ -65,13 +67,13 @@ export default createStore<StoreState>({
 				: value
 
 			state.ownedCharacters[id] = {
-				constellation: Math.min(Math.max(desired, 0), characterData.maxConstellation ?? 6)
+				constellation: Math.min(Math.max(desired, 0), characterData.score.length - 1)
 			}
 		},
 
 		importGOOD(state, data: { key: string, constellation: number }[]) {
 			state.ownedCharacters = Object.fromEntries(data.map(({ key, constellation }) => (
-				["CHARACTER_" + pascalToScreamingSnake(key), { constellation }]
+				[pascalToSnake(key), { constellation }]
 			)))
 		},
 

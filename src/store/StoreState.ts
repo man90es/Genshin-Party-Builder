@@ -4,9 +4,7 @@ import type { StateParty } from "./StateParty"
 export type StoreState = {
 	data: JSONData,
 	ownedCharacters: {
-		[key: string]: {
-			constellation: number
-		}
+		[key: string]: { constellation: number }
 	},
 	parties: StateParty[]
 }

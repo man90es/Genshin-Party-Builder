@@ -16,13 +16,12 @@
 	})
 
 	const srcList = computed(() => {
-		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.elements.filePath}`
+		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.elements.path}`
 		return store.state.data.spritesheets.elements.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f }))
 	})
 
 	const offset = computed(() => {
 		const index = store.state.data.spritesheets.elements.indices[props.elementId]
-
 		return [index[0] * -1, index[1] * -1]
 	})
 </script>

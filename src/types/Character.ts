@@ -1,15 +1,10 @@
-import { ElementId } from "./ElementId"
-
 export type Character = {
-	name: string,
-	id: string,
+	name?: string,
+	background?: string,
+	damage: string[],
+	element: string,
+	roles: (string | { c: number, role: string })[],
+	score: number[],
 	stars: number,
-	colour: "purple" | "yellow" | "red",
-	element: ElementId,
-	rating: {
-		ROLE_DAMAGE: number[],
-		ROLE_SUPPORT: number[],
-		ROLE_HEALER: number[],
-	},
-	maxConstellation: number | undefined
+	weapon: string,
 }

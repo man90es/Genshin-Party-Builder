@@ -10,6 +10,7 @@
 </template>
 
 <script setup>
+	import { characterIdToName } from "@/utils"
 	import { computed, onBeforeUnmount } from "vue"
 	import { useStore } from "vuex"
 	import PopupShell from "../PopupShell.vue"
@@ -19,7 +20,7 @@
 	const store = useStore()
 
 	const characterName = computed(() => {
-		return store.state.data.characters.find(char => char.id === props.characterId)?.name
+		return store.state.data.characters[props.characterId]?.name || characterIdToName(props.characterId)
 	})
 
 	store.commit("setHave", { id: props.characterId, have: true })
