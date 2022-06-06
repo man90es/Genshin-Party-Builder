@@ -1,15 +1,10 @@
 <template>
-	<popup-shell :headline="`At what constellation level is ${characterName}?`">
-		<div class="row">
-			<button @click="dec">-1</button>
-			<div class="result">
-				Constellation: {{ store.getters.constellation(props.characterId) }}
-			</div>
-			<button @click="inc">+1</button>
-		</div>
-		<div class="row">
-			<button @click="cancel">Remove</button>
-			<button @click="accept">Accept</button>
+	<popup-shell :headline="`Select ${characterName}'s contellation level`" @cancel="cancel" @accept="accept" cancelText="Remove">
+		<span>Contellation level</span>
+		<div class="row" id="contellation-row">
+			<button class="dark" @click="dec">-</button>
+			<div class="result">{{ store.getters.constellation(props.characterId) }}</div>
+			<button class="dark" @click="inc">+</button>
 		</div>
 	</popup-shell>
 </template>
@@ -80,9 +75,26 @@
 	onBeforeUnmount(() => removeEventListener("keydown", hotkeyHandler))
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	.result {
 		font-size: 1.5em;
 		padding: 0.5em 0;
+	}
+
+	#contellation-row {
+		align-items: center;
+		background-color: #f8f8f6;
+		border-radius: 10em;
+		border: 0.2em solid #e5e1dc;
+		box-shadow: 0 0 0.5em #f8f8f6;
+		height: 2.75em;
+		justify-content: space-between;
+		width: 50%;
+
+		button {
+			height: 1.5em;
+			margin: 0.2em;
+			will-change: 1.5em;
+		}
 	}
 </style>

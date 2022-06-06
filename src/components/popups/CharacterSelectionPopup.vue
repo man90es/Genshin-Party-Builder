@@ -1,8 +1,7 @@
 <template>
-	<popup-shell headline="Select another character">
+	<popup-shell headline="Select another character" :showAccept="false" @cancel="closeHandler">
 		<div id="available-characters">
 			<character-card v-for="id in characterIds" :key="id" :characterId="id" :cursor="'pointer'" @click="select(id)" />
-			<character-card :cursor="'pointer'" @click="closeHandler" />
 		</div>
 	</popup-shell>
 </template>
@@ -50,14 +49,16 @@
 
 <style>
 	#available-characters {
+		background-color: #4b5367;
 		border-radius: 0.5em;
 		box-sizing: border-box;
 		display: flex;
 		flex-flow: wrap;
 		gap: 1em;
 		justify-content: center;
-		max-height: 90vh;
+		max-height: 50vh;
 		max-width: 90vw;
 		overflow-y: auto;
+		padding: 1em;
 	}
 </style>

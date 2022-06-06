@@ -40,6 +40,12 @@ button {
 	cursor: pointer;
 }
 
+button.dark {
+	background-color: #4b5367;
+	color: #e5e1dc;
+}
+
 a {
 	color: #309be2;
+	text-decoration: none;
 }
