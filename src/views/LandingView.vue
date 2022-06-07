@@ -12,11 +12,13 @@
 
 <script setup>
 	import { onBeforeUnmount } from "vue"
+	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 
 	const router = useRouter()
 	const store = useStore()
+	useHead({ title: process.env.VUE_APP_SITE_NAME })
 
 	if (Object.keys(store.state.ownedCharacters).length >= 5) {
 		router.push({ name: "parties" })

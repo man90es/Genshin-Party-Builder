@@ -25,6 +25,7 @@
 
 <script setup>
 	import { ref, computed, onBeforeUnmount } from "vue"
+	import { useHead } from "@vueuse/head"
 	import { useRouter, useRoute } from "vue-router"
 	import { useStore } from "vuex"
 	import CharacterCard from "@/components/CharacterCard.vue"
@@ -37,6 +38,7 @@
 	const { fetchData } = useAPI()
 	const { suggest } = useSuggest()
 	const { generateReassurance } = useRandomReassurance()
+	useHead({ title: `Edit party | ${process.env.VUE_APP_SITE_NAME}` })
 
 	fetchData()
 

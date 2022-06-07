@@ -21,6 +21,7 @@
 
 <script setup>
 	import { ref, computed, onBeforeUnmount } from "vue"
+	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
 	import CharacterCard from "@/components/CharacterCard.vue"
@@ -31,6 +32,7 @@
 	const { fetchData } = useAPI()
 	const router = useRouter()
 	const store = useStore()
+	useHead({ title: `My characters | ${process.env.VUE_APP_SITE_NAME}` })
 
 	fetchData()
 
