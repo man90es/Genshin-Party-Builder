@@ -69,7 +69,7 @@
 
 	const suggested = computed(() => {
 		if (store.state.parties[route.params.index]) {
-			return suggest(route.params.index, 3)
+			return suggest(parseInt(route.params.index), 3)
 		}
 
 		return ["", []]

@@ -1,5 +1,4 @@
-import type { JSONData } from "@/types"
-import type { StateParty } from "./StateParty"
+import type { JSONData, StateParty } from "@/types"
 
 export type StoreState = {
 	data: JSONData,

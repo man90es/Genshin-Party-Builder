@@ -1,9 +1,7 @@
 import { createStore } from "vuex"
 import { pascalToSnake } from "@/utils"
 import Memento from "memento-vuex"
-
-import type { JSONData, SimpleParty } from "@/types"
-import type { StateParty } from "./StateParty"
+import type { JSONData, SimpleParty, StateParty } from "@/types"
 import type { StoreState } from "./StoreState"
 
 class Party implements StateParty {
