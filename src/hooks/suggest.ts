@@ -17,7 +17,7 @@ function processCharacter(character: Character, constellation: number) {
 						: undefined
 					: r
 			))
-			.filter(Boolean),
+			.filter(Boolean) as string[],
 	}
 }
 
