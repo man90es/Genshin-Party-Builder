@@ -1,5 +1,5 @@
 import { Store, useStore } from "vuex"
-import { validateData } from "@/utils"
+
 import type { JSONData } from "@/types"
 import type { StoreState } from "@/store/StoreState"
 
@@ -16,14 +16,7 @@ export default function() {
 
 		fetch(`${process.env.VUE_APP_ASSETS_ENDPOINT}data.v2.json`, requestInit)
 			.then(response => response.json())
-			.then((json: JSONData) => {
-				if (!validateData(json)) {
-					console.log("Invalid data format")
-					return
-				}
-
-				store.commit("setData", json)
-			})
+			.then((json: JSONData) => store.commit("setData", json))
 	}
 
 	return { fetchData }
