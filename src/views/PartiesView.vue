@@ -10,14 +10,14 @@
 </template>
 
 <script setup>
+	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
 	import { useStore } from "vuex"
-
+	import PartyRow from "@/components/PartyRow.vue"
 	import useAPI from "@/hooks/api"
 
-	import PartyRow from "@/components/PartyRow.vue"
-
 	const { fetchData } = useAPI()
+	useHead({ title: `My parties | ${process.env.VUE_APP_SITE_NAME}` })
 
 	fetchData()
 
