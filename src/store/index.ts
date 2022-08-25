@@ -17,8 +17,8 @@ class Party implements StateParty {
 export default createStore<StoreState>({
 	state: {
 		data: {
-			roles:      {},
-			elements:   {},
+			roles: {},
+			elements: {},
 			characters: {},
 			spritesheets: {},
 			weapons: {},
@@ -29,22 +29,35 @@ export default createStore<StoreState>({
 	plugins: [
 		Memento(
 			{
-				importGOOD:          "ownedCharacters",
-				setHave:             "ownedCharacters",
+				importGOOD: "ownedCharacters",
+				setHave: "ownedCharacters",
 				updateConstellation: "ownedCharacters",
-				deleteParty:         "parties",
-				pushParty:           "parties",
-				setPartyMember:      "parties",
+				deleteParty: "parties",
+				pushParty: "parties",
+				setPartyMember: "parties",
 			},
 			"gpb-vuex"
-		)
+		),
 	],
 	mutations: {
-		setData(state, data: JSONData) {
-			state.data = data
+		setData(state, data: JSONData): void {
+			if ("development" === process.env?.NODE_ENV) {
+				state.data = data
+				return
+			}
+
+			// Filter out unreleased characters
+			const now = new Date()
+			const characters = Object.fromEntries(
+				Object.entries(data.characters).filter(
+					([, { release }]) => new Date(release) <= now
+				)
+			)
+
+			state.data = { ...data, characters }
 		},
 
-		setHave(state, { id, have }: { id: string, have: boolean }) {
+		setHave(state, { id, have }: { id: string; have: boolean }) {
 			if (have === true) {
 				if (state.ownedCharacters[id] !== undefined) return
 				state.ownedCharacters[id] = { constellation: 0 }
@@ -53,7 +66,10 @@ export default createStore<StoreState>({
 			}
 		},
 
-		updateConstellation(state, { id, value }: { id: string, value: number }) {
+		updateConstellation(
+			state,
+			{ id, value }: { id: string; value: number }
+		) {
 			const characterData = state.data.characters[id]
 			if (characterData === undefined) {
 				console.error("Unknown character id", id)
@@ -65,21 +81,30 @@ export default createStore<StoreState>({
 				: value
 
 			state.ownedCharacters[id] = {
-				constellation: Math.min(Math.max(desired, 0), characterData.score.length - 1)
+				constellation: Math.min(
+					Math.max(desired, 0),
+					characterData.score.length - 1
+				),
 			}
 		},
 
-		importGOOD(state, data: { key: string, constellation: number }[]) {
-			state.ownedCharacters = Object.fromEntries(data.map(({ key, constellation }) => (
-				[pascalToSnake(key), { constellation }]
-			)))
+		importGOOD(state, data: { key: string; constellation: number }[]) {
+			state.ownedCharacters = Object.fromEntries(
+				data.map(({ key, constellation }) => [
+					pascalToSnake(key),
+					{ constellation },
+				])
+			)
 		},
 
 		pushParty(state) {
 			state.parties.push(new Party())
 		},
 
-		setPartyMember(state, { pI, cI, cId }: { pI: number, cI: number, cId: string | null }) {
+		setPartyMember(
+			state,
+			{ pI, cI, cId }: { pI: number; cI: number; cId: string | null }
+		) {
 			state.parties[pI].members[cI] = cId
 		},
 
@@ -92,9 +117,12 @@ export default createStore<StoreState>({
 		},
 	},
 	getters: {
-		constellation: (state) => (characterID: string): number | null => {
-			const c: number | undefined = state.ownedCharacters[characterID]?.constellation
-			return c !== undefined ? c : null
-		}
-	}
+		constellation:
+			(state) =>
+			(characterID: string): number | null => {
+				const c: number | undefined =
+					state.ownedCharacters[characterID]?.constellation
+				return c !== undefined ? c : null
+			},
+	},
 })
