@@ -7,6 +7,10 @@ export type JSONData = {
 	elements: {
 		[key: string]: { name: string }
 	}
+	reactions: {
+		header: string[]
+		matrix: number[][]
+	}
 	roles: {
 		[key: string]: { name: string }
 	}

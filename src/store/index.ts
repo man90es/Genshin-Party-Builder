@@ -19,6 +19,10 @@ export default createStore<StoreState>({
 		data: {
 			roles: {},
 			elements: {},
+			reactions: {
+				header: [],
+				matrix: [],
+			},
 			characters: {},
 			spritesheets: {},
 			weapons: {},
@@ -119,10 +123,10 @@ export default createStore<StoreState>({
 	getters: {
 		constellation:
 			(state) =>
-			(characterID: string): number | null => {
-				const c: number | undefined =
-					state.ownedCharacters[characterID]?.constellation
-				return c !== undefined ? c : null
-			},
+				(characterID: string): number | null => {
+					const c: number | undefined =
+						state.ownedCharacters[characterID]?.constellation
+					return c !== undefined ? c : null
+				},
 	},
 })

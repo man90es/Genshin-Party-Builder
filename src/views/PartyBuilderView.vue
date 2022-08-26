@@ -1,25 +1,50 @@
 <template>
 	<main>
 		<p v-if="isEmpty">
-			This party has no characters yet. Start by picking a {{ suggested[0] }} from suggested choices below.
+			This party has no characters yet. Start by picking a character from
+			suggested choices below.
 		</p>
 		<p v-else-if="isFull">
-			Your team is ready to hit the ground running! To change any character, click his or her portrait.
+			Your team is ready to hit the ground running! To change any
+			character, click his or her portrait.
 		</p>
 		<p v-else>
-			{{ reassurance }}! Now, it's suggested that you add a {{ suggested[0] }}. You can remove a character that is already in the party by clicking his or her portrait.
+			{{ reassurance }}! You can add up to 4 characters to the party. You
+			can remove a character from the party by clicking his or her
+			portrait.
 		</p>
-		<party-row :meta="party" @cardClick="removeMember" :hoverRemove="true" />
+		<party-row
+			:meta="party"
+			@cardClick="removeMember"
+			:hoverRemove="true"
+		/>
 		<p v-if="!isFull">
-			The AI recommends that you pick one of these {{ suggested[0] }}s to strengthen your team:
+			The AI recommends that you pick one of these characters to
+			strengthen your team:
 		</p>
 		<section id="sugestions" v-if="!isFull">
-			<character-card v-for="(cId, pos) in suggested[1]" :key="pos" :characterId="cId" @click="chooseCharacter(cId)" />
-			<character-card @click="chooseAnotherCharacter" :namePlaceholder="'More...'" :alternativeCursor="true" />
+			<CharacterCard
+				:characterId="cId"
+				:key="pos"
+				@click="chooseCharacter(cId)"
+				v-for="(cId, pos) in suggested"
+			/>
+			<CharacterCard
+				:alternativeCursor="true"
+				:namePlaceholder="'More...'"
+				@click="chooseAnotherCharacter"
+			/>
 		</section>
-		<button v-if="store.state.parties.length > 1" @click="disband">Disband</button>
+		<button v-if="store.state.parties.length > 1" @click="disband">
+			Disband
+		</button>
 		<button @click="prevStage">Back</button>
-		<character-selection-popup v-if="'characters' === activePopup.type" :exclude="party.members" @close="closePopup" @select="chooseCharacter" />
+		<CharacterSelectionPopup
+			:exclude="party.members"
+			@close="closePopup"
+			@select="chooseCharacter"
+			v-if="'characters' === activePopup.type"
+		/>
 	</main>
 </template>
 
@@ -58,11 +83,20 @@
 	}
 
 	const party = computed(() => {
-		return store.state.parties[route.params.index] || { members: [null, null, null, null] }
+		return (
+			store.state.parties[route.params.index] || {
+				members: [null, null, null, null],
+			}
+		)
 	})
 
 	const isEmpty = computed(() => {
-		return party.value.members.reduce((empty, c) => empty + Number(c === null), 0) == 4
+		return (
+			party.value.members.reduce(
+				(empty, c) => empty + Number(c === null),
+				0
+			) == 4
+		)
 	})
 
 	const isFull = computed(() => {
@@ -74,12 +108,16 @@
 			return suggest(parseInt(route.params.index), 3)
 		}
 
-		return ["", []]
+		return []
 	})
 
 	function chooseCharacter(cId) {
 		activePopup.value = { type: null }
-		store.commit("setPartyMember", { pI: route.params.index, cI: party.value.members.indexOf(null), cId })
+		store.commit("setPartyMember", {
+			pI: route.params.index,
+			cI: party.value.members.indexOf(null),
+			cId,
+		})
 		reassurance.value = generateReassurance()
 	}
 
@@ -97,7 +135,11 @@
 	}
 
 	function removeMember(cI) {
-		store.commit("setPartyMember", { pI: route.params.index, cI, cId: null })
+		store.commit("setPartyMember", {
+			pI: route.params.index,
+			cI,
+			cId: null,
+		})
 	}
 
 	function hotkeyHandler(e) {
