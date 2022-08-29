@@ -1,11 +1,17 @@
 import { createApp } from "vue"
 import { createHead } from "@vueuse/head"
+import { createPinia } from "pinia"
 import App from "./App.vue"
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate"
 import router from "./router"
-import store from "./store"
+
+const head = createHead()
+
+const pinia = createPinia()
+	.use(piniaPluginPersistedstate)
 
 createApp(App)
-	.use(createHead())
+	.use(head)
+	.use(pinia)
 	.use(router)
-	.use(store)
 	.mount("body")

@@ -1,11 +1,11 @@
 <template>
 	<main>
 		<p>
-			Welcome to an AI-assisted party creation tool for Genshin Impact. It helps beginners to assemble well-rounded teams no matter how many or which characters they have.
+			Welcome to an AI-assisted party creation tool for Genshin Impact. It
+			helps beginners to assemble well-rounded teams no matter how many or
+			which characters they have.
 		</p>
-		<p>
-			Press start to select your characters.
-		</p>
+		<p>Press start to select your characters.</p>
 		<button @click="nextStage">Start</button>
 	</main>
 </template>
@@ -14,13 +14,13 @@
 	import { onBeforeUnmount } from "vue"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
-	import { useStore } from "vuex"
+	import { useUserDataStore } from "@/stores/userData"
 
 	const router = useRouter()
-	const store = useStore()
+	const userData = useUserDataStore()
 	useHead({ title: process.env.VUE_APP_SITE_NAME })
 
-	if (Object.keys(store.state.ownedCharacters).length >= 5) {
+	if (Object.keys(userData.ownedCharacters).length >= 5) {
 		router.push({ name: "parties" })
 	}
 

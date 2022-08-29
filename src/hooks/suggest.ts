@@ -1,7 +1,8 @@
 import { intersection } from "@/utils/sets"
 import { shuffle } from "@/utils"
-import { useStore } from "vuex"
-import type { Character, ProcessedCharacter, JSONData, SimpleParty } from "@/types"
+import { useJsonDataStore } from "@/stores/jsonData"
+import { useUserDataStore } from "@/stores/userData"
+import type { Character, ProcessedCharacter, JSONData } from "@/types"
 
 function processCharacter(id: string, character: Character, constellation: number): ProcessedCharacter {
 	return {
@@ -113,15 +114,15 @@ function getFitness(character: ProcessedCharacter, currentParty: Set<ProcessedCh
 	return scores.reduce((acc, cur) => acc + cur, 0)
 }
 
-export default function () {
-	const store = useStore()
+export function useSuggest() {
+	const userData = useUserDataStore()
+	const jsonData = useJsonDataStore()
 
 	function suggest(partyId: number, n: number) {
-		const currentParty: SimpleParty = store.state.parties[partyId].members
-		const data: JSONData = store.state.data
-		const ownedCharacters = store.state.ownedCharacters
+		const currentParty: (string | null)[] = userData.parties[partyId].members
+		const ownedCharacters = userData.ownedCharacters
 
-		const processedCharacters = Object.entries(data.characters)
+		const processedCharacters = Object.entries(jsonData.characters)
 			// Not interested in characters that are not owned
 			.filter(([id]) => id in ownedCharacters)
 			.flatMap(([id, character]) => (
@@ -143,7 +144,7 @@ export default function () {
 			.filter(({ id }) => !(currentParty.includes(id)))
 
 		return shuffle(pool)
-			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, data) }))
+			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, jsonData) }))
 			.sort((a, b) => a.fitness < b.fitness ? 1 : -1)
 			.slice(0, n)
 			.map(f => f.characterId)

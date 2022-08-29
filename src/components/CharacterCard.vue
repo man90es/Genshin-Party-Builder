@@ -1,26 +1,41 @@
 <template>
 	<figure :style="{ cursor: clickable ? 'pointer' : 'default' }">
 		<picture class="portrait" :alt="meta?.name || 'Character placeholder'">
-			<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
-			<img :src="srcList.at(-1).path">
+			<source
+				:key="src.mime"
+				:srcSet="src.path"
+				:type="src.mime"
+				v-for="src in srcList"
+			/>
+			<img :src="srcList.at(-1).path" />
 		</picture>
 		<picture class="background" :class="colour" v-if="bgSrcList.length > 0">
-			<source v-for="src in bgSrcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
-			<img :src="bgSrcList.at(-1).path" :style="{ objectPosition: bgOffset }">
+			<source
+				:key="src.mime"
+				:srcSet="src.path"
+				:type="src.mime"
+				v-for="src in bgSrcList"
+			/>
+			<img
+				:src="bgSrcList.at(-1).path"
+				:style="{ objectPosition: bgOffset }"
+			/>
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">✖</div>
-		<element-badge v-if="meta" :elementId="meta.element" />
-		<figcaption>{{ characterName || props.namePlaceholder || "Empty" }}</figcaption>
+		<ElementBadge v-if="meta" :elementId="meta.element" />
+		<figcaption>
+			{{ characterName || props.namePlaceholder || "Empty" }}
+		</figcaption>
 	</figure>
 </template>
 
 <script setup>
 	import { characterIdToName } from "@/utils"
 	import { computed } from "vue"
-	import { useStore } from "vuex"
+	import { useJsonDataStore } from "@/stores/jsonData"
 	import ElementBadge from "@/components/ElementBadge.vue"
 
-	const store = useStore()
+	const jsonData = useJsonDataStore()
 	const props = defineProps({
 		characterId: String,
 		clickable: { default: true, type: Boolean },
@@ -29,7 +44,7 @@
 	})
 
 	const meta = computed(() => {
-		return store.state.data.characters[props.characterId]
+		return jsonData.characters[props.characterId]
 	})
 
 	const characterName = computed(() => {
@@ -37,7 +52,9 @@
 	})
 
 	const srcList = computed(() => {
-		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/${encodeURIComponent(characterName.value)}`
+		const path = `${
+			process.env.VUE_APP_ASSETS_ENDPOINT
+		}portraits/${encodeURIComponent(characterName.value)}`
 		return [
 			{ path: path + ".webp", mime: "image/webp" },
 			{ path: path + ".png", mime: "image/png" },
@@ -45,22 +62,33 @@
 	})
 
 	const bgSrcList = computed(() => {
-		if (store.state.data.spritesheets === undefined) return []
+		if (jsonData.spritesheets === undefined) return []
 
-		const path = process.env.VUE_APP_ASSETS_ENDPOINT + store.state.data.spritesheets.backgrounds?.path
-		return store.state.data.spritesheets.backgrounds?.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f })) || []
+		const path =
+			process.env.VUE_APP_ASSETS_ENDPOINT +
+			jsonData.spritesheets.backgrounds?.path
+		return (
+			jsonData.spritesheets.backgrounds?.extensions.map((f) => ({
+				path: path + "." + f,
+				mime: "image/" + f,
+			})) || []
+		)
 	})
 
 	const colour = computed(() => {
-		return meta.value?.background || ({ 4: "purple", 5: "yellow" })[meta.value?.stars] || "grey"
+		return (
+			meta.value?.background ||
+			{ 4: "purple", 5: "yellow" }[meta.value?.stars] ||
+			"grey"
+		)
 	})
 
 	const bgOffset = computed(() => {
-		if (store.state.data.spritesheets === undefined) return ""
+		if (jsonData.spritesheets === undefined) return ""
 
-		const index = store.state.data.spritesheets.backgrounds.indices[colour.value]
+		const index = jsonData.spritesheets.backgrounds.indices[colour.value]
 
-		return `${index[0] * 100 / 3}%`
+		return `${(index[0] * 100) / 3}%`
 	})
 </script>
 

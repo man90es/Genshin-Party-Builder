@@ -14,9 +14,9 @@
 			portrait.
 		</p>
 		<party-row
+			:hoverRemove="true"
 			:meta="party"
 			@cardClick="removeMember"
-			:hoverRemove="true"
 		/>
 		<p v-if="!isFull">
 			The AI recommends that you pick one of these characters to
@@ -35,7 +35,7 @@
 				@click="chooseAnotherCharacter"
 			/>
 		</section>
-		<button v-if="store.state.parties.length > 1" @click="disband">
+		<button v-if="userData.parties.length > 1" @click="disband">
 			Disband
 		</button>
 		<button @click="prevStage">Back</button>
@@ -50,15 +50,15 @@
 
 <script setup>
 	import { ref, computed, onBeforeUnmount } from "vue"
+	import { useAPI } from "@/hooks/api"
 	import { useHead } from "@vueuse/head"
 	import { useRouter, useRoute } from "vue-router"
-	import { useStore } from "vuex"
-	import CharacterCard from "@/components/CharacterCard.vue"
-	import CharacterSelectionPopup from "@/components/popups/CharacterSelectionPopup.vue"
-	import PartyRow from "@/components/PartyRow.vue"
-	import useAPI from "@/hooks/api"
+	import { useSuggest } from "@/hooks/suggest"
+	import { useUserDataStore } from "@/stores/userData"
+	import CharacterCard from "@/components/CharacterCard"
+	import CharacterSelectionPopup from "@/components/popups/CharacterSelectionPopup"
+	import PartyRow from "@/components/PartyRow"
 	import useRandomReassurance from "@/hooks/randomReassurance"
-	import useSuggest from "@/hooks/suggest"
 
 	const { fetchData } = useAPI()
 	const { suggest } = useSuggest()
@@ -69,26 +69,25 @@
 
 	const route = useRoute()
 	const router = useRouter()
-	const store = useStore()
+	const userData = useUserDataStore()
 
 	const activePopup = ref({ type: null, data: null })
 	const reassurance = ref(generateReassurance())
 
-	if (!store.state.parties[route.params.index]) {
+	if (!userData.parties[route.params.index]) {
 		prevStage()
 	}
 
-	if (Object.keys(store.state.ownedCharacters).length < 5) {
+	if (Object.keys(userData.ownedCharacters).length < 5) {
 		router.push({ name: "landing" })
 	}
 
-	const party = computed(() => {
-		return (
-			store.state.parties[route.params.index] || {
+	const party = computed(
+		() =>
+			userData.parties[route.params.index] || {
 				members: [null, null, null, null],
 			}
-		)
-	})
+	)
 
 	const isEmpty = computed(() => {
 		return (
@@ -104,7 +103,7 @@
 	})
 
 	const suggested = computed(() => {
-		if (store.state.parties[route.params.index]) {
+		if (userData.parties[route.params.index]) {
 			return suggest(parseInt(route.params.index), 3)
 		}
 
@@ -113,11 +112,11 @@
 
 	function chooseCharacter(cId) {
 		activePopup.value = { type: null }
-		store.commit("setPartyMember", {
-			pI: route.params.index,
-			cI: party.value.members.indexOf(null),
-			cId,
-		})
+		userData.setPartyMember(
+			route.params.index,
+			party.value.members.indexOf(null),
+			cId
+		)
 		reassurance.value = generateReassurance()
 	}
 
@@ -130,16 +129,12 @@
 	}
 
 	function disband() {
-		store.commit("deleteParty", route.params.index)
+		userData.disbandParty(route.params.index)
 		prevStage()
 	}
 
 	function removeMember(cI) {
-		store.commit("setPartyMember", {
-			pI: route.params.index,
-			cI,
-			cId: null,
-		})
+		userData.setPartyMember(route.params.index, cI, null)
 	}
 
 	function hotkeyHandler(e) {
@@ -147,7 +142,7 @@
 
 		switch (e.key) {
 			case "Delete":
-				store.state.parties.length > 1 ? disband() : prevStage()
+				userData.parties.length > 1 ? disband() : prevStage()
 				break
 
 			case "Escape":

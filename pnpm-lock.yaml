@@ -9,7 +9,6 @@ specifiers:
   '@vue/cli-plugin-babel': ^5.0.6
   '@vue/cli-plugin-eslint': ^5.0.6
   '@vue/cli-plugin-typescript': ^5.0.6
-  '@vue/cli-plugin-vuex': ^5.0.6
   '@vue/cli-service': ^5.0.6
   '@vue/compiler-sfc': ^3.2.29
   '@vue/eslint-config-typescript': ^11.0.0
@@ -17,13 +16,13 @@ specifiers:
   core-js: ^3.21.0
   eslint: ^8.10.0
   eslint-plugin-vue: ^9.4.0
-  memento-vuex: ^0.2.0
+  pinia: ^2.0.21
+  pinia-plugin-persistedstate: ^2.1.1
   sass: ^1.49.9
   sass-loader: ^13.0.2
   typescript: ^4.7.4
   vue: ^3.2.29
   vue-router: ^4.0.13
-  vuex: ^4.0.0-0
   webpack: ^5.0.0
 
 devDependencies:
@@ -35,7 +34,6 @@ devDependencies:
   '@vue/cli-plugin-babel': 5.0.8_2siogx5p3s7hfpnhjofuerri2e
   '@vue/cli-plugin-eslint': 5.0.8_urz2trtcc2ysk5u3uj2spbmozi
   '@vue/cli-plugin-typescript': 5.0.8_dee3bqpxgjyv2hbppilsbhbyba
-  '@vue/cli-plugin-vuex': 5.0.8_@vue+cli-service@5.0.8
   '@vue/cli-service': 5.0.8_oa6jgi7ifbpc7x5ncg24htpi2e
   '@vue/compiler-sfc': 3.2.37
   '@vue/eslint-config-typescript': 11.0.0_k5okbkqmpgkzbynrw4pkfdui7a
@@ -43,13 +41,13 @@ devDependencies:
   core-js: 3.25.0
   eslint: 8.22.0
   eslint-plugin-vue: 9.4.0_eslint@8.22.0
-  memento-vuex: 0.2.0
+  pinia: 2.0.21_j6bzmzd4ujpabbp5objtwxyjp4
+  pinia-plugin-persistedstate: 2.1.1_pinia@2.0.21
   sass: 1.54.5
   sass-loader: 13.0.2_sass@1.54.5+webpack@5.74.0
   typescript: 4.7.4
   vue: 3.2.37
   vue-router: 4.1.4_vue@3.2.37
-  vuex: 4.0.2_vue@3.2.37
   webpack: 5.74.0
 
 packages:
@@ -4900,10 +4898,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /memento-vuex/0.2.0:
-    resolution: {integrity: sha512-jwWWH4EEIKs+glVHrqrYFwgHTXnpbs1kpQs5229thy/5Iw5ASyWkPSZGCZ/YSdejxga5KBOfm6xesfO1rKfbQQ==}
-    dev: true
-
   /memfs/3.4.7:
     resolution: {integrity: sha512-ygaiUSNalBX85388uskeCyhSAoOSgzBbtVCr9jA2RROssFL9Q19/ZXFqS+2Th2sr1ewNIWgFdLzLC3Yl1Zv+lw==}
     engines: {node: '>= 4.0.0'}
@@ -5387,6 +5381,35 @@ packages:
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+    dev: true
+
+  /pinia-plugin-persistedstate/2.1.1_pinia@2.0.21:
+    resolution: {integrity: sha512-HUgsU5IRtM75eAQiIqzT3p1oPEuYH1/B2ipTMU++yE+FV0LkHaBswdKXs0RMWYCmugO8s62oxLTh/N1dLNp+5A==}
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: 2.0.21_j6bzmzd4ujpabbp5objtwxyjp4
+    dev: true
+
+  /pinia/2.0.21_j6bzmzd4ujpabbp5objtwxyjp4:
+    resolution: {integrity: sha512-6ol04PtL29O0Z6JHI47O3JUSoyOJ7Og0rstXrHVMZSP4zAldsQBXJCNF0i/H7m8vp/Hjd/CSmuPl7C5QAwpeWQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.2.1
+      typescript: 4.7.4
+      vue: 3.2.37
+      vue-demi: 0.13.11_vue@3.2.37
     dev: true
 
   /pkg-dir/4.2.0:
@@ -6764,6 +6787,21 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
+  /vue-demi/0.13.11_vue@3.2.37:
+    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.2.37
+    dev: true
+
   /vue-eslint-parser/9.0.3_eslint@8.22.0:
     resolution: {integrity: sha512-yL+ZDb+9T0ELG4VIFo/2anAOz8SvBdlqEnQnvJ3M7Scq56DvtjY0VY88bByRZB0D4J0u8olBcfrXTVONXsh4og==}
     engines: {node: ^14.17.0 || >=16.0.0}
@@ -6905,15 +6943,6 @@ packages:
       '@vue/runtime-dom': 3.2.37
       '@vue/server-renderer': 3.2.37_vue@3.2.37
       '@vue/shared': 3.2.37
-    dev: true
-
-  /vuex/4.0.2_vue@3.2.37:
-    resolution: {integrity: sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==}
-    peerDependencies:
-      vue: ^3.0.2
-    dependencies:
-      '@vue/devtools-api': 6.2.1
-      vue: 3.2.37
     dev: true
 
   /watchpack/2.4.0:
