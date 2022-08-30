@@ -1,5 +1,9 @@
-import { intersection } from "@/utils/sets"
-import { shuffle } from "@/utils"
+import _difference from "lodash/difference"
+import _intersection from "lodash/intersection"
+import _shuffle from "lodash/shuffle"
+import _sum from "lodash/sum"
+import _uniq from "lodash/uniq"
+import { computed } from "vue"
 import { useJsonDataStore } from "@/stores/jsonData"
 import { useUserDataStore } from "@/stores/userData"
 import type { Character, ProcessedCharacter, JSONData } from "@/types"
@@ -20,38 +24,44 @@ function processCharacter(id: string, character: Character, constellation: numbe
 	}
 }
 
-function getFitness(character: ProcessedCharacter, currentParty: Set<ProcessedCharacter>, data: JSONData) {
+function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData) {
+	const partyElements = _uniq(currentParty.map(c => c.element))
+	const partyRoles = _uniq(currentParty.map(c => c.roles).flat())
 	const scores = []
 
 	// Start with points from the tier list
-	scores.push(character.score / 2)
+	scores.push(character.score / 3)
 
-	// Subtract points from DPS characters if party already has a DPS
-	// Add points to DPS characters if there's no DPS
-	scores.push(([...currentParty].map(c => c.roles).flat().includes("dps") ? -1 : 1) * Number(character.roles.includes("dps")) * 1.5)
-
-	// Add points for each role character has that party doesn't have
-	scores.push(
-		character.roles.reduce((acc, cur) => (
-			[...currentParty].map(c => c.roles).flat().includes(cur)
-				? acc
-				: acc + 1
-		), 0) / 4
+	// If party doesn't have a DPS, give all DPS characters points
+	// Else subtract points from all DPS characters
+	scores.push(character.roles.includes("dps")
+		? partyRoles.includes("dps")
+			? -0.5
+			: 1
+		: 0
 	)
+
+	// If party doesn't have a shield nor a healer, give all shielders and healers points
+	// Else subtract points from shielders and healers
+	scores.push(0 > _intersection(character.roles, ["heal", "shield"]).length
+		? 0 > _intersection(partyRoles, ["heal", "shield"]).length
+			? -0.5
+			: 1
+		: 0
+	)
+
+	// Give points for role variability
+	scores.push(_difference(character.roles, partyRoles).length / 3)
 
 	// Subtract points for having the same weapon type as other characters in party
-	scores.push(
-		-[...currentParty].filter(c => character.weapon === c.weapon).length / 4
-	)
+	scores.push(-currentParty.filter(c => character.weapon === c.weapon).length / 6)
 
 	// Add points for potential to create new resonance (except for useless 4-unique resonance)
-	scores.push(
-		Number(1 === [...currentParty].filter(c => character.element === c.element).length) / 2
-	)
+	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length))
 
 	// Reactions strength
 	scores.push(
-		[...new Set([...currentParty].map(c => c.element))].reduce((acc, cur) => {
+		partyElements.reduce((acc, cur) => {
 			const idxs = [cur, character.element].map(e => data.reactions.header.indexOf(e))
 			return acc + data.reactions.matrix[Math.max(...idxs)][Math.min(...idxs)]
 		}, 0) / 2
@@ -62,14 +72,14 @@ function getFitness(character: ProcessedCharacter, currentParty: Set<ProcessedCh
 		case "bennett": {
 			// C6 Bennett's ultimate overrides autoattack element with pyro
 			// Subtract a point for each character which gets negatively affected
-			const badInteraction = new Set(
-				["chongyun", "tartaglia", "eula", "ganyu", "keqing", "noelle", "razor", "rosaria"]
-			)
+			const badInteraction = [
+				"chongyun", "tartaglia", "eula",
+				"ganyu", "keqing", "noelle",
+				"razor", "rosaria",
+			]
 
 			if (5 < character.constellation) {
-				scores.push(
-					-intersection(new Set([...currentParty].map(c => c.id)), badInteraction).size
-				)
+				scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
 			}
 
 			break
@@ -78,72 +88,94 @@ function getFitness(character: ProcessedCharacter, currentParty: Set<ProcessedCh
 		case "chongyun": {
 			// Chongyun's ability overrides autoattack element with cryo
 			// Subtract a point for each character which gets negatively affected
-			const badInteraction = new Set(
-				["tartaglia", "eula", "hu_tao", "keqing", "klee", "noelle", "razor", "rosaria", "yoimiya"]
-			)
+			const badInteraction = [
+				"tartaglia", "eula", "hu_tao",
+				"keqing", "klee", "noelle",
+				"razor", "rosaria", "yoimiya",
+			]
 
-			scores.push(
-				-intersection(new Set([...currentParty].map(c => c.id)), badInteraction).size
-			)
+			scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
 
 			break
 		}
 
 		case "gorou": {
 			// Gorou wants mono-geo
-			scores.push(
-				[...currentParty].filter(c => "geo" === c.element).length - 1
-			)
+			scores.push(currentParty.filter(c => "geo" === c.element).length - 1)
 
 			break
 		}
 
 		case "yelan": {
-			const currentPartyElements = new Set([...currentParty].map(c => c.element))
 			// When the party has 1/2/3/4 Elemental Types,
 			// Yelan's Max HP is increased by 6%/12%/18%/30%.
 			// And her skills scale off her HP
-			scores.push(
-				(currentPartyElements.size + Number(!currentPartyElements.has("hydro"))) / 2
-			)
+			scores.push((partyElements.length + Number(!partyElements.includes("hydro"))) / 2)
 
 			break
 		}
+
+		default: {
+			scores.push(0)
+		}
 	}
 
-	return scores.reduce((acc, cur) => acc + cur, 0)
+	// Debug messages
+	if ("development" === process.env.NODE_ENV) {
+		const categories = [
+			"Tier list score",
+			"Essential role (DPS)",
+			"Essential role (Heal/Shield)",
+			"Role variability",
+			"Weapon variability",
+			"Resonance potential",
+			"Reactions strength",
+			"Character-specific interactions",
+		]
+
+		console.debug(
+			"Considering",
+			character.id,
+			Object.fromEntries(
+				scores.map((score, i) => [categories[i], score])
+			)
+		)
+	}
+
+	return _sum(scores)
 }
 
 export function useSuggest() {
 	const userData = useUserDataStore()
 	const jsonData = useJsonDataStore()
 
-	function suggest(partyId: number, n: number) {
-		const currentParty: (string | null)[] = userData.parties[partyId].members
-		const ownedCharacters = userData.ownedCharacters
-
-		const processedCharacters = Object.entries(jsonData.characters)
+	const processedCharacters = computed(() => (
+		Object.entries(jsonData.characters)
 			// Not interested in characters that are not owned
-			.filter(([id]) => id in ownedCharacters)
+			.filter(([id]) => id in userData.ownedCharacters)
 			.flatMap(([id, character]) => (
 				undefined !== character
-					? [processCharacter(id, character, ownedCharacters[id].constellation)]
+					? [processCharacter(id, character, userData.ownedCharacters[id].constellation)]
 					: []
-			))
+			)))
+	)
 
-		const selected = new Set(
+	function suggest(partyId: number, n: number) {
+		const currentParty: (string | null)[] = userData.parties[partyId].members
+
+		const selected = _uniq(
 			currentParty
 				.filter(Boolean)
 				.flatMap((id) => {
-					const found = processedCharacters.find(c => id === c.id)
+					const found = processedCharacters.value.find(c => id === c.id)
 					return found ? [found] : []
 				})
 		)
 
-		const pool = processedCharacters
+		const pool = processedCharacters.value
 			.filter(({ id }) => !(currentParty.includes(id)))
 
-		return shuffle(pool)
+		return _shuffle(pool)
 			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, jsonData) }))
 			.sort((a, b) => a.fitness < b.fitness ? 1 : -1)
 			.slice(0, n)

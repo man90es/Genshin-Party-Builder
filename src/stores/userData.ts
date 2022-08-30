@@ -1,5 +1,6 @@
+import _snakeCase from "lodash/snakeCase"
 import { defineStore } from "pinia"
-import { pascalToSnake, migrateCharacterId } from "@/utils"
+import { migrateCharacterId } from "@/utils"
 import type { SimpleParty } from "@/types"
 
 class Party {
@@ -14,9 +15,7 @@ class Party {
 
 type UserDataState = {
 	ownedCharacters: {
-		[key: string]: {
-			constellation: number
-		}
+		[key: string]: { constellation: number }
 	},
 	parties: {
 		name: string | null
@@ -32,14 +31,9 @@ export const useUserDataStore = defineStore("userDataStore", {
 
 	actions: {
 		importGOOD(data: { key: string; constellation: number }[]) {
-			this.$patch({
-				ownedCharacters: Object.fromEntries(
-					data.map(({ key, constellation }) => [
-						pascalToSnake(key),
-						{ constellation },
-					])
-				)
-			})
+			this.ownedCharacters = Object.fromEntries(
+				data.map(({ key, constellation }) => [_snakeCase(key), { constellation }])
+			)
 		},
 
 		setHave(id: string, have: boolean) {

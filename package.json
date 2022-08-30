@@ -7,6 +7,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.17.5",
 		"@babel/eslint-parser": "^7.16.5",
+		"@types/lodash": "^4.14.184",
 		"@types/node": "^18.7.13",
 		"@typescript-eslint/eslint-plugin": "^5.13.0",
 		"@typescript-eslint/parser": "^5.13.0",
@@ -20,6 +21,7 @@
 		"core-js": "^3.21.0",
 		"eslint": "^8.10.0",
 		"eslint-plugin-vue": "^9.4.0",
+		"lodash": "^4.17.21",
 		"pinia": "^2.0.21",
 		"pinia-plugin-persistedstate": "^2.1.1",
 		"sass": "^1.49.9",
