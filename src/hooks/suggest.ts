@@ -36,7 +36,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	// Else subtract points from all DPS characters
 	scores.push(character.roles.includes("dps")
 		? partyRoles.includes("dps")
-			? -0.5
+			? -1
 			: 1
 		: 0
 	)
@@ -45,7 +45,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	// Else subtract points from shielders and healers
 	scores.push(0 > _intersection(character.roles, ["heal", "shield"]).length
 		? 0 > _intersection(partyRoles, ["heal", "shield"]).length
-			? -0.5
+			? -1
 			: 1
 		: 0
 	)
@@ -57,7 +57,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	scores.push(-currentParty.filter(c => character.weapon === c.weapon).length / 6)
 
 	// Add points for potential to create new resonance (except for useless 4-unique resonance)
-	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length))
+	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length) * 1.5)
 
 	// Reactions strength
 	scores.push(
