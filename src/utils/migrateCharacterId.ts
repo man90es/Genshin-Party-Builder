@@ -10,5 +10,5 @@ export default function migrateCharacterId(id: string): string {
 		return id
 	}
 
-	return specialV1Transitions.get(id) || id.replace("CHARACTER_", "").replace("traveller", "traveler").toLowerCase()
+	return specialV1Transitions.get(id) || id.replace("CHARACTER_", "").toLowerCase().replace("traveller", "traveler")
 }
