@@ -1,131 +1,185 @@
-import { Store, useStore } from "vuex"
+import _difference from "lodash/difference"
+import _intersection from "lodash/intersection"
+import _shuffle from "lodash/shuffle"
+import _sum from "lodash/sum"
+import _uniq from "lodash/uniq"
+import { computed } from "vue"
+import { useJsonDataStore } from "@/stores/jsonData"
+import { useUserDataStore } from "@/stores/userData"
+import type { Character, ProcessedCharacter, JSONData } from "@/types"
 
-import { shuffle } from "@/utils"
-import type { Character, ElementId, OwnedIndex, RoleId } from "@/types"
-import type { StoreState } from "@/store/StoreState"
+function processCharacter(id: string, character: Character, constellation: number): ProcessedCharacter {
+	return {
+		constellation,
+		damage: character.damage || [character.element],
+		element: character.element,
+		id,
+		roles: character.roles.flatMap(r => (
+			"object" === typeof r
+				? constellation >= r.c ? [r.role] : []
+				: [r]
+		)),
+		score: character.score[constellation],
+		weapon: character.weapon,
+	}
+}
 
-export default function() {
-	const store: Store<StoreState> = useStore()
+function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData) {
+	const partyElements = _uniq(currentParty.map(c => c.element))
+	const partyRoles = _uniq(currentParty.map(c => c.roles).flat())
+	const scores = []
 
-	function seek(characters: Character[], userData: OwnedIndex, roleId: RoleId, limit: number, elementId?: ElementId) {
-		return shuffle(characters)
-			.filter((c) => {
-				const constellation: number = store.getters.constellation(c.id)
+	// Start with points from the tier list
+	scores.push(character.score / 3)
 
-				if (c.rating[roleId][constellation] < 1) {
-					return false
-				}
+	// If party doesn't have a DPS, give all DPS characters points
+	// Else subtract points from all DPS characters
+	scores.push(character.roles.includes("dps")
+		? partyRoles.includes("dps")
+			? -1
+			: 1
+		: 0
+	)
 
-				if (roleId === "ROLE_DAMAGE" && c.rating["ROLE_DAMAGE"][constellation] <= c.rating["ROLE_SUPPORT"][constellation]) {
-					return false
-				}
+	// If party doesn't have a shield nor a healer, give all shielders and healers points
+	// Else subtract points from shielders and healers
+	scores.push(0 > _intersection(character.roles, ["heal", "shield"]).length
+		? 0 > _intersection(partyRoles, ["heal", "shield"]).length
+			? -1
+			: 1
+		: 0
+	)
 
-				return true
-			})
-			.sort((a, b) => {
-				return userData[a.id].constellation > userData[b.id].constellation ? 1 : -1
-			})
-			.sort((a, b) => {
-				const aR = a.rating[roleId][userData[a.id].constellation] + (elementId && a.element === elementId ? 1.5 : 0)
-				const bR = b.rating[roleId][userData[b.id].constellation] + (elementId && b.element === elementId ? 1.5 : 0)
+	// Give points for role variability
+	scores.push(_difference(character.roles, partyRoles).length / 3)
 
-				return aR < bR ? 1 : -1
-			})
-			.slice(0, limit)
+	// Subtract points for having the same weapon type as other characters in party
+	scores.push(-currentParty.filter(c => character.weapon === c.weapon).length / 6)
+
+	// Add points for potential to create new resonance (except for useless 4-unique resonance)
+	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length) * 1.5)
+
+	// Reactions strength
+	scores.push(
+		partyElements.reduce((acc, cur) => {
+			const idxs = [cur, character.element].map(e => data.reactions.header.indexOf(e))
+			return acc + data.reactions.matrix[Math.max(...idxs)][Math.min(...idxs)]
+		}, 0) / 2
+	)
+
+	// Add/subtract points for character-specific interactions
+	switch (character.id) {
+		case "bennett": {
+			// C6 Bennett's ultimate overrides autoattack element with pyro
+			// Subtract a point for each character which gets negatively affected
+			const badInteraction = [
+				"chongyun", "tartaglia", "eula",
+				"ganyu", "keqing", "noelle",
+				"razor", "rosaria",
+			]
+
+			if (5 < character.constellation) {
+				scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
+			}
+
+			break
+		}
+
+		case "chongyun": {
+			// Chongyun's ability overrides autoattack element with cryo
+			// Subtract a point for each character which gets negatively affected
+			const badInteraction = [
+				"tartaglia", "eula", "hu_tao",
+				"keqing", "klee", "noelle",
+				"razor", "rosaria", "yoimiya",
+			]
+
+			scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
+
+			break
+		}
+
+		case "gorou": {
+			// Gorou wants mono-geo
+			scores.push(currentParty.filter(c => "geo" === c.element).length - 1)
+
+			break
+		}
+
+		case "yelan": {
+			// When the party has 1/2/3/4 Elemental Types,
+			// Yelan's Max HP is increased by 6%/12%/18%/30%.
+			// And her skills scale off her HP
+			scores.push((partyElements.length + Number(!partyElements.includes("hydro"))) / 2)
+
+			break
+		}
+
+		default: {
+			scores.push(0)
+		}
 	}
 
-	function analyseParty(party: Array<Character | null>, userData: OwnedIndex) {
-		let damageDealer: Character
-		let damageElement: ElementId | null = null
-		let hasDamage = false
-		let hasHealer = false
-		let hasDamageResonance = false
+	// Debug messages
+	if ("development" === process.env.NODE_ENV) {
+		const categories = [
+			"Tier list score",
+			"Essential role (DPS)",
+			"Essential role (Heal/Shield)",
+			"Role variability",
+			"Weapon variability",
+			"Resonance potential",
+			"Reactions strength",
+			"Character-specific interactions",
+		]
 
-		for (let i = 0; i < 4; ++i) {
-			const curCharacter = party[i]
-
-			if (curCharacter === null) {
-				continue
-			}
-
-			// Ignore not owned characters
-			if (!Object.keys(userData).includes(curCharacter.id)) {
-				continue
-			}
-
-			const curConstellation: number = store.getters.constellation(curCharacter.id)
-
-			if (curCharacter.rating["ROLE_HEALER"][curConstellation] > 0) {
-				hasHealer = true
-			}
-
-			if (curCharacter.rating["ROLE_DAMAGE"][curConstellation] > curCharacter.rating["ROLE_SUPPORT"][curConstellation]) {
-				hasDamage = true
-				damageDealer = curCharacter
-				damageElement = curCharacter.element
-			}
-		}
-
-		if (damageElement !== null) {
-			hasDamageResonance = party.findIndex((character) => {
-				return character?.id !== damageDealer.id && character?.element === damageElement
-			}) > -1
-		}
-
-		return {
-			hasDamage,
-			hasHealer,
-			hasDamageResonance,
-			damageElement,
-		}
+		console.debug(
+			"Considering",
+			character.id,
+			Object.fromEntries(
+				scores.map((score, i) => [categories[i], score])
+			)
+		)
 	}
 
-	function suggest(partyIndex: number, limit: number) {
-		const data = store.state.data
-		const party = store.state.parties[partyIndex].members
-		const owned = store.state.ownedCharacters
+	return _sum(scores)
+}
 
-		// No empty slots left, nothing to suggest
-		if (!party.includes(null)) return [null, []]
+export function useSuggest() {
+	const userData = useUserDataStore()
+	const jsonData = useJsonDataStore()
 
-		let suggestedPosition: string
-		let suggestedCharacters: Character[]
+	const processedCharacters = computed(() => (
+		Object.entries(jsonData.characters)
+			// Not interested in characters that are not owned
+			.filter(([id]) => id in userData.ownedCharacters)
+			.flatMap(([id, character]) => (
+				undefined !== character
+					? [processCharacter(id, character, userData.ownedCharacters[id].constellation)]
+					: []
+			)))
+	)
 
-		// Construct a pool of characters to suggest from
-		let pool = data.characters.filter(c => c.id in owned)
+	function suggest(partyId: number, n: number) {
+		const currentParty: (string | null)[] = userData.parties[partyId].members
 
-		for (let i = 0; i < 4; ++i) {
-			const charId = party[i]
+		const selected = _uniq(
+			currentParty
+				.filter(Boolean)
+				.flatMap((id) => {
+					const found = processedCharacters.value.find(c => id === c.id)
+					return found ? [found] : []
+				})
+		)
 
-			if (charId !== null) {
-				pool = pool.filter(c => c.id != charId)
-			}
-		}
+		const pool = processedCharacters.value
+			.filter(({ id }) => !(currentParty.includes(id)))
 
-		// No characters left to suggest
-		if (pool.length === 0) return [null, []]
-
-		// Choose suggested position
-		const { hasDamage, hasHealer, hasDamageResonance, damageElement } = analyseParty(party.map(cId => data.characters.find(c => c.id === cId) || null), owned)
-		const prioritiseHealer = !hasHealer && party.reduce((empty, c) => empty + Number(c === null), 0) == 1
-
-		if (!hasDamage && !prioritiseHealer) {
-			suggestedPosition = "damage dealer"
-			suggestedCharacters = seek(pool, owned, "ROLE_DAMAGE", limit)
-		} else if (!hasHealer) {
-			suggestedPosition = "healer"
-			suggestedCharacters = seek(pool, owned, "ROLE_HEALER", limit)
-		} else {
-			suggestedPosition = "support"
-			suggestedCharacters = seek(pool, owned, "ROLE_SUPPORT", limit, !hasDamageResonance ? damageElement || undefined : undefined)
-		}
-
-		if (suggestedCharacters.length < 1) {
-			suggestedPosition = "support"
-			suggestedCharacters = seek(pool, owned, "ROLE_SUPPORT", limit, !hasDamageResonance ? damageElement || undefined : undefined)
-		}
-
-		return [suggestedPosition, suggestedCharacters.map(c => c.id)]
+		return _shuffle(pool)
+			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, jsonData) }))
+			.sort((a, b) => a.fitness < b.fitness ? 1 : -1)
+			.slice(0, n)
+			.map(f => f.characterId)
 	}
 
 	return { suggest }

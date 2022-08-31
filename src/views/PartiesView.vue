@@ -1,20 +1,27 @@
 <template>
 	<main>
 		<p>
-			These are the parties that you've created. Click a party or create a new one to edit it.
+			These are the parties that you've created. Click a party or create a
+			new one to edit it.
 		</p>
-		<party-row v-for="(party, i) in store.state.parties" :key="i" :meta="party" @click="() => editParty(i)" :clickable="true" />
+		<party-row
+			:clickable="true"
+			:key="i"
+			:meta="party"
+			@click="() => editParty(i)"
+			v-for="(party, i) in userData.parties"
+		/>
 		<button @click="pushParty">New party</button>
 		<button @click="prevStage">Characters</button>
 	</main>
 </template>
 
 <script setup>
+	import { useAPI } from "@/hooks/api"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
-	import { useStore } from "vuex"
+	import { useUserDataStore } from "@/stores/userData"
 	import PartyRow from "@/components/PartyRow.vue"
-	import useAPI from "@/hooks/api"
 
 	const { fetchData } = useAPI()
 	useHead({ title: `My parties | ${process.env.VUE_APP_SITE_NAME}` })
@@ -22,28 +29,30 @@
 	fetchData()
 
 	const router = useRouter()
-	const store = useStore()
+	const userData = useUserDataStore()
 
-	if (Object.keys(store.state.ownedCharacters).length < 5) {
+	if (Object.keys(userData.ownedCharacters).length < 5) {
 		router.push({ name: "landing" })
 	}
 
 	function pushParty() {
-		const emptyI = store.state.parties.findIndex(p => {
-			return p.members.reduce((s, m) => {
-				return s + Number(m === null)
-			}, 0) === 4
+		const emptyI = userData.parties.findIndex((p) => {
+			return (
+				p.members.reduce((s, m) => {
+					return s + Number(m === null)
+				}, 0) === 4
+			)
 		})
 
 		if (emptyI > -1) {
 			editParty(emptyI)
 		} else {
-			store.commit("pushParty")
-			editParty(store.state.parties.length - 1)
+			userData.createParty()
+			editParty(userData.parties.length - 1)
 		}
 	}
 
-	if (store.state.parties.length < 1) {
+	if (userData.parties.length < 1) {
 		pushParty()
 	}
 

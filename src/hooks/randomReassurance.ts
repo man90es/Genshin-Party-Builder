@@ -1,11 +1,15 @@
-import { capitalise } from "@/utils"
+import _capitalise from "lodash/capitalize"
+import _sample from "lodash/sample"
 
-export default function() {
-	const reassurance = ["great", "wonderful", "marvellous", "magnificent", "superb", "glorious", "sublime", "lovely", "neat", "terrific", "splendid", "marvellous"]
+const reassurance = [
+	"glorious", "great", "lovely",
+	"magnificent", "marvellous", "neat",
+	"preem", "splendid", "sublime",
+	"superb", "terrific", "wonderful",
+]
 
-	function generateReassurance(): string {
-		return capitalise(reassurance[Math.floor(Math.random() * reassurance.length)])
+export default function useRandomReassurance() {
+	return {
+		generateReassurance: () => _capitalise(_sample(reassurance))
 	}
-
-	return { generateReassurance }
 }

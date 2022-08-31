@@ -1,6 +1,5 @@
 export * from "./Character"
-export * from "./ElementId"
 export * from "./JSONData"
 export * from "./OwnedIndex"
-export * from "./RoleId"
+export * from "./ProcessedCharacter"
 export * from "./SimpleParty"

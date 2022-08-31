@@ -1,22 +1,19 @@
-import { Store, useStore } from "vuex"
-
-import type { JSONData } from "@/types"
-import type { StoreState } from "@/store/StoreState"
+import { useJsonDataStore } from "@/stores/jsonData"
 
 const requestInit: RequestInit = {
-	mode:     "cors",
+	mode: "cors",
 	redirect: "follow",
 }
 
-export default function() {
-	const store: Store<StoreState> = useStore()
+export function useAPI(): { fetchData: () => void } {
+	const store = useJsonDataStore()
 
-	function fetchData(): void {
-		if (store.state.data.characters.length > 0) return // Already fetched
+	function fetchData() {
+		if (Object.keys(store.characters).length > 0) return // Already fetched
 
-		fetch(`${process.env.VUE_APP_ASSETS_ENDPOINT}data.json`, requestInit)
+		fetch(`${process.env.VUE_APP_ASSETS_ENDPOINT}data.v2.json`, requestInit)
 			.then(response => response.json())
-			.then((json: JSONData) => store.commit("setData", json))
+			.then(json => store.$patch(json))
 	}
 
 	return { fetchData }

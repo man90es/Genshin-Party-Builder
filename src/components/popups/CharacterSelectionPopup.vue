@@ -1,28 +1,39 @@
 <template>
-	<popup-shell headline="Select another character" :showAccept="false" @cancel="closeHandler">
+	<PopupShell
+		:showAccept="false"
+		@cancel="closeHandler"
+		headline="Select another character"
+	>
 		<div id="available-characters">
-			<character-card v-for="id in characterIds" :key="id" :characterId="id" :cursor="'pointer'" @click="select(id)" />
+			<CharacterCard
+				:characterId="id"
+				:cursor="'pointer'"
+				:key="id"
+				@click="select(id)"
+				v-for="id in characterIds"
+			/>
 		</div>
-	</popup-shell>
+	</PopupShell>
 </template>
 
 <script setup>
 	import { computed, onBeforeUnmount } from "vue"
-	import { useStore } from "vuex"
-	import CharacterCard from "@/components/CharacterCard.vue"
-	import PopupShell from "../PopupShell.vue"
+	import { useJsonDataStore } from "@/stores/jsonData"
+	import { useUserDataStore } from "@/stores/userData"
+	import CharacterCard from "@/components/CharacterCard"
+	import PopupShell from "@/components/PopupShell"
 
-	const store = useStore()
+	const userData = useUserDataStore()
+	const jsonData = useJsonDataStore()
 
 	const emit = defineEmits(["close", "select"])
 	const props = defineProps({ meta: Object, exclude: Array })
 
-	const characterIds = computed(() => {
-		return store.state.data.characters
-			.filter(c => c.id in store.state.ownedCharacters)
-			.filter(c => !props.exclude.includes(c.id))
-			.map(c => c.id)
-	})
+	const characterIds = computed(() =>
+		Object.keys(jsonData.characters)
+			.filter((id) => id in userData.ownedCharacters)
+			.filter((id) => !props.exclude.includes(id))
+	)
 
 	function closeHandler() {
 		emit("close")

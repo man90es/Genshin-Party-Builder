@@ -1,28 +1,38 @@
 <template>
 	<picture>
-		<source v-for="src in srcList" :key="src.mime" :srcSet="src.path" :type="src.mime">
-		<img :src="srcList.at(-1).path" :style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }">
+		<source
+			:key="src.mime"
+			:srcSet="src.path"
+			:type="src.mime"
+			v-for="src in srcList"
+		/>
+		<img
+			:src="srcList.at(-1).path"
+			:style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }"
+		/>
 	</picture>
 </template>
 
 <script setup>
 	import { computed } from "vue"
-	import { useStore } from "vuex"
-
-	const store = useStore()
+	import { useJsonDataStore } from "@/stores/jsonData"
 
 	const props = defineProps({
-		elementId: { type: String, required: true }
+		elementId: { type: String, required: true },
 	})
 
+	const jsonData = useJsonDataStore()
+
 	const srcList = computed(() => {
-		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}${store.state.data.spritesheets.elements.filePath}`
-		return store.state.data.spritesheets.elements.extensions.map(f => ({ path: path + "." + f, mime: "image/" + f }))
+		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}${jsonData.spritesheets.elements.path}`
+		return jsonData.spritesheets.elements.extensions.map((f) => ({
+			path: path + "." + f,
+			mime: "image/" + f,
+		}))
 	})
 
 	const offset = computed(() => {
-		const index = store.state.data.spritesheets.elements.indices[props.elementId]
-
+		const index = jsonData.spritesheets.elements.indices[props.elementId]
 		return [index[0] * -1, index[1] * -1]
 	})
 </script>

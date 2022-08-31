@@ -1,8 +1,8 @@
 <template>
 	<header data-nosnippet>
-		<h1>Man90's Party Builder</h1>
+		<h1>Man90's Party Builder<sup>v2 beta</sup></h1>
 		<div v-if="props.full">for</div>
-		<img v-if="props.full" :src="logoSrc" alt="Genshin Impact">
+		<img v-if="props.full" :src="logoSrc" alt="Genshin Impact" />
 	</header>
 </template>
 
@@ -18,6 +18,10 @@
 		h1 {
 			font-size: 1.2rem;
 			margin-bottom: 0;
+		}
+
+		sup {
+			color: #faad14;
 		}
 
 		img {

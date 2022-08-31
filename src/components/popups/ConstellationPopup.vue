@@ -1,39 +1,62 @@
 <template>
-	<popup-shell :headline="`Select ${characterName}'s contellation level`" @cancel="cancel" @accept="accept" cancelText="Remove">
+	<PopupShell
+		:headline="`Select ${characterName}'s contellation level`"
+		@cancel="cancel"
+		@accept="accept"
+		cancelText="Remove"
+	>
 		<span>Contellation level</span>
 		<div class="row" id="contellation-row">
 			<button class="dark" @click="dec">-</button>
-			<div class="result">{{ store.getters.constellation(props.characterId) }}</div>
+			<div class="result">
+				{{ userData.ownedCharacters[props.characterId].constellation }}
+			</div>
 			<button class="dark" @click="inc">+</button>
 		</div>
-	</popup-shell>
+	</PopupShell>
 </template>
 
 <script setup>
+	import { characterIdToName } from "@/utils"
 	import { computed, onBeforeUnmount } from "vue"
-	import { useStore } from "vuex"
-	import PopupShell from "../PopupShell.vue"
+	import { useJsonDataStore } from "@/stores/jsonData"
+	import { useUserDataStore } from "@/stores/userData"
+	import PopupShell from "@/components/PopupShell"
 
 	const emit = defineEmits(["abort"])
+	const jsonData = useJsonDataStore()
 	const props = defineProps({ characterId: String })
-	const store = useStore()
+	const userData = useUserDataStore()
 
-	const characterName = computed(() => {
-		return store.state.data.characters.find(char => char.id === props.characterId)?.name
-	})
+	const characterName = computed(
+		() =>
+			jsonData.characters[props.characterId]?.name ||
+			characterIdToName(props.characterId)
+	)
 
-	store.commit("setHave", { id: props.characterId, have: true })
+	userData.setHave(props.characterId, true)
 
 	function inc() {
-		store.commit("updateConstellation", { id: props.characterId, value: 1 })
+		if (
+			jsonData.characters[props.characterId].score.length - 1 ===
+			userData.ownedCharacters[props.characterId]?.constellation
+		) {
+			return
+		}
+
+		userData.ownedCharacters[props.characterId].constellation += 1
 	}
 
 	function dec() {
-		store.commit("updateConstellation", { id: props.characterId, value: -1 })
+		if (0 === userData.ownedCharacters[props.characterId]?.constellation) {
+			return
+		}
+
+		userData.ownedCharacters[props.characterId].constellation -= 1
 	}
 
 	function cancel() {
-		store.commit("setHave", { id: props.characterId, have: false })
+		userData.setHave(props.characterId, false)
 		emit("abort")
 	}
 
@@ -44,8 +67,12 @@
 	function hotkeyHandler(e) {
 		const parsedInt = parseInt(e.key)
 		if (!isNaN(parsedInt)) {
-			const delta = parsedInt - store.getters.constellation(props.characterId)
-			store.commit("updateConstellation", { id: props.characterId, value: delta })
+			if (parsedInt > 6) {
+				return
+			}
+
+			userData.ownedCharacters[props.characterId].constellation =
+				parsedInt
 
 			return
 		}
