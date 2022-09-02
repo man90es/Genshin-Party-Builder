@@ -43,8 +43,12 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 
 	// If party doesn't have a shield nor a healer, give all shielders and healers points
 	// Else subtract points from shielders and healers
-	scores.push(0 > _intersection(character.roles, ["heal", "shield"]).length
-		? 0 > _intersection(partyRoles, ["heal", "shield"]).length
+	const defensiveRoles = currentParty.map(c => c.id).includes("hu_tao")
+		? ["shield"]
+		: ["shield", "heal"]
+
+	scores.push(0 > _intersection(character.roles, defensiveRoles).length
+		? 0 > _intersection(partyRoles, defensiveRoles).length
 			? -1
 			: 1
 		: 0
@@ -59,7 +63,9 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	// Add points for potential to create new resonance (except for useless 4-unique resonance)
 	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length) * 1.5)
 
-	// Reactions strength
+	// Get a multiplier from a triangular matrix
+	// Where a value represents the strength of reaction of a pair of elements
+	// And sum all reactions possible in current team
 	scores.push(
 		partyElements.reduce((acc, cur) => {
 			const idxs = [cur, character.element].map(e => data.reactions.header.indexOf(e))
@@ -68,14 +74,14 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	)
 
 	// Add/subtract points for character-specific interactions
+	// TODO: Make these interactions two-way
 	switch (character.id) {
 		case "bennett": {
 			// C6 Bennett's ultimate overrides autoattack element with pyro
-			// Subtract a point for each character which gets negatively affected
+			// Subtract points for each character which gets negatively affected
 			const badInteraction = [
-				"chongyun", "tartaglia", "eula",
-				"ganyu", "keqing", "noelle",
-				"razor", "rosaria",
+				"chongyun", "eula", "kamisato_ayaka",
+				"keqing", "razor"
 			]
 
 			if (5 < character.constellation) {
@@ -87,11 +93,10 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 
 		case "chongyun": {
 			// Chongyun's ability overrides autoattack element with cryo
-			// Subtract a point for each character which gets negatively affected
+			// Subtract points for each character which gets negatively affected
 			const badInteraction = [
-				"tartaglia", "eula", "hu_tao",
-				"keqing", "klee", "noelle",
-				"razor", "rosaria", "yoimiya",
+				"eula", "keqing", "razor",
+				"rosaria",
 			]
 
 			scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
@@ -102,6 +107,13 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 		case "gorou": {
 			// Gorou wants mono-geo
 			scores.push(currentParty.filter(c => "geo" === c.element).length - 1)
+
+			break
+		}
+
+		case "hu_tao": {
+			// Hu Tao doesn't want healers
+			scores.push(-partyRoles.includes("heal"))
 
 			break
 		}
