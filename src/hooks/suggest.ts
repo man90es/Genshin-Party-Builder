@@ -61,7 +61,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	scores.push(-currentParty.filter(c => character.weapon === c.weapon).length / 6)
 
 	// Add points for potential to create new resonance (except for useless 4-unique resonance)
-	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length) * 1.5)
+	scores.push(Number(1 === currentParty.filter(c => character.element === c.element).length))
 
 	// Get a multiplier from a triangular matrix
 	// Where a value represents the strength of reaction of a pair of elements
