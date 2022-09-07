@@ -1,0 +1,61 @@
+<template>
+	<PopupShell
+		@accept="fileInput.click()"
+		@cancel="emit('abort')"
+		acceptText="Browse"
+		headline="Import characters"
+	>
+		<span>
+			You can import your characters from a JSON file in GOOD format. You
+			can generate it automatically with
+			<a
+				href="https://github.com/Andrewthe13th/Inventory_Kamera"
+				target="_blank"
+			>
+				Inventory Kamera
+			</a>
+			or a similar tool.
+		</span>
+		<span class="error">{{ error }}</span>
+		<input
+			@change="handleImport"
+			accept="application/json"
+			hidden
+			ref="fileInput"
+			type="file"
+		/>
+	</PopupShell>
+</template>
+
+<script setup>
+	import { readGOOD } from "@/utils"
+	import { ref } from "vue"
+	import { useUserDataStore } from "@/stores/userData"
+	import PopupShell from "@/components/PopupShell"
+
+	const emit = defineEmits(["abort"])
+	const error = ref("")
+	const fileInput = ref(null)
+	const userData = useUserDataStore()
+
+	function handleImport() {
+		readGOOD(fileInput.value?.files[0])
+			.then(({ characters }) => {
+				userData.importGOOD(characters)
+				emit("abort")
+			})
+			.catch((err) => {
+				error.value = err
+			})
+	}
+</script>
+
+<style scoped>
+	.error {
+		color: brown;
+	}
+
+	span {
+		max-width: 30em;
+	}
+</style>

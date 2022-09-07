@@ -5,6 +5,7 @@ import _sum from "lodash/sum"
 import _uniq from "lodash/uniq"
 import { computed } from "vue"
 import { useJsonDataStore } from "@/stores/jsonData"
+import { useRoute } from "vue-router"
 import { useUserDataStore } from "@/stores/userData"
 import type { Character, ProcessedCharacter, JSONData } from "@/types"
 
@@ -157,9 +158,10 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	return _sum(scores)
 }
 
-export function useSuggest() {
-	const userData = useUserDataStore()
+export function useSuggested() {
 	const jsonData = useJsonDataStore()
+	const route = useRoute()
+	const userData = useUserDataStore()
 
 	const processedCharacters = computed(() => (
 		Object.entries(jsonData.characters)
@@ -194,5 +196,10 @@ export function useSuggest() {
 			.map(f => f.characterId)
 	}
 
-	return { suggest }
+	const suggested = computed(() => {
+		const idx = Number(route.params.index)
+		return userData.parties[idx] ? suggest(idx, 3) : []
+	})
+
+	return { suggested }
 }

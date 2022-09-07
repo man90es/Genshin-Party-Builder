@@ -13,11 +13,7 @@
 			can remove a character from the party by clicking his or her
 			portrait.
 		</p>
-		<party-row
-			:hoverRemove="true"
-			:meta="party"
-			@cardClick="removeMember"
-		/>
+		<PartyRow :hoverRemove="true" :meta="party" @cardClick="removeMember" />
 		<p v-if="!isFull">
 			The AI recommends that you pick one of these characters to
 			strengthen your team:
@@ -49,30 +45,29 @@
 </template>
 
 <script setup>
+	import { getRandomReassurance } from "@/utils"
 	import { ref, computed, onBeforeUnmount } from "vue"
-	import { useAPI } from "@/hooks/api"
 	import { useHead } from "@vueuse/head"
+	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useRouter, useRoute } from "vue-router"
-	import { useSuggest } from "@/hooks/suggest"
+	import { useSuggested } from "@/hooks/suggested"
 	import { useUserDataStore } from "@/stores/userData"
 	import CharacterCard from "@/components/CharacterCard"
-	import CharacterSelectionPopup from "@/components/popups/CharacterSelectionPopup"
+	import CharacterSelectionPopup from "@/components/CharacterSelectionPopup"
 	import PartyRow from "@/components/PartyRow"
-	import useRandomReassurance from "@/hooks/randomReassurance"
 
-	const { fetchData } = useAPI()
-	const { suggest } = useSuggest()
-	const { generateReassurance } = useRandomReassurance()
+	const { suggested } = useSuggested()
 	useHead({ title: `Edit party | ${process.env.VUE_APP_SITE_NAME}` })
 
-	fetchData()
+	const jsonData = useJsonDataStore()
+	jsonData.sync()
 
 	const route = useRoute()
 	const router = useRouter()
 	const userData = useUserDataStore()
 
 	const activePopup = ref({ type: null, data: null })
-	const reassurance = ref(generateReassurance())
+	const reassurance = ref(getRandomReassurance(true))
 
 	if (!userData.parties[route.params.index]) {
 		prevStage()
@@ -89,26 +84,15 @@
 			}
 	)
 
-	const isEmpty = computed(() => {
-		return (
+	const isEmpty = computed(
+		() =>
 			party.value.members.reduce(
 				(empty, c) => empty + Number(c === null),
 				0
-			) == 4
-		)
-	})
+			) === 4
+	)
 
-	const isFull = computed(() => {
-		return !party.value.members?.includes(null)
-	})
-
-	const suggested = computed(() => {
-		if (userData.parties[route.params.index]) {
-			return suggest(parseInt(route.params.index), 3)
-		}
-
-		return []
-	})
+	const isFull = computed(() => !party.value.members?.includes(null))
 
 	function chooseCharacter(cId) {
 		activePopup.value = { type: null }
@@ -117,7 +101,7 @@
 			party.value.members.indexOf(null),
 			cId
 		)
-		reassurance.value = generateReassurance()
+		reassurance.value = getRandomReassurance(true)
 	}
 
 	function chooseAnotherCharacter() {
@@ -138,7 +122,9 @@
 	}
 
 	function hotkeyHandler(e) {
-		if (null !== activePopup.value.type) return
+		if (null !== activePopup.value.type) {
+			return
+		}
 
 		switch (e.key) {
 			case "Delete":
@@ -156,7 +142,6 @@
 	}
 
 	window.addEventListener("keydown", hotkeyHandler)
-
 	onBeforeUnmount(() => {
 		window.removeEventListener("keydown", hotkeyHandler)
 	})

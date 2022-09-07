@@ -24,7 +24,10 @@
 	const jsonData = useJsonDataStore()
 
 	const srcList = computed(() => {
-		const path = `${process.env.VUE_APP_ASSETS_ENDPOINT}${jsonData.spritesheets.elements.path}`
+		const path =
+			process.env.VUE_APP_ASSETS_ENDPOINT +
+			jsonData.spritesheets.elements.path
+
 		return jsonData.spritesheets.elements.extensions.map((f) => ({
 			path: path + "." + f,
 			mime: "image/" + f,

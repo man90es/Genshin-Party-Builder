@@ -33,7 +33,7 @@
 	import { characterIdToName } from "@/utils"
 	import { computed } from "vue"
 	import { useJsonDataStore } from "@/stores/jsonData"
-	import ElementBadge from "@/components/ElementBadge.vue"
+	import ElementBadge from "@/components/ElementBadge"
 
 	const jsonData = useJsonDataStore()
 	const props = defineProps({
@@ -43,18 +43,18 @@
 		namePlaceholder: String,
 	})
 
-	const meta = computed(() => {
-		return jsonData.characters[props.characterId]
-	})
+	const meta = computed(() => jsonData.characters[props.characterId])
 
-	const characterName = computed(() => {
-		return meta.value?.name || characterIdToName(props.characterId)
-	})
+	const characterName = computed(
+		() => meta.value?.name || characterIdToName(props.characterId)
+	)
 
 	const srcList = computed(() => {
-		const path = `${
-			process.env.VUE_APP_ASSETS_ENDPOINT
-		}portraits/${encodeURIComponent(characterName.value)}`
+		const path =
+			process.env.VUE_APP_ASSETS_ENDPOINT +
+			"portraits/" +
+			encodeURIComponent(characterName.value)
+
 		return [
 			{ path: path + ".webp", mime: "image/webp" },
 			{ path: path + ".png", mime: "image/png" },
@@ -62,11 +62,14 @@
 	})
 
 	const bgSrcList = computed(() => {
-		if (jsonData.spritesheets === undefined) return []
+		if (undefined === jsonData.spritesheets) {
+			return []
+		}
 
 		const path =
 			process.env.VUE_APP_ASSETS_ENDPOINT +
 			jsonData.spritesheets.backgrounds?.path
+
 		return (
 			jsonData.spritesheets.backgrounds?.extensions.map((f) => ({
 				path: path + "." + f,
@@ -75,20 +78,20 @@
 		)
 	})
 
-	const colour = computed(() => {
-		return (
+	const colour = computed(
+		() =>
 			meta.value?.background ||
 			{ 4: "purple", 5: "yellow" }[meta.value?.stars] ||
 			"grey"
-		)
-	})
+	)
 
 	const bgOffset = computed(() => {
-		if (jsonData.spritesheets === undefined) return ""
+		if (undefined === jsonData.spritesheets) {
+			return ""
+		}
 
-		const index = jsonData.spritesheets.backgrounds.indices[colour.value]
-
-		return `${(index[0] * 100) / 3}%`
+		const idx = jsonData.spritesheets.backgrounds.indices[colour.value]
+		return `${(idx[0] * 100) / 3}%`
 	})
 </script>
 

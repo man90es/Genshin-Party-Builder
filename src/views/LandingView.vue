@@ -29,13 +29,10 @@
 	}
 
 	function hotkeyHandler(e) {
-		if (e.key === "Enter") {
-			nextStage()
-		}
+		"Enter" === e.key && nextStage()
 	}
 
 	window.addEventListener("keydown", hotkeyHandler)
-
 	onBeforeUnmount(() => {
 		window.removeEventListener("keydown", hotkeyHandler)
 	})

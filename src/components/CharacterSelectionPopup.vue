@@ -1,7 +1,7 @@
 <template>
 	<PopupShell
 		:showAccept="false"
-		@cancel="closeHandler"
+		@cancel="emit('close')"
 		headline="Select another character"
 	>
 		<div id="available-characters">
@@ -9,7 +9,7 @@
 				:characterId="id"
 				:cursor="'pointer'"
 				:key="id"
-				@click="select(id)"
+				@click="emit('select', id)"
 				v-for="id in characterIds"
 			/>
 		</div>
@@ -18,41 +18,27 @@
 
 <script setup>
 	import { computed, onBeforeUnmount } from "vue"
-	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useUserDataStore } from "@/stores/userData"
 	import CharacterCard from "@/components/CharacterCard"
 	import PopupShell from "@/components/PopupShell"
 
-	const userData = useUserDataStore()
-	const jsonData = useJsonDataStore()
-
 	const emit = defineEmits(["close", "select"])
 	const props = defineProps({ meta: Object, exclude: Array })
+	const userData = useUserDataStore()
 
 	const characterIds = computed(() =>
-		Object.keys(jsonData.characters)
-			.filter((id) => id in userData.ownedCharacters)
-			.filter((id) => !props.exclude.includes(id))
+		Object.keys(userData.ownedCharacters).filter(
+			(id) => !props.exclude.includes(id)
+		)
 	)
 
-	function closeHandler() {
-		emit("close")
-	}
-
-	function select(id) {
-		emit("select", id)
-	}
-
-	function hotkeyHandler(e) {
-		switch (e.key) {
-			case "Enter":
-			case "Escape":
-				emit("close")
+	function hotkeyHandler({ key }) {
+		if (["Enter", "Escape"].includes(key)) {
+			emit("close")
 		}
 	}
 
 	window.addEventListener("keydown", hotkeyHandler)
-
 	onBeforeUnmount(() => {
 		window.removeEventListener("keydown", hotkeyHandler)
 	})

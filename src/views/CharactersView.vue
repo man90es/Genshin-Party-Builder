@@ -50,32 +50,28 @@
 
 <script setup>
 	import { ref, computed, onBeforeUnmount } from "vue"
-	import { useAPI } from "@/hooks/api"
 	import { useHead } from "@vueuse/head"
 	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useRouter } from "vue-router"
 	import { useUserDataStore } from "@/stores/userData"
 	import CharacterCard from "@/components/CharacterCard"
-	import ConstellationPopup from "@/components/popups/ConstellationPopup"
-	import ImportPopup from "@/components/popups/ImportPopup"
+	import ConstellationPopup from "@/components/ConstellationPopup"
+	import ImportPopup from "@/components/ImportPopup"
 
-	const { fetchData } = useAPI()
 	const jsonData = useJsonDataStore()
 	const router = useRouter()
 	const userData = useUserDataStore()
 	useHead({ title: `My characters | ${process.env.VUE_APP_SITE_NAME}` })
 
-	fetchData()
+	jsonData.sync()
 
 	const activePopup = ref({ type: null, data: null })
 
-	const characters = computed(() => {
-		return Object.keys(jsonData.characters)
-	})
+	const characters = computed(() => Object.keys(jsonData.characters))
 
-	const shouldShowNextButton = computed(() => {
-		return Object.keys(userData.ownedCharacters).length >= 5
-	})
+	const shouldShowNextButton = computed(
+		() => Object.keys(userData.ownedCharacters).length >= 5
+	)
 
 	function nextStage() {
 		router.push({ name: "parties" })
@@ -90,7 +86,9 @@
 	}
 
 	function hotkeyHandler(e) {
-		if (null !== activePopup.value.type) return
+		if (null !== activePopup.value.type) {
+			return
+		}
 
 		if (shouldShowNextButton.value) {
 			if (e.key === "Enter" || e.key === "Escape") {
@@ -100,7 +98,6 @@
 	}
 
 	window.addEventListener("keydown", hotkeyHandler)
-
 	onBeforeUnmount(() => {
 		window.removeEventListener("keydown", hotkeyHandler)
 	})

@@ -1,23 +1,14 @@
 <template>
-	<site-logo :full="shouldShowFullLogo"/>
-	<router-view />
-	<app-footer />
-	<background-layer />
+	<SiteLogo :full="'landing' === $route.name" />
+	<RouterView />
+	<AppFooter />
+	<BackgroundLayer />
 </template>
 
 <script setup>
-	import { computed } from "vue"
-	import { useRoute } from "vue-router"
-
-	import AppFooter from "@/components/AppFooter.vue"
-	import BackgroundLayer from "@/components/BackgroundLayer.vue"
-	import SiteLogo from "@/components/SiteLogo.vue"
-
-	const route = useRoute()
-
-	const shouldShowFullLogo = computed(() => {
-		return route.name === "landing"
-	})
+	import AppFooter from "@/components/AppFooter"
+	import BackgroundLayer from "@/components/BackgroundLayer"
+	import SiteLogo from "@/components/SiteLogo"
 </script>
 
 <style lang="scss">

@@ -1,9 +1,17 @@
 <template>
 	<footer>
-		<span>Man90's Party Builder is not affiliated with or endorsed by miHoYo.</span>
+		<span>
+			Man90's Party Builder is not affiliated with or endorsed by miHoYo.
+		</span>
 		<span>
 			<a href="https://donate.hemlo.cc" target="_blank">Donate</a>
-			<a href="https://github.com/octoman90/Genshin-Party-Builder" target="_blank">GitHub</a>
+			<a
+				href="https://github.com/octoman90/Genshin-Party-Builder"
+				rel="noreferrer noopener"
+				target="_blank"
+			>
+				GitHub
+			</a>
 		</span>
 	</footer>
 </template>

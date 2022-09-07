@@ -2,7 +2,7 @@
 	<PopupShell
 		:headline="`Select ${characterName}'s contellation level`"
 		@cancel="cancel"
-		@accept="accept"
+		@accept="emit('abort')"
 		cancelText="Remove"
 	>
 		<span>Contellation level</span>
@@ -34,25 +34,22 @@
 			characterIdToName(props.characterId)
 	)
 
-	userData.setHave(props.characterId, true)
+	const curConstellation = computed(
+		() => userData.ownedCharacters[props.characterId]?.constellation
+	)
+
+	const maxConstellation = computed(
+		() => jsonData.characters[props.characterId].score.length - 1
+	)
 
 	function inc() {
-		if (
-			jsonData.characters[props.characterId].score.length - 1 ===
-			userData.ownedCharacters[props.characterId]?.constellation
-		) {
-			return
-		}
-
-		userData.ownedCharacters[props.characterId].constellation += 1
+		curConstellation.value < maxConstellation.value &&
+			(userData.ownedCharacters[props.characterId].constellation += 1)
 	}
 
 	function dec() {
-		if (0 === userData.ownedCharacters[props.characterId]?.constellation) {
-			return
-		}
-
-		userData.ownedCharacters[props.characterId].constellation -= 1
+		0 < curConstellation.value &&
+			(userData.ownedCharacters[props.characterId].constellation -= 1)
 	}
 
 	function cancel() {
@@ -60,30 +57,20 @@
 		emit("abort")
 	}
 
-	function accept() {
-		emit("abort")
-	}
-
-	function hotkeyHandler(e) {
-		const parsedInt = parseInt(e.key)
-		if (!isNaN(parsedInt)) {
-			if (parsedInt > 6) {
-				return
-			}
-
-			userData.ownedCharacters[props.characterId].constellation =
-				parsedInt
-
+	function hotkeyHandler({ key }) {
+		const n = parseInt(key)
+		if (!isNaN(n) && n <= maxConstellation.value) {
+			userData.ownedCharacters[props.characterId].constellation = n
 			return
 		}
 
-		switch (e.key) {
+		switch (key) {
 			case "Escape":
 				cancel()
 				break
 
 			case "Enter":
-				accept()
+				emit("abort")
 				break
 
 			case "=":
@@ -98,6 +85,7 @@
 		}
 	}
 
+	userData.setHave(props.characterId, true)
 	addEventListener("keydown", hotkeyHandler)
 	onBeforeUnmount(() => removeEventListener("keydown", hotkeyHandler))
 </script>

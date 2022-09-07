@@ -2,12 +2,16 @@
 	<div id="popup-wrapper">
 		<div id="popup">
 			<h2>{{ headline }}</h2>
-			<hr>
-			<slot></slot>
-			<hr>
+			<hr />
+			<slot />
+			<hr />
 			<div class="row">
-				<button v-if="showCancel" class="dark" @click="emit('cancel')">{{ cancelText }}</button>
-				<button v-if="showAccept" class="dark" @click="emit('accept')">{{ acceptText }}</button>
+				<button v-if="showCancel" class="dark" @click="emit('cancel')">
+					{{ cancelText }}
+				</button>
+				<button v-if="showAccept" class="dark" @click="emit('accept')">
+					{{ acceptText }}
+				</button>
 			</div>
 		</div>
 	</div>
@@ -15,6 +19,7 @@
 
 <script setup>
 	const emit = defineEmits(["accept", "cancel"])
+
 	defineProps({
 		acceptText: { default: "Accept", type: String },
 		cancelText: { default: "Cancel", type: String },

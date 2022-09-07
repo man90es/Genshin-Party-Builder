@@ -29,14 +29,25 @@ export const useUserDataStore = defineStore("userDataStore", {
 		parties: [],
 	}) as UserDataState,
 
+	getters: {
+		emptyPartyIndex: (state): number | undefined => {
+			const idx = state.parties.findIndex(
+				(p) => p.members.reduce((s, m) => s + Number(m === null), 0) === 4
+			)
+
+			return idx > -1 ? idx : undefined
+		}
+	},
+
 	actions: {
-		importGOOD(data: { key: string; constellation: number }[]) {
+		importGOOD(data: { key: string; constellation: number }[]): void {
 			this.ownedCharacters = Object.fromEntries(
-				data.map(({ key, constellation }) => [_snakeCase(key), { constellation }])
+				data.filter(({ key }) => !/traveler/i.test(key))
+					.map(({ key, constellation }) => [_snakeCase(key), { constellation }])
 			)
 		},
 
-		setHave(id: string, have: boolean) {
+		setHave(id: string, have: boolean): void {
 			if (have === true) {
 				if (this.ownedCharacters[id] !== undefined) {
 					return
@@ -48,15 +59,20 @@ export const useUserDataStore = defineStore("userDataStore", {
 			}
 		},
 
-		createParty() {
+		createParty(): number {
+			if (undefined !== this.emptyPartyIndex) {
+				return this.emptyPartyIndex
+			}
+
 			this.parties.push(new Party())
+			return this.parties.length - 1
 		},
 
-		setPartyMember(pI: number, cI: number, cId: string | null) {
+		setPartyMember(pI: number, cI: number, cId: string | null): void {
 			this.parties[pI].members[cI] = cId
 		},
 
-		disbandParty(i: number) {
+		disbandParty(i: number): void {
 			this.parties.splice(i, 1)
 		}
 	},
