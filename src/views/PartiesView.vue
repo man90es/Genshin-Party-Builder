@@ -1,16 +1,18 @@
 <template>
 	<main>
 		<p>
-			These are the parties that you've created. Click a party or create a
-			new one to edit it.
+			These are the parties that you've created. Click a party to edit it
+			or create a new one.
 		</p>
-		<PartyRow
-			:clickable="true"
-			:key="i"
-			:meta="party"
-			@click="() => editParty(i)"
-			v-for="(party, i) in userData.parties"
-		/>
+		<div class="party-list">
+			<PartyRow
+				:clickable="true"
+				:index="i"
+				:key="i"
+				@click="editParty(i)"
+				v-for="(party, i) in userData.parties"
+			/>
+		</div>
 		<button @click="createParty">New party</button>
 		<button @click="prevStage">Characters</button>
 	</main>
@@ -50,3 +52,10 @@
 
 	onMounted(() => userData.parties.length < 1 && createParty())
 </script>
+
+<style scoped>
+	.party-list {
+		display: grid;
+		gap: 1em;
+	}
+</style>

@@ -1,19 +1,24 @@
 <template>
 	<main>
 		<p v-if="isEmpty">
-			This party has no characters yet. Start by picking a character from
+			{{ name }} has no characters yet. Start by picking a character from
 			suggested choices below.
 		</p>
 		<p v-else-if="isFull">
-			Your team is ready to hit the ground running! To change any
+			{{ name }} is ready to hit the ground running! To change any
 			character, click his or her portrait.
 		</p>
 		<p v-else>
-			{{ reassurance }}! You can add up to 4 characters to the party. You
+			{{ reassurance }}! You can add up to 4 characters to {{ name }}. You
 			can remove a character from the party by clicking his or her
 			portrait.
 		</p>
-		<PartyRow :hoverRemove="true" :meta="party" @cardClick="removeMember" />
+		<PartyRow
+			:hoverRemove="true"
+			:index="Number(route.params.index)"
+			:showName="false"
+			@cardClick="removeMember"
+		/>
 		<p v-if="!isFull">
 			The AI recommends that you pick one of these characters to
 			strengthen your team:
@@ -82,6 +87,10 @@
 			userData.parties[route.params.index] || {
 				members: [null, null, null, null],
 			}
+	)
+
+	const name = computed(
+		() => party.value.name || `Party ${Number(route.params.index) + 1}`
 	)
 
 	const isEmpty = computed(
