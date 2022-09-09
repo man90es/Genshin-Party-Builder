@@ -14,9 +14,9 @@
 			portrait.
 		</p>
 		<PartyRow
+			:editableName="true"
 			:hoverRemove="true"
 			:index="Number(route.params.index)"
-			:showName="false"
 			@cardClick="removeMember"
 		/>
 		<p v-if="!isFull">

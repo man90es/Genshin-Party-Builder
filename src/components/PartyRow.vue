@@ -1,7 +1,13 @@
 <template>
 	<div :style="{ cursor: clickable ? 'pointer' : 'default' }" class="wrapper">
-		<div v-if="showName">
-			{{ meta?.name || `Party ${1 + index}` }}
+		<input
+			:placeholder="namePlaceholder"
+			type="text"
+			v-if="editableName"
+			v-model="store.parties[props.index].name"
+		/>
+		<div v-else>
+			{{ meta?.name || namePlaceholder }}
 		</div>
 		<div class="row">
 			<CharacterCard
@@ -26,19 +32,29 @@
 	const emit = defineEmits(["cardClick"])
 	const props = defineProps({
 		clickable: Boolean,
+		editableName: { default: false, type: Boolean },
 		hoverRemove: { default: false, type: Boolean },
 		index: Number,
-		showName: { default: true, type: Boolean },
 	})
 
 	const store = useUserDataStore()
 	const meta = computed(() => store.parties[props.index])
+	const namePlaceholder = computed(() => `Party ${1 + props.index}`)
 </script>
 
 <style scoped>
 	.wrapper {
 		display: grid;
-		text-align: center;
 		gap: 0.5em;
+		justify-content: center;
+		text-align: center;
+	}
+
+	input {
+		border-radius: 1em;
+		border: none;
+		margin: 0 5em;
+		padding: 0.5em;
+		text-align: center;
 	}
 </style>
