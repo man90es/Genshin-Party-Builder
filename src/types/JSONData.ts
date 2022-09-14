@@ -1,6 +1,7 @@
 import { Character } from "./Character"
 
 export type JSONData = {
+	version: string
 	characters: {
 		[key: string]: Character
 	}

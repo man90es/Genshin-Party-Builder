@@ -1,10 +1,16 @@
 <template>
 	<footer>
 		<span>
-			Man90's Party Builder is not affiliated with or endorsed by miHoYo.
+			<span>Data v{{ json.version }}</span>
+			●
+			<span>
+				Man90's Party Builder is not affiliated with or endorsed by
+				miHoYo.
+			</span>
 		</span>
 		<span>
 			<a href="https://donate.hemlo.cc" target="_blank">Donate</a>
+			●
 			<a
 				href="https://github.com/octoman90/Genshin-Party-Builder"
 				rel="noreferrer noopener"
@@ -15,6 +21,11 @@
 		</span>
 	</footer>
 </template>
+
+<script setup>
+	import { useJsonDataStore } from "@/stores/jsonData"
+	const json = useJsonDataStore()
+</script>
 
 <style lang="scss">
 	footer {

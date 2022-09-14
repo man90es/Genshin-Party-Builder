@@ -8,6 +8,7 @@ export const useJsonDataStore = defineStore("jsonDataStore", {
 		reactions: { header: [], matrix: [] },
 		roles: {},
 		spritesheets: {},
+		version: "",
 		weapons: {},
 	}) as JSONData,
 
