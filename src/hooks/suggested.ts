@@ -79,7 +79,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	switch (character.id) {
 		case "bennett": {
 			// C6 Bennett's ultimate overrides autoattack element with pyro
-			// Subtract points for each character which gets negatively affected
+			// Subtract points for each character that gets negatively affected
 			const badInteraction = [
 				"chongyun", "eula", "kamisato_ayaka",
 				"keqing", "razor"
@@ -92,9 +92,22 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 			break
 		}
 
+		case "candace": {
+			// Candace's ability overrides autoattack element with hydro
+			// Subtract points for each character that gets negatively affected
+			const badInteraction = [
+				"chongyun", "eula", "kamisato_ayaka",
+				"keqing", "razor", "rosaria"
+			]
+
+			scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
+
+			break
+		}
+
 		case "chongyun": {
 			// Chongyun's ability overrides autoattack element with cryo
-			// Subtract points for each character which gets negatively affected
+			// Subtract points for each character that gets negatively affected
 			const badInteraction = [
 				"eula", "keqing", "razor",
 				"rosaria",
