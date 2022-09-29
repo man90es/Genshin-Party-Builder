@@ -19,7 +19,7 @@ export const useJsonDataStore = defineStore("jsonDataStore", {
 				return
 			}
 
-			fetch(`${process.env.VUE_APP_ASSETS_ENDPOINT}data.v2.json`, {
+			fetch(`${process.env.VUE_APP_ASSETS_ENDPOINT}data.json`, {
 				mode: "cors",
 				redirect: "follow",
 			})
