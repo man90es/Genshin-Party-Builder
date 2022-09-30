@@ -24,13 +24,12 @@
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">✖</div>
 		<ElementBadge v-if="meta" :elementId="meta.element" />
 		<figcaption>
-			{{ characterName || props.namePlaceholder || "Empty" }}
+			{{ meta?.name || props.namePlaceholder || "Empty" }}
 		</figcaption>
 	</figure>
 </template>
 
 <script setup>
-	import { characterIdToName } from "@/utils"
 	import { computed } from "vue"
 	import { useJsonDataStore } from "@/stores/jsonData"
 	import ElementBadge from "@/components/ElementBadge"
@@ -44,16 +43,11 @@
 	})
 
 	const meta = computed(() => jsonData.characters[props.characterId])
-
-	const characterName = computed(
-		() => meta.value?.name || characterIdToName(props.characterId)
-	)
-
 	const srcList = computed(() => {
 		const path =
 			process.env.VUE_APP_ASSETS_ENDPOINT +
 			"portraits/" +
-			encodeURIComponent(characterName.value)
+			encodeURIComponent(meta.value?.name)
 
 		return [
 			{ path: path + ".webp", mime: "image/webp" },
@@ -78,12 +72,7 @@
 		)
 	})
 
-	const colour = computed(
-		() =>
-			meta.value?.background ||
-			{ 4: "purple", 5: "yellow" }[meta.value?.stars] ||
-			"grey"
-	)
+	const colour = computed(() => meta.value?.background || "grey")
 
 	const bgOffset = computed(() => {
 		if (undefined === jsonData.spritesheets) {

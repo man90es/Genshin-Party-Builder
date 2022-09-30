@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-	import { characterIdToName } from "@/utils"
 	import { computed, onBeforeUnmount } from "vue"
 	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useUserDataStore } from "@/stores/userData"
@@ -29,9 +28,7 @@
 	const userData = useUserDataStore()
 
 	const characterName = computed(
-		() =>
-			jsonData.characters[props.characterId]?.name ||
-			characterIdToName(props.characterId)
+		() => jsonData.characters[props.characterId]?.name
 	)
 
 	const curConstellation = computed(

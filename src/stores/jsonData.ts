@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import { preprocessCharacters } from "@/utils"
 import type { JSONData } from "@/types"
 
 export const useJsonDataStore = defineStore("jsonDataStore", {
@@ -25,19 +26,10 @@ export const useJsonDataStore = defineStore("jsonDataStore", {
 			})
 				.then(response => response.json())
 				.then((data: JSONData) => {
-					if ("development" === process.env?.NODE_ENV) {
-						this.$patch(data)
-						return
-					}
-
-					// Filter out unreleased characters
-					const now = new Date()
-					const characters = Object.fromEntries(
-						Object.entries(data.characters)
-							.filter(([, { release }]) => new Date(release) <= now)
-					)
-
-					this.$patch({ ...data, characters })
+					this.$patch({
+						...data,
+						characters: preprocessCharacters(data.characters),
+					})
 				})
 		},
 	}
