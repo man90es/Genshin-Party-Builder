@@ -26,6 +26,13 @@ body {
 	justify-content: center;
 }
 
+.button-wrapper {
+	margin: 1em;
+	display: flex;
+	gap: 1em;
+	justify-content: center;
+}
+
 button {
 	font-family: Hoyofont;
 	display: block;
@@ -40,6 +47,10 @@ button {
 	cursor: pointer;
 }
 
+.button-wrapper button {
+	min-width: 6em;
+}
+
 button.dark {
 	background-color: #4b5367;
 	color: #e5e1dc;
@@ -48,4 +59,8 @@ button.dark {
 a {
 	color: #309be2;
 	text-decoration: none;
+}
+
+p {
+	text-align: justify;
 }

@@ -13,32 +13,28 @@
 			or a similar tool.
 		</p>
 		<p>
-			After selecting at least 5 characters, click the button at the
+			After selecting at least 5 characters, click the «Next» button at the
 			bottom of the page to continue to party creation. You may return to
 			this step anytime later.
 		</p>
 		<div id="character-pool">
-			<div
-				v-for="char in characters"
+			<CharacterCard
+				:characterId="char"
+				:cursor="'pointer'"
 				:key="char"
-				:class="{
-					owned: userData.ownedCharacters[char] !== undefined,
-				}"
-			>
-				<CharacterCard
-					:characterId="char"
-					:cursor="'pointer'"
-					@click="() => selectCharacter(char)"
-				/>
-				<div class="constellation-overlay">
-					C{{ userData.ownedCharacters[char]?.constellation }}
-				</div>
-			</div>
+				:owned="Boolean(userData.ownedCharacters[char])"
+				@click="() => selectCharacter(char)"
+				v-for="char in characters"
+			/>
 		</div>
-		<button @click="() => (activePopup = { type: 'import' })">
-			Import
-		</button>
-		<button @click="nextStage" v-if="shouldShowNextButton">Next</button>
+		<div class="button-wrapper">
+			<button @click="() => activePopup = { type: 'import' }">
+				Import
+			</button>
+			<button @click="nextStage" v-if="shouldShowNextButton">
+				Next
+			</button>
+		</div>
 	</main>
 	<ImportPopup v-if="'import' === activePopup.type" @abort="closePopup" />
 	<ConstellationPopup
@@ -103,43 +99,16 @@
 	})
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	main {
-		#character-pool {
-			margin: 1em 0;
-			display: flex;
-			flex-flow: wrap;
-			gap: 1em;
-			justify-content: center;
+		margin-top: 1em;
+	}
 
-			& > div {
-				position: relative;
-
-				&:not(.owned) {
-					filter: saturate(0.25);
-
-					.constellation-overlay {
-						display: none;
-					}
-				}
-
-				.constellation-overlay {
-					background-color: var(--button-background-color);
-					pointer-events: none;
-					z-index: 5;
-
-					position: absolute;
-					bottom: 1.3rem;
-					height: 1em;
-					width: 5rem;
-					padding: 0.25em 0;
-
-					color: var(--button-font-color);
-					font-family: Hoyofont;
-					font-size: 0.8rem;
-					text-align: center;
-				}
-			}
-		}
+	#character-pool {
+		display: flex;
+		flex-flow: wrap;
+		gap: 0.5em;
+		margin: 0.5em;
+		width: inherit;
 	}
 </style>

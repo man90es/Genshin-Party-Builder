@@ -1,8 +1,10 @@
 <template>
 	<footer>
 		<span>
-			<span>Data v{{ json.version }}</span>
-			●
+			<template v-if="json.version">
+				<span>Data v{{ json.version }}</span>
+				●
+			</template>
 			<span>
 				Man90's Party Builder is not affiliated with or endorsed by
 				miHoYo.

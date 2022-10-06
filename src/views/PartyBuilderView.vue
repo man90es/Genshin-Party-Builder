@@ -1,8 +1,9 @@
 <template>
 	<main>
 		<p v-if="isEmpty">
-			{{ name }} has no characters yet. Start by picking a character from
-			suggested choices below.
+			{{ name }} has no characters yet. You can start by picking a character from
+			the AI-suggested choices below or select a specific character by clicking
+			the «More...» button.
 		</p>
 		<p v-else-if="isFull">
 			{{ name }} is ready to hit the ground running! To change any
@@ -20,8 +21,7 @@
 			@cardClick="removeMember"
 		/>
 		<p v-if="!isFull">
-			The AI recommends that you pick one of these characters to
-			strengthen your team:
+			Current suggestions:
 		</p>
 		<section id="sugestions" v-if="!isFull">
 			<CharacterCard
@@ -36,10 +36,12 @@
 				@click="chooseAnotherCharacter"
 			/>
 		</section>
-		<button v-if="userData.parties.length > 1" @click="disband">
-			Disband
-		</button>
-		<button @click="prevStage">Back</button>
+		<div class="button-wrapper">
+			<button @click="prevStage">Back</button>
+			<button v-if="userData.parties.length > 1" @click="disband">
+				Disband
+			</button>
+		</div>
 		<CharacterSelectionPopup
 			:exclude="party.members"
 			@close="closePopup"
@@ -156,7 +158,7 @@
 	})
 </script>
 
-<style>
+<style scoped>
 	#sugestions {
 		display: flex;
 		gap: 1em;

@@ -31,18 +31,16 @@
 
 <style lang="scss" scoped>
 	#popup-wrapper {
-		position: fixed;
+		align-items: center;
+		background-color: #1117;
 		bottom: 0;
-		left: 0;
-		right: 0;
-		top: 0;
-
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		left: 0;
+		position: fixed;
+		right: 0;
+		top: 0;
 		z-index: 10;
-
-		background-color: #1117;
 	}
 
 	#popup {

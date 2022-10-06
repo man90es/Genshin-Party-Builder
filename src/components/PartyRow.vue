@@ -57,4 +57,11 @@
 		padding: 0.5em;
 		text-align: center;
 	}
+
+	.row {
+		background-color: #fff1;
+		border-radius: 0.25em;
+		gap: 0.5rem;
+		padding: 0.5rem;
+	}
 </style>

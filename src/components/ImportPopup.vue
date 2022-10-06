@@ -5,7 +5,7 @@
 		acceptText="Browse"
 		headline="Import characters"
 	>
-		<span>
+		<p>
 			You can import your characters from a JSON file in GOOD format. You
 			can generate it automatically with
 			<a
@@ -15,7 +15,7 @@
 				Inventory Kamera
 			</a>
 			or a similar tool.
-		</span>
+		</p>
 		<span class="error">{{ error }}</span>
 		<input
 			@change="handleImport"
@@ -55,7 +55,7 @@
 		color: brown;
 	}
 
-	span {
+	p {
 		max-width: 30em;
 	}
 </style>

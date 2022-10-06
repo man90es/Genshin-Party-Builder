@@ -1,9 +1,5 @@
 <template>
 	<main>
-		<p>
-			These are the parties that you've created. Click a party to edit it
-			or create a new one.
-		</p>
 		<div class="party-list">
 			<PartyRow
 				:clickable="true"
@@ -13,8 +9,10 @@
 				v-for="(party, i) in userData.parties"
 			/>
 		</div>
-		<button @click="createParty">New party</button>
-		<button @click="prevStage">Characters</button>
+		<div class="button-wrapper">
+			<button @click="prevStage">Characters</button>
+			<button @click="createParty">New party</button>
+		</div>
 	</main>
 </template>
 
@@ -54,6 +52,10 @@
 </script>
 
 <style scoped>
+	main {
+		margin-top: 1em;
+	}
+
 	.party-list {
 		display: grid;
 		gap: 1em;

@@ -22,6 +22,7 @@
 
 <style scoped>
 	main {
+		margin: 1em auto;
 		padding: 0 1em;
 	}
 </style>

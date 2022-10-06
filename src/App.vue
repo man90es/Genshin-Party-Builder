@@ -13,18 +13,14 @@
 
 <style lang="scss">
 	main {
-		width: 100vmin;
 		display: flex;
 		flex-direction: column;
+		margin: 0 auto;
 		text-align: justify;
-		margin: 1em auto;
+		width: 100vmin;
 
 		p {
-			margin: 0.5em 10vmin;
-		}
-
-		button {
-			margin: 1em 25vmin;
+			margin: 0.5em;
 		}
 	}
 </style>

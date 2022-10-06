@@ -2,7 +2,7 @@
 	<PopupShell
 		:showAccept="false"
 		@cancel="emit('close')"
-		headline="Select another character"
+		headline="Select specific character"
 	>
 		<div id="available-characters">
 			<CharacterCard
@@ -51,8 +51,7 @@
 		box-sizing: border-box;
 		display: flex;
 		flex-flow: wrap;
-		gap: 1em;
-		justify-content: center;
+		gap: 0.5em;
 		max-height: 50vh;
 		max-width: 90vw;
 		overflow-y: auto;

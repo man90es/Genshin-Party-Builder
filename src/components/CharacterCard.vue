@@ -1,5 +1,5 @@
 <template>
-	<figure :style="{ cursor: clickable ? 'pointer' : 'default' }">
+	<figure :class="{ owned }" :style="{ cursor: clickable ? 'pointer' : 'default' }">
 		<picture class="portrait" :alt="meta?.name || 'Character placeholder'">
 			<source
 				:key="src.mime"
@@ -23,6 +23,7 @@
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">✖</div>
 		<ElementBadge v-if="meta" :elementId="meta.element" />
+		<ConstellationBadge :characterId="characterId" />
 		<figcaption>
 			{{ meta?.name || props.namePlaceholder || "Empty" }}
 		</figcaption>
@@ -33,6 +34,7 @@
 	import { computed } from "vue"
 	import { useJsonDataStore } from "@/stores/jsonData"
 	import ElementBadge from "@/components/ElementBadge"
+	import ConstellationBadge from "@/components/ConstellationBadge"
 
 	const jsonData = useJsonDataStore()
 	const props = defineProps({
@@ -40,6 +42,7 @@
 		clickable: { default: true, type: Boolean },
 		hoverIntention: { default: "pick", type: String },
 		namePlaceholder: String,
+		owned: { default: true, type: Boolean },
 	})
 
 	const meta = computed(() => jsonData.characters[props.characterId])
@@ -86,33 +89,37 @@
 
 <style scoped lang="scss">
 	figure {
+		align-items: center;
+		background-color: var(--button-background-color);
+		border-radius: 5%;
+		color: var(--button-font-color);
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		position: relative;
-		background-color: var(--button-background-color);
-		color: var(--button-font-color);
-		border-radius: 5%;
 		margin: 0;
+		position: relative;
+
+		&:not(.owned) {
+			filter: saturate(0.25) brightness(0.75);
+		}
 
 		* {
 			user-select: none;
 		}
 
 		figcaption {
-			padding: 0.25em 0;
 			font-family: Hoyofont;
 			font-size: 0.8em;
+			padding: 0.25em 0;
 		}
 
 		picture.portrait,
 		picture.background {
+			background-size: cover;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 20%;
+			border-radius: inherit;
 			height: 5rem;
 			width: 5rem;
-			border-radius: inherit;
-			border-bottom-right-radius: 20%;
-			border-bottom-left-radius: 0;
-			background-size: cover;
 
 			img {
 				height: inherit;
@@ -146,18 +153,18 @@
 		}
 
 		.removeOverlay {
-			bottom: 0;
-			left: 0;
-			right: 0;
-			top: 0;
 			align-items: center;
 			background-color: #0004;
+			bottom: 0;
 			color: #fff;
 			display: flex;
 			font-size: 3em;
 			justify-content: center;
+			left: 0;
 			opacity: 0;
 			position: absolute;
+			right: 0;
+			top: 0;
 			transition-duration: 0.2s;
 			z-index: 2;
 		}
