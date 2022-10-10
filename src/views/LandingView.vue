@@ -39,9 +39,3 @@
 		window.removeEventListener("keydown", hotkeyHandler)
 	})
 </script>
-
-<style scoped>
-	main {
-		margin-top: 6em;
-	}
-</style>

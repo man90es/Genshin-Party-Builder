@@ -10,15 +10,15 @@ You can try it out by clicking the link -> [https://genshin.hemlo.cc/partybuilde
 [![screencap](./.github/screencap.png)](https://genshin.hemlo.cc/partybuilder)
 
 ## Roadmap
-- [x] Redesign the app for step-by-step workflow
-- [x] Add an option to import the list of characters
-- [x] Rewrite the logic of the automatic suggestion algorithm to take in account roles, elemental reactions, weapon types, etc.
+- [x] ~~Redesign the app for step-by-step workflow~~
+- [x] ~~Add an option to import the list of characters~~
+- [x] ~~Rewrite the logic of the automatic suggestion algorithm to take in account roles, elemental reactions, weapon types, etc.~~
+- [x] ~~Create a tier list page~~
 - [ ] Provide an easy way to report algorithm balancing issues
 - [ ] Add team configuration options
 - [ ] Display insights about the team
 - [ ] Improve UI and release it as a Vue.js UI library
 - [ ] Make the app a PWA
-- [ ] Create a tier list page
 
 ## Contributing
 All pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

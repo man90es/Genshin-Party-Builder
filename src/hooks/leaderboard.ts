@@ -19,7 +19,7 @@ export function useLeaderboard(tiers: number = 5) {
 			.map(([id, character]) => ({
 				...character,
 				id,
-				score: character.score[userData.ownedCharacters[id].constellation]
+				score: character.score[userData.ownedCharacters[id]?.constellation || 0]
 			}))
 			// Order by score
 			.sort((a, b) => b.score - a.score)

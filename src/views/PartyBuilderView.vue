@@ -1,5 +1,5 @@
 <template>
-	<main>
+	<main v-if="userData.enoughCharacters">
 		<p v-if="isEmpty">
 			{{ name }} has no characters yet. You can start by picking a character from
 			the AI-suggested choices below or select a specific character by clicking
@@ -80,8 +80,8 @@
 		prevStage()
 	}
 
-	if (Object.keys(userData.ownedCharacters).length < 5) {
-		router.push({ name: "landing" })
+	if (!userData.enoughCharacters) {
+		prevStage()
 	}
 
 	const party = computed(
@@ -161,7 +161,8 @@
 <style scoped>
 	#sugestions {
 		display: flex;
-		gap: 1em;
+		gap: 0.5em;
 		justify-content: center;
+		margin: 1em 0;
 	}
 </style>

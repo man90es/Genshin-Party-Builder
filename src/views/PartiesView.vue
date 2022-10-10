@@ -1,18 +1,24 @@
 <template>
 	<main>
-		<div class="party-list">
-			<PartyRow
-				:clickable="true"
-				:index="i"
-				:key="i"
-				@click="editParty(i)"
-				v-for="(party, i) in userData.parties"
-			/>
-		</div>
-		<div class="button-wrapper">
-			<button @click="prevStage">Characters</button>
-			<button @click="createParty">New party</button>
-		</div>
+		<template v-if="userData.enoughCharacters">
+			<div class="party-list">
+				<PartyRow
+					:clickable="true"
+					:index="i"
+					:key="i"
+					@click="editParty(i)"
+					v-for="(party, i) in userData.parties"
+				/>
+			</div>
+			<div class="button-wrapper">
+				<button @click="createParty">New party</button>
+			</div>
+		</template>
+		<p v-else>
+			You don't seem to have selected enough characters
+			to start creating custom teams. Please go to the
+			«Characters» tab and select at least 5 characters.
+		</p>
 	</main>
 </template>
 
@@ -32,14 +38,6 @@
 	const router = useRouter()
 	const userData = useUserDataStore()
 
-	if (Object.keys(userData.ownedCharacters).length < 5) {
-		router.push({ name: "landing" })
-	}
-
-	function prevStage() {
-		router.push({ name: "characters" })
-	}
-
 	function editParty(index) {
 		router.push({ name: "partyByilder", params: { index } })
 	}
@@ -48,16 +46,15 @@
 		editParty(userData.createParty())
 	}
 
-	onMounted(() => userData.parties.length < 1 && createParty())
+	onMounted(() => {
+		userData.parties.length < 1 && createParty()
+	})
 </script>
 
 <style scoped>
-	main {
-		margin-top: 1em;
-	}
-
 	.party-list {
 		display: grid;
 		gap: 1em;
+		margin: 1em 0;
 	}
 </style>

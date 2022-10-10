@@ -1,5 +1,5 @@
 <template>
-	<SiteLogo :full="'landing' === $route.name" />
+	<SiteHeader />
 	<RouterView />
 	<AppFooter />
 	<BackgroundLayer />
@@ -8,7 +8,7 @@
 <script setup>
 	import AppFooter from "@/components/AppFooter"
 	import BackgroundLayer from "@/components/BackgroundLayer"
-	import SiteLogo from "@/components/SiteLogo"
+	import SiteHeader from "@/components/SiteHeader"
 </script>
 
 <style lang="scss">

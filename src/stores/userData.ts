@@ -36,7 +36,11 @@ export const useUserDataStore = defineStore("userDataStore", {
 			)
 
 			return idx > -1 ? idx : undefined
-		}
+		},
+
+		enoughCharacters: (state): boolean => {
+			return 5 <= Object.keys(state.ownedCharacters).length
+		},
 	},
 
 	actions: {

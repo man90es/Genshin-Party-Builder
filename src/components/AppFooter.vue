@@ -31,14 +31,15 @@
 
 <style lang="scss">
 	footer {
-		font-size: 0.9rem;
-		text-align: left;
 		bottom: 1em;
-		width: 100vw;
 		display: flex;
-		justify-content: space-evenly;
+		font-size: 0.9rem;
 		gap: 1em;
 		grid-row: 3;
+		justify-content: space-evenly;
+		justify-self: center;
+		text-align: left;
+		width: calc(100vw - 1em);
 
 		span {
 			display: flex;
