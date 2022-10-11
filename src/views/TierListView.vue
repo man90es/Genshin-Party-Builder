@@ -23,14 +23,10 @@
 </template>
 
 <script setup lang="ts">
-	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useLeaderboard } from "@/hooks/leaderboard"
 	import { useUserDataStore } from "@/stores/userData"
 	import TierLine from "@/components/TierLine"
 
-	const jsonData = useJsonDataStore()
 	const userData = useUserDataStore()
-	jsonData.sync()
-
 	const list = useLeaderboard()
 </script>

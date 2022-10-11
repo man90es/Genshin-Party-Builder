@@ -6,9 +6,13 @@
 </template>
 
 <script setup>
+	import { useJsonDataStore } from "@/stores/jsonData"
 	import AppFooter from "@/components/AppFooter"
 	import BackgroundLayer from "@/components/BackgroundLayer"
 	import SiteHeader from "@/components/SiteHeader"
+
+	const jsonData = useJsonDataStore()
+	jsonData.sync()
 </script>
 
 <style lang="scss">

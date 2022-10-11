@@ -44,8 +44,6 @@
 	const userData = useUserDataStore()
 	useHead({ title: `My characters | ${process.env.VUE_APP_SITE_NAME}` })
 
-	jsonData.sync()
-
 	const activePopup = ref({ type: null, data: null })
 
 	const characters = computed(() => Object.keys(jsonData.characters))

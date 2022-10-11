@@ -55,7 +55,6 @@
 	import { getRandomReassurance } from "@/utils"
 	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useHead } from "@vueuse/head"
-	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useRouter, useRoute } from "vue-router"
 	import { useSuggested } from "@/hooks/suggested"
 	import { useUserDataStore } from "@/stores/userData"
@@ -65,9 +64,6 @@
 
 	const { suggested } = useSuggested()
 	useHead({ title: `Edit party | ${process.env.VUE_APP_SITE_NAME}` })
-
-	const jsonData = useJsonDataStore()
-	jsonData.sync()
 
 	const route = useRoute()
 	const router = useRouter()

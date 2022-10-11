@@ -25,15 +25,11 @@
 <script setup>
 	import { onMounted } from "vue"
 	import { useHead } from "@vueuse/head"
-	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useRouter } from "vue-router"
 	import { useUserDataStore } from "@/stores/userData"
 	import PartyRow from "@/components/PartyRow"
 
 	useHead({ title: `My parties | ${process.env.VUE_APP_SITE_NAME}` })
-
-	const jsonData = useJsonDataStore()
-	jsonData.sync()
 
 	const router = useRouter()
 	const userData = useUserDataStore()
