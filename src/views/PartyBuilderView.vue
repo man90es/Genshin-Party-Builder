@@ -159,6 +159,10 @@
 		display: flex;
 		gap: 0.5em;
 		justify-content: center;
-		margin: 1em 0;
+		margin-top: 1em;
+	}
+
+	.button-wrapper {
+		margin-top: 1em;
 	}
 </style>
