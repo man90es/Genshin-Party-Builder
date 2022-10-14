@@ -2,22 +2,24 @@ import _range from "lodash/range"
 import { computed } from "vue"
 import { useJsonDataStore } from "@/stores/jsonData"
 import { useUserDataStore } from "@/stores/userData"
+import type { Ref } from "vue"
 
 // Arbitrary letters used for each rank
 const letters = ["SS", "S", "A", "B", "C", "D", "E", "F"]
 
-export function useLeaderboard(tiers: number = 5) {
+export function useTierList(tiers: number = 5, includeUnowned: Ref<Boolean>) {
 	const effectiveTiers = Math.max(2, Math.min(letters.length, tiers))
 	const jsonData = useJsonDataStore()
 	const userData = useUserDataStore()
 
-	const leaderboard = computed(() => {
+	const list = computed(() => {
 		const chars = Object.entries(jsonData.characters)
 			// Not interested in characters that are not owned
-			.filter(([id]) => id in userData.ownedCharacters)
+			.filter(([id]) => includeUnowned.value ? true : id in userData.ownedCharacters)
 			// Get scores for current constellation levels
 			.map(([id, character]) => ({
 				...character,
+				owned: id in userData.ownedCharacters,
 				id,
 				score: character.score[userData.ownedCharacters[id]?.constellation || 0]
 			}))
@@ -40,5 +42,5 @@ export function useLeaderboard(tiers: number = 5) {
 		}))
 	})
 
-	return leaderboard
+	return list
 }

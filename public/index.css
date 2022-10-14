@@ -28,6 +28,7 @@ body {
 }
 
 .button-wrapper {
+	align-items: baseline;
 	display: flex;
 	gap: 1em;
 	justify-content: center;

@@ -6,6 +6,10 @@
 				It was generated from the list of characters
 				you selected earlier.
 			</p>
+			<div class="options-wrapper">
+				Display unowned characters?
+				<ToggleButton v-model="displayUnowned" />
+			</div>
 			<TierLine
 				:characters="l.characters"
 				:key="l.tier"
@@ -22,11 +26,24 @@
 	</main>
 </template>
 
-<script setup lang="ts">
-	import { useLeaderboard } from "@/hooks/leaderboard"
+<script setup>
+	import { ref } from "vue"
+	import { useTierList } from "@/hooks/tierList"
 	import { useUserDataStore } from "@/stores/userData"
 	import TierLine from "@/components/TierLine"
+	import ToggleButton from "@/components/ToggleButton"
+
+	const displayUnowned = ref(false)
 
 	const userData = useUserDataStore()
-	const list = useLeaderboard()
+	const list = useTierList(5, displayUnowned)
 </script>
+
+<style scoped>
+	.options-wrapper {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		text-align: initial;
+		padding: 0 0.5em;
+	}
+</style>

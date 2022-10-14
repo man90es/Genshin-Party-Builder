@@ -5,6 +5,7 @@
 			<CharacterCard
 				:characterId="character.id"
 				:clickable="false"
+				:owned="character.owned"
 				v-for="character of characters" :key="character.id"
 			/>
 		</div>
