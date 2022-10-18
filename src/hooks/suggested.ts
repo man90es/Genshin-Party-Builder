@@ -25,6 +25,76 @@ function processCharacter(id: string, character: Character, constellation: numbe
 	}
 }
 
+function getCharacterCompatibility(currentParty: ProcessedCharacter[], character: ProcessedCharacter): number {
+	return [...currentParty, character]
+		.map((character, i, a) => {
+			const party: ProcessedCharacter[] = a.filter((_, idx) => idx !== i)
+			const partyElements = _uniq(party.map(c => c.element))
+			const partyRoles = _uniq(party.map(c => c.roles).flat())
+
+			switch (character.id) {
+				case "bennett": {
+					// C6 Bennett's ultimate overrides autoattack element with pyro
+					// Subtract points for each character that gets negatively affected
+					const badInteraction = [
+						"chongyun", "eula", "kamisato_ayaka",
+						"keqing", "razor"
+					]
+
+					if (5 < character.constellation) {
+						return -_intersection(party.map(c => c.id), badInteraction).length
+					}
+
+					return 0
+				}
+
+				case "candace": {
+					// Candace's ability overrides autoattack element with hydro
+					// Subtract points for each character that gets negatively affected
+					const badInteraction = [
+						"chongyun", "eula", "kamisato_ayaka",
+						"keqing", "razor", "rosaria"
+					]
+
+					return -_intersection(party.map(c => c.id), badInteraction).length
+				}
+
+				case "chongyun": {
+					// Chongyun's ability overrides autoattack element with cryo
+					// Subtract points for each character that gets negatively affected
+					const badInteraction = [
+						"eula", "keqing", "razor",
+						"rosaria",
+					]
+
+					return -_intersection(party.map(c => c.id), badInteraction).length
+				}
+
+				case "gorou": {
+					// Gorou wants mono-geo
+					return party.filter(c => "geo" === c.element).length - 1
+				}
+
+				case "hu_tao": {
+					// Hu Tao doesn't want healers
+					return -partyRoles.includes("heal")
+				}
+
+				case "yelan": {
+					// When the party has 1/2/3/4 Elemental Types,
+					// Yelan's Max HP is increased by 6%/12%/18%/30%.
+					// And her skills scale off her HP
+					return (partyElements.length + Number(!partyElements.includes("hydro"))) / 2
+				}
+
+				default: {
+					return 0
+				}
+			}
+		})
+		.reduce((acc, cur) => acc + cur, 0)
+}
+
 function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData) {
 	const partyElements = _uniq(currentParty.map(c => c.element))
 	const partyRoles = _uniq(currentParty.map(c => c.roles).flat())
@@ -75,76 +145,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	)
 
 	// Add/subtract points for character-specific interactions
-	// TODO: Make these interactions two-way
-	switch (character.id) {
-		case "bennett": {
-			// C6 Bennett's ultimate overrides autoattack element with pyro
-			// Subtract points for each character that gets negatively affected
-			const badInteraction = [
-				"chongyun", "eula", "kamisato_ayaka",
-				"keqing", "razor"
-			]
-
-			if (5 < character.constellation) {
-				scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
-			}
-
-			break
-		}
-
-		case "candace": {
-			// Candace's ability overrides autoattack element with hydro
-			// Subtract points for each character that gets negatively affected
-			const badInteraction = [
-				"chongyun", "eula", "kamisato_ayaka",
-				"keqing", "razor", "rosaria"
-			]
-
-			scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
-
-			break
-		}
-
-		case "chongyun": {
-			// Chongyun's ability overrides autoattack element with cryo
-			// Subtract points for each character that gets negatively affected
-			const badInteraction = [
-				"eula", "keqing", "razor",
-				"rosaria",
-			]
-
-			scores.push(-_intersection(currentParty.map(c => c.id), badInteraction).length)
-
-			break
-		}
-
-		case "gorou": {
-			// Gorou wants mono-geo
-			scores.push(currentParty.filter(c => "geo" === c.element).length - 1)
-
-			break
-		}
-
-		case "hu_tao": {
-			// Hu Tao doesn't want healers
-			scores.push(-partyRoles.includes("heal"))
-
-			break
-		}
-
-		case "yelan": {
-			// When the party has 1/2/3/4 Elemental Types,
-			// Yelan's Max HP is increased by 6%/12%/18%/30%.
-			// And her skills scale off her HP
-			scores.push((partyElements.length + Number(!partyElements.includes("hydro"))) / 2)
-
-			break
-		}
-
-		default: {
-			scores.push(0)
-		}
-	}
+	scores.push(getCharacterCompatibility(currentParty, character))
 
 	// Debug messages
 	if ("development" === process.env.NODE_ENV) {
