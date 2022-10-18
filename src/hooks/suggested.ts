@@ -80,6 +80,16 @@ function getCharacterCompatibility(currentParty: ProcessedCharacter[], character
 					return -partyRoles.includes("heal")
 				}
 
+				case "nilou": {
+					// Nilou wants party that has at least 1 dendro character
+					// and no non-hydro non-dendro characters
+					const hasEmptySlots = 4 > party.length
+					const hasDendro = 1 <= party.filter(c => "dendro" === c.element).length
+					const hasBadElements = 0 === party.filter(c => !["dendro", "hydro"].includes(c.element)).length
+
+					return -Number((hasEmptySlots || hasDendro) && !hasBadElements) * 2
+				}
+
 				case "yelan": {
 					// When the party has 1/2/3/4 Elemental Types,
 					// Yelan's Max HP is increased by 6%/12%/18%/30%.
