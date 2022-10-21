@@ -1,5 +1,5 @@
 import _range from "lodash/range"
-import { computed } from "vue"
+import { computed, readonly } from "vue"
 import { useJsonDataStore } from "@/stores/jsonData"
 import { useUserDataStore } from "@/stores/userData"
 import type { Ref } from "vue"
@@ -42,5 +42,5 @@ export function useTierList(tiers: number = 5, includeUnowned: Ref<Boolean>) {
 		}))
 	})
 
-	return list
+	return readonly(list)
 }
