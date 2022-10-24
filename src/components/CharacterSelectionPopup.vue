@@ -4,6 +4,10 @@
 		@cancel="emit('close')"
 		headline="Select specific character"
 	>
+		<div class="options-wrapper">
+			Sort by:
+			<SelectButton v-model="sortBy" :options="sortingOptions" />
+		</div>
 		<div id="available-characters">
 			<CharacterCard
 				:characterId="id"
@@ -17,20 +21,22 @@
 </template>
 
 <script setup>
-	import { computed, onBeforeUnmount } from "vue"
+	import { computed, ref, onBeforeUnmount } from "vue"
+	import { sortingOptions, useCharacterIdList } from "@/hooks/characterIdList"
 	import { useUserDataStore } from "@/stores/userData"
 	import CharacterCard from "@/components/CharacterCard"
 	import PopupShell from "@/components/PopupShell"
+	import SelectButton from "@/components/SelectButton"
 
 	const emit = defineEmits(["close", "select"])
 	const props = defineProps({ meta: Object, exclude: Array })
 	const userData = useUserDataStore()
 
-	const characterIds = computed(() =>
-		Object.keys(userData.ownedCharacters).filter(
-			(id) => !props.exclude.includes(id)
-		)
-	)
+	const sortBy = ref(sortingOptions[0].value)
+	const allCharacterIds = useCharacterIdList(sortBy)
+	const characterIds = computed(() => (allCharacterIds.value).filter(id => (
+		Object.keys(userData.ownedCharacters).includes(id) && !props.exclude.includes(id)
+	)))
 
 	function hotkeyHandler({ key }) {
 		if (["Enter", "Escape"].includes(key)) {
@@ -44,7 +50,7 @@
 	})
 </script>
 
-<style>
+<style scoped>
 	#available-characters {
 		background-color: #4b5367;
 		border-radius: 0.5em;
@@ -56,5 +62,14 @@
 		max-width: 90vw;
 		overflow-y: auto;
 		padding: 1em;
+	}
+
+	.options-wrapper {
+		align-self: flex-end;
+		background-color: #4b5367;
+		border-radius: 0.5em;
+		color: #e5e1dc;
+		margin: 0;
+		padding: 0.5em;
 	}
 </style>
