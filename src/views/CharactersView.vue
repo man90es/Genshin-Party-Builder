@@ -10,6 +10,10 @@
 				Import
 			</button>
 		</div>
+		<div class="options-wrapper">
+			Sort by:
+			<SelectButton v-model="sortBy" :options="sortingOptions" />
+		</div>
 		<div id="character-pool">
 			<CharacterCard
 				:characterId="char"
@@ -30,23 +34,24 @@
 </template>
 
 <script setup>
-	import { ref, computed, onBeforeUnmount } from "vue"
+	import { ref, onBeforeUnmount } from "vue"
+	import { sortingOptions, useCharacterIdList } from "@/hooks/characterIdList"
 	import { useHead } from "@vueuse/head"
-	import { useJsonDataStore } from "@/stores/jsonData"
 	import { useRouter } from "vue-router"
 	import { useUserDataStore } from "@/stores/userData"
 	import CharacterCard from "@/components/CharacterCard"
 	import ConstellationPopup from "@/components/ConstellationPopup"
 	import ImportPopup from "@/components/ImportPopup"
+	import SelectButton from "@/components/SelectButton"
 
-	const jsonData = useJsonDataStore()
 	const router = useRouter()
 	const userData = useUserDataStore()
 	useHead({ title: `My characters | ${process.env.VUE_APP_SITE_NAME}` })
 
 	const activePopup = ref({ type: null, data: null })
 
-	const characters = computed(() => Object.keys(jsonData.characters))
+	const sortBy = ref(sortingOptions[0].value)
+	const characters = useCharacterIdList(sortBy)
 
 	function selectCharacter(characterId) {
 		activePopup.value = { type: "constellation", data: characterId }
@@ -83,5 +88,9 @@
 		gap: 0.5em;
 		margin: 0.5em;
 		width: inherit;
+	}
+
+	.options-wrapper {
+		margin-bottom: 0;
 	}
 </style>

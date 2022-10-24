@@ -8,7 +8,7 @@
 			</p>
 			<div class="options-wrapper">
 				Display unowned characters?
-				<ToggleButton v-model="displayUnowned" />
+				<SelectButton v-model="displayUnowned" />
 			</div>
 			<TierLine
 				:characters="l.characters"
@@ -30,20 +30,11 @@
 	import { ref } from "vue"
 	import { useTierList } from "@/hooks/tierList"
 	import { useUserDataStore } from "@/stores/userData"
+	import SelectButton from "@/components/SelectButton"
 	import TierLine from "@/components/TierLine"
-	import ToggleButton from "@/components/ToggleButton"
 
 	const displayUnowned = ref(false)
 
 	const userData = useUserDataStore()
 	const list = useTierList(5, displayUnowned)
 </script>
-
-<style scoped>
-	.options-wrapper {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		text-align: initial;
-		padding: 0 0.5em;
-	}
-</style>

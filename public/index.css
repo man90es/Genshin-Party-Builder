@@ -65,3 +65,11 @@ a {
 p {
 	text-align: justify;
 }
+
+.options-wrapper {
+	align-items: center;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	margin: 0.5em;
+	text-align: initial;
+}
