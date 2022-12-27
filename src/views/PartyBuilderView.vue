@@ -20,6 +20,16 @@
 			:index="Number(route.params.index)"
 			@cardClick="removeMember"
 		/>
+		<section id="insights" v-if="!isEmpty">
+			<div>
+				Possible reactions:
+				<div v-for="reaction in reactions" :key="reaction">{{ reaction }}</div>
+			</div>
+			<div>
+				Resonances:
+				<div v-for="resonance in resonances" :key="resonance">{{ resonance }}</div>
+			</div>
+		</section>
 		<p v-if="!isFull">
 			Current suggestions:
 		</p>
@@ -55,6 +65,7 @@
 	import { getRandomReassurance } from "@/utils"
 	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useHead } from "@vueuse/head"
+	import { useInsights } from "@/hooks/insights"
 	import { useRouter, useRoute } from "vue-router"
 	import { useSuggested } from "@/hooks/suggested"
 	import { useUserDataStore } from "@/stores/userData"
@@ -62,9 +73,10 @@
 	import CharacterSelectionPopup from "@/components/CharacterSelectionPopup"
 	import PartyRow from "@/components/PartyRow"
 
-	const { suggested } = useSuggested()
 	useHead({ title: `Edit party | ${process.env.VUE_APP_SITE_NAME}` })
 
+	const { reactions, resonances } = useInsights()
+	const { suggested } = useSuggested()
 	const route = useRoute()
 	const router = useRouter()
 	const userData = useUserDataStore()
@@ -80,24 +92,19 @@
 		prevStage()
 	}
 
-	const party = computed(
-		() =>
-			userData.parties[route.params.index] || {
-				members: [null, null, null, null],
-			}
-	)
+	const party = computed(() => (
+		userData.parties[route.params.index] || {
+			members: [null, null, null, null],
+		}
+	))
 
-	const name = computed(
-		() => party.value.name || `Party ${Number(route.params.index) + 1}`
-	)
+	const name = computed(() => (
+		party.value.name || `Party ${Number(route.params.index) + 1}`
+	))
 
-	const isEmpty = computed(
-		() =>
-			party.value.members.reduce(
-				(empty, c) => empty + Number(c === null),
-				0
-			) === 4
-	)
+	const isEmpty = computed(() => (
+		party.value.members.reduce((empty, c) => empty + Number(c === null), 0) === 4
+	))
 
 	const isFull = computed(() => !party.value.members?.includes(null))
 
@@ -154,12 +161,18 @@
 	})
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	#sugestions {
 		display: flex;
 		gap: 0.5em;
 		justify-content: center;
 		margin-top: 1em;
+	}
+
+	#insights {
+		display: flex;
+		gap: 1em;
+		justify-content: center;
 	}
 
 	.button-wrapper {

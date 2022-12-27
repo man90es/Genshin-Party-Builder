@@ -1,3 +1,4 @@
+import _capitalise from "lodash/capitalize"
 import _difference from "lodash/difference"
 import { computed } from "vue"
 import { useJsonDataStore } from "@/stores/jsonData"
@@ -75,12 +76,14 @@ export function useInsights() {
 
 		const partyElements = party.value.map(c => jsonData.characters[c!]?.element)
 
-		return Object.entries(reactionRequirements)
+		const list = Object.entries(reactionRequirements)
 			.flatMap(([name, options]) => (
 				options.map(o => _difference(o, partyElements).length === 0).includes(true)
-					? [name]
+					? [_capitalise(name)]
 					: []
 			))
+
+		return list.length ? list : ["None"]
 	})
 
 	const resonances = computed(() => {
@@ -90,11 +93,13 @@ export function useInsights() {
 
 		const partyElements = party.value.map(c => jsonData.characters[c!]?.element)
 
-		return Object.entries(partyElements.reduce((prev, cur) => ({
+		const list = Object.entries(partyElements.reduce((prev, cur) => ({
 			...prev,
 			[cur]: prev[cur] ? prev[cur] + 1 : 1
 		}), {} as { [key: string]: number }))
-			.flatMap(([element, n]) => n > 1 ? [element] : [])
+			.flatMap(([element, n]) => n > 1 ? [_capitalise(element)] : [])
+
+		return list.length ? list : ["4 unique"]
 	})
 
 	return { reactions, resonances }
