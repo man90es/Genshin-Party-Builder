@@ -1,4 +1,5 @@
 import { Character } from "./Character"
+import { Preset } from "./Preset"
 
 export type JSONData = {
 	version: string
@@ -8,6 +9,7 @@ export type JSONData = {
 	elements: {
 		[key: string]: { name: string }
 	}
+	presets: Preset[]
 	reactions: {
 		header: string[]
 		matrix: number[][]

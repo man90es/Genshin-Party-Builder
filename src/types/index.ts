@@ -1,5 +1,6 @@
 export * from "./Character"
 export * from "./JSONData"
 export * from "./OwnedIndex"
+export * from "./Preset"
 export * from "./ProcessedCharacter"
 export * from "./SimpleParty"

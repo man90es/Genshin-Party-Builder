@@ -7,7 +7,7 @@ import { computed } from "vue"
 import { useJsonDataStore } from "@/stores/jsonData"
 import { useRoute } from "vue-router"
 import { useUserDataStore } from "@/stores/userData"
-import type { Character, ProcessedCharacter, JSONData } from "@/types"
+import type { Character, ProcessedCharacter, Preset, JSONData } from "@/types"
 
 function processCharacter(id: string, character: Character, constellation: number): ProcessedCharacter {
 	return {
@@ -21,6 +21,7 @@ function processCharacter(id: string, character: Character, constellation: numbe
 				: [r]
 		)),
 		score: character.score[constellation],
+		shortId: character.id,
 		weapon: character.weapon,
 	}
 }
@@ -105,7 +106,7 @@ function getCharacterCompatibility(currentParty: ProcessedCharacter[], character
 		.reduce((acc, cur) => acc + cur, 0)
 }
 
-function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData) {
+function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData, presets: Preset[]) {
 	const partyElements = _uniq(currentParty.map(c => c.element))
 	const partyRoles = _uniq(currentParty.map(c => c.roles).flat())
 	const scores = []
@@ -136,7 +137,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	)
 
 	// Give points for role variability
-	scores.push(_difference(character.roles, partyRoles).length / 3)
+	scores.push(_difference(character.roles, partyRoles).length / 4)
 
 	// Subtract points for having the same weapon type as other characters in party
 	scores.push(-currentParty.filter(c => character.weapon === c.weapon).length / 6)
@@ -157,6 +158,15 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	// Add/subtract points for character-specific interactions
 	scores.push(getCharacterCompatibility(currentParty, character))
 
+	// Add points for character being present in presets with other characters in party
+	if (presets.length) {
+		scores.push(presets.filter(p => p.includes(character.shortId)).length / presets.length * 3)
+	} else {
+		scores.push(0)
+	}
+
+	const finalScore = _sum(scores)
+
 	// Debug messages
 	if ("development" === process.env.NODE_ENV) {
 		const categories = [
@@ -168,18 +178,20 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 			"Resonance potential",
 			"Reactions strength",
 			"Character-specific interactions",
+			"Presets presence",
 		]
 
 		console.debug(
 			"Considering",
 			character.id,
+			finalScore,
 			Object.fromEntries(
 				scores.map((score, i) => [categories[i], score])
 			)
 		)
 	}
 
-	return _sum(scores)
+	return finalScore
 }
 
 export function useSuggested() {
@@ -213,8 +225,15 @@ export function useSuggested() {
 		const pool = processedCharacters.value
 			.filter(({ id }) => !(currentParty.includes(id)))
 
+		// Presets that include all currently selected characters
+		const matchingPresets = selected.length
+			? jsonData.presets.filter(preset => (
+				_intersection(selected.map(c => c.shortId), preset).length === selected.length
+			))
+			: []
+
 		return _shuffle(pool)
-			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, jsonData) }))
+			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, jsonData, matchingPresets) }))
 			.sort((a, b) => a.fitness < b.fitness ? 1 : -1)
 			.slice(0, n)
 			.map(f => f.characterId)
