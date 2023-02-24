@@ -33,13 +33,10 @@
 	#popup-wrapper {
 		align-items: center;
 		background-color: #1117;
-		bottom: 0;
 		display: flex;
+		inset: 0;
 		justify-content: center;
-		left: 0;
 		position: fixed;
-		right: 0;
-		top: 0;
 		z-index: 10;
 	}
 

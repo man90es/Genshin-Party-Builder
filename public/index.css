@@ -14,11 +14,13 @@ body {
 	display: grid;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
 	gap: 0.5em;
-	grid-template-rows: 7em 1fr 1.5em;
+	grid-template-rows: 7em 1fr auto;
 	margin: 0;
-	min-height: 100vh;
 	overflow-x: hidden;
 	text-align: center;
+
+	min-height: 100vh;
+	min-height: 100svh;
 }
 
 .row {

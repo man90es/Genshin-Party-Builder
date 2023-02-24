@@ -56,6 +56,6 @@
 	}
 
 	p {
-		max-width: 30em;
+		max-width: min(30em, 95vw);
 	}
 </style>

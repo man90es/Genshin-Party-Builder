@@ -46,12 +46,11 @@
 	}
 
 	img {
+		filter: drop-shadow(0 0 0.1em rgba(0, 0, 0, 0.5));
+		height: 1em;
+		inset: 0.25em auto auto 0.25em;
 		object-fit: cover;
 		position: absolute;
-		left: 0.25em;
-		top: 0.25em;
-		height: 1em;
 		width: 1em;
-		filter: drop-shadow(0 0 0.1em rgba(0, 0, 0, 0.5));
 	}
 </style>

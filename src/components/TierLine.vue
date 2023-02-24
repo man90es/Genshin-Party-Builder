@@ -1,14 +1,11 @@
 <template>
-	<div class="leaderboard-line">
-		<div class="tier-letter">{{tier}}</div>
-		<div class="characters-wrapper">
-			<CharacterCard
-				:characterId="character.id"
-				:clickable="false"
-				:owned="character.owned"
-				v-for="character of characters" :key="character.id"
-			/>
-		</div>
+	<div class="leaderboard-line" :data-tier="tier">
+		<CharacterCard
+			:characterId="character.id"
+			:clickable="false"
+			:owned="character.owned"
+			v-for="character of characters" :key="character.id"
+		/>
 	</div>
 </template>
 
@@ -24,26 +21,26 @@
 <style scoped lang="scss">
 	.leaderboard-line {
 		background-color: #fff1;
-		border-radius: 0.25em;
+		border-radius: 0.25rem;
 		display: grid;
-		gap: 1em;
-		grid-template-columns: 5em 1fr;
-		margin: 0.25em 0;
-		padding: 0.5em;
+		gap: 0.5rem;
+		grid-template-columns: repeat(auto-fit, 5rem);
+		margin: 0.25rem 0;
+		padding: 0.5rem 0.5rem 0.5rem 6.5rem;
+		position: relative;
 	}
 
-	.tier-letter {
+	.leaderboard-line::before {
 		align-items: center;
+		content: attr(data-tier);
 		display: flex;
 		font-family: Hoyofont;
-		font-size: 2em;
+		font-size: 2rem;
 		font-weight: 500;
+		height: 100%;
 		justify-content: center;
-	}
-
-	.characters-wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5em;
+		left: 0.5rem;
+		position: absolute;
+		width: 5rem;
 	}
 </style>

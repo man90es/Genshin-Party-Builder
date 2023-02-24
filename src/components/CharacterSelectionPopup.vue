@@ -55,13 +55,13 @@
 		background-color: #4b5367;
 		border-radius: 0.5em;
 		box-sizing: border-box;
-		display: flex;
-		flex-flow: wrap;
-		gap: 0.5em;
+		display: grid;
+		gap: 0.5rem;
+		grid-template-columns: repeat(auto-fit, 5rem);
 		max-height: 50vh;
-		max-width: 90vw;
+		max-width: min(60rem, 100vw);
 		overflow-y: auto;
-		padding: 1em;
+		padding: 0.5rem;
 	}
 
 	.options-wrapper {

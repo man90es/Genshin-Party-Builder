@@ -21,7 +21,7 @@
 				:style="{ objectPosition: bgOffset }"
 			/>
 		</picture>
-		<div class="removeOverlay" v-if="'remove' === hoverIntention">✖</div>
+		<div class="removeOverlay" v-if="'remove' === hoverIntention">×</div>
 		<ElementBadge v-if="meta" :elementId="meta.element" />
 		<ConstellationBadge :characterId="characterId" />
 		<figcaption>
@@ -155,16 +155,13 @@
 		.removeOverlay {
 			align-items: center;
 			background-color: #0004;
-			bottom: 0;
 			color: #fff;
 			display: flex;
 			font-size: 3em;
+			inset: 0;
 			justify-content: center;
-			left: 0;
 			opacity: 0;
 			position: absolute;
-			right: 0;
-			top: 0;
 			transition-duration: 0.2s;
 			z-index: 2;
 		}

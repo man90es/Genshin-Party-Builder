@@ -1,25 +1,19 @@
 <template>
 	<footer>
+		<template v-if="json.version">
+			<span>Data v{{ json.version }}</span>
+		</template>
+		<a href="https://donate.hemlo.cc" target="_blank">Donate</a>
+		<a
+			href="https://github.com/octoman90/Genshin-Party-Builder"
+			rel="noreferrer noopener"
+			target="_blank"
+		>
+			GitHub
+		</a>
 		<span>
-			<template v-if="json.version">
-				<span>Data v{{ json.version }}</span>
-				●
-			</template>
-			<span>
-				Man90's Party Builder is not affiliated with or endorsed by
-				miHoYo.
-			</span>
-		</span>
-		<span>
-			<a href="https://donate.hemlo.cc" target="_blank">Donate</a>
-			●
-			<a
-				href="https://github.com/octoman90/Genshin-Party-Builder"
-				rel="noreferrer noopener"
-				target="_blank"
-			>
-				GitHub
-			</a>
+			Man90's Party Builder is not affiliated with or endorsed by
+			miHoYo.
 		</span>
 	</footer>
 </template>
@@ -31,31 +25,30 @@
 
 <style lang="scss">
 	footer {
-		bottom: 1em;
-		display: flex;
+		display: grid;
 		font-size: 0.9rem;
-		gap: 1em;
-		grid-row: 3;
-		justify-content: space-evenly;
-		justify-self: center;
-		text-align: left;
-		width: calc(100vw - 1em);
-
-		span {
-			display: flex;
-			gap: 1em;
-		}
+		grid-template-columns: repeat(3, auto);
+		max-width: 30rem;
+		margin: 1rem auto;
+		text-align: center;
+		gap: 0.5rem;
 
 		& > * {
+			min-width: 5rem;
 			opacity: 0.7;
 		}
 
 		a {
 			color: inherit;
+			text-decoration: underline;
 
 			&:hover {
 				opacity: 1;
 			}
+		}
+
+		& > :last-child {
+			grid-column: 1/-1;
 		}
 	}
 </style>
