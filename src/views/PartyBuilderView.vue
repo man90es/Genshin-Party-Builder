@@ -1,18 +1,13 @@
 <template>
 	<main v-if="userData.enoughCharacters">
 		<p v-if="isEmpty">
-			{{ name }} has no characters yet. You can start by picking a character from
-			the AI-suggested choices below or select a specific character by clicking
-			the «More...» button.
+			Looks like {{ name }} is empty at the moment! To get started, you can either choose a character from the AI-suggested list below or select a specific character by clicking the "More..." button.
 		</p>
 		<p v-else-if="isFull">
-			{{ name }} is ready to hit the ground running! To change any
-			character, click his or her portrait.
+			{{ name }} is ready to hit the ground running! If you need to make any changes to the lineup, click on a character's portrait to remove them from the party.
 		</p>
 		<p v-else>
-			{{ reassurance }}! You can add up to 4 characters to {{ name }}. You
-			can remove a character from the party by clicking his or her
-			portrait.
+			{{ reassurance }}! You can add up to four characters to {{ name }}. If you need to make any changes to the lineup, click on a character's portrait to remove them from the party.
 		</p>
 		<PartyRow
 			:editableName="true"

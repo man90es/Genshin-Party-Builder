@@ -10,6 +10,7 @@
 			can generate it automatically with
 			<a
 				href="https://github.com/Andrewthe13th/Inventory_Kamera"
+				rel="noreferrer noopener"
 				target="_blank"
 			>
 				Inventory Kamera

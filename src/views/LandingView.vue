@@ -1,11 +1,7 @@
 <template>
 	<main>
-		<p>
-			Welcome to an AI-assisted team creation tool for Genshin Impact.
-			It helps beginners to assemble well-rounded teams no matter how
-			many or which characters they have.
-		</p>
-		<p>Press start to select your characters.</p>
+		<p>{{ strings.welcome1 }}</p>
+		<p>{{ strings.pressStart }}</p>
 		<div class="button-wrapper">
 			<button @click="nextStage">Start</button>
 		</div>
@@ -16,9 +12,11 @@
 	import { onBeforeUnmount } from "vue"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
+	import { useStrings } from "@/hooks/strings"
 	import { useUserDataStore } from "@/stores/userData"
 
 	const router = useRouter()
+	const strings = useStrings()
 	const userData = useUserDataStore()
 	useHead({ title: process.env.VUE_APP_SITE_NAME })
 

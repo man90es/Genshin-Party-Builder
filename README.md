@@ -1,11 +1,9 @@
-# Party Builder for Genshin Impact <sup>v2</sup>
+# Party Builder for Genshin Impact <sup>v2</sup> [Genshin.hemlo.cc/PartyBuilder](https://genshin.hemlo.cc/partybuilder)
 [![license](https://img.shields.io/github/license/octoman90/Genshin-Party-Builder)](https://github.com/octoman90/Genshin-Party-Builder/blob/master/LICENSE)
 
-This is an AI-assisted team creation tool for Genshin Impact. It helps beginners to assemble well-rounded teams no matter how many or which characters they have.
+An AI-assisted team creation tool for Genshin Impact that helps players assemble well-rounded teams by analysing characters' elemental attributes, constellation levels, weapon types, potential elemental reactions, preferred roles, community ratings, and more.
 
-It takes into account which characters you have, their constellation levels, elemental resonances, which roles they fill the best, their weapon types, possible elemental reactions, how good they are considered in the community, etc.
-
-You can try it out by clicking the link -> [https://genshin.hemlo.cc/partybuilder](https://genshin.hemlo.cc/partybuilder)
+The tool is designed for beginners and experienced players alike, enabling them to maximise their characters' strengths and synergies. With over 50,000 monthly users, the tool is a valuable resource for players seeking to improve their team-building strategies and create effective teams.
 
 [![screencap](./.github/screencap.png)](https://genshin.hemlo.cc/partybuilder)
 
@@ -15,10 +13,8 @@ You can try it out by clicking the link -> [https://genshin.hemlo.cc/partybuilde
 - [x] ~~Rewrite the logic of the automatic suggestion algorithm to take in account roles, elemental reactions, weapon types, etc.~~
 - [x] ~~Create a tier list page~~
 - [x] ~~Display insights about the team~~
-- [ ] Provide an easy way to report algorithm balancing issues
-- [ ] Add team configuration options
-- [ ] Improve UI and release it as a Vue.js UI library
-- [ ] Make the app a PWA
+- [ ] Add configuration options
+- [ ] Improve UI and release a UI library
 
 ## Contributing
 All pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

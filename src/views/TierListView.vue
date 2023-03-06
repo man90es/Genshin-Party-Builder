@@ -1,11 +1,7 @@
 <template>
 	<main>
 		<template v-if="userData.enoughCharacters">
-			<p>
-				Here's a special leaderboard just for you!
-				It was generated from the list of characters
-				you selected earlier.
-			</p>
+			<p>{{ strings.tierList }}</p>
 			<div class="options-wrapper">
 				Display unowned characters?
 				<SelectButton v-model="displayUnowned" />
@@ -17,17 +13,13 @@
 				v-for="l of list"
 			/>
 		</template>
-		<p v-else>
-			You don't seem to have selected enough characters
-			to build a custom tier list for you. Please
-			go to the «Characters» tab and select at least 5
-			characters.
-		</p>
+		<p v-else>{{ strings.tiersScreenNoCharacters }}</p>
 	</main>
 </template>
 
 <script setup>
 	import { ref } from "vue"
+	import { useStrings } from "@/hooks/strings"
 	import { useTierList } from "@/hooks/tierList"
 	import { useUserDataStore } from "@/stores/userData"
 	import SelectButton from "@/components/SelectButton"
@@ -35,6 +27,7 @@
 
 	const displayUnowned = ref(false)
 
+	const strings = useStrings()
 	const userData = useUserDataStore()
 	const list = useTierList(5, displayUnowned)
 </script>

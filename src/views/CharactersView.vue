@@ -1,10 +1,6 @@
 <template>
 	<main>
-		<p>
-			Import or manually select your owned characters and
-			switch to parties or leaderboard tab once you're done.
-			You may return to this step anytime later.
-		</p>
+		<p>{{strings.characterScreenInstruction}}</p>
 		<div class="button-wrapper">
 			<button @click="() => activePopup = { type: 'import' }">
 				Import
@@ -38,6 +34,7 @@
 	import { sortingOptions, useCharacterIdList } from "@/hooks/characterIdList"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
+	import { useStrings } from "@/hooks/strings"
 	import { useUserDataStore } from "@/stores/userData"
 	import CharacterCard from "@/components/CharacterCard"
 	import ConstellationPopup from "@/components/ConstellationPopup"
@@ -45,6 +42,7 @@
 	import SelectButton from "@/components/SelectButton"
 
 	const router = useRouter()
+	const strings = useStrings()
 	const userData = useUserDataStore()
 	useHead({ title: `My characters | ${process.env.VUE_APP_SITE_NAME}` })
 

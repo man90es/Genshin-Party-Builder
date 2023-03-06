@@ -11,15 +11,15 @@
 		>
 			GitHub
 		</a>
-		<span>
-			Man90's Party Builder is not affiliated with or endorsed by
-			miHoYo.
-		</span>
+		<span>{{ strings.notAffiliated }}</span>
 	</footer>
 </template>
 
 <script setup>
 	import { useJsonDataStore } from "@/stores/jsonData"
+	import { useStrings } from "@/hooks/strings"
+
+	const strings = useStrings()
 	const json = useJsonDataStore()
 </script>
 

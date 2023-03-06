@@ -14,11 +14,7 @@
 				<button @click="createParty">New party</button>
 			</div>
 		</template>
-		<p v-else>
-			You don't seem to have selected enough characters
-			to start creating custom teams. Please go to the
-			«Characters» tab and select at least 5 characters.
-		</p>
+		<p v-else>{{ strings.teamsScreenNoCharacters }}</p>
 	</main>
 </template>
 
@@ -26,12 +22,14 @@
 	import { onMounted } from "vue"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
+	import { useStrings } from "@/hooks/strings"
 	import { useUserDataStore } from "@/stores/userData"
 	import PartyRow from "@/components/PartyRow"
 
 	useHead({ title: `My parties | ${process.env.VUE_APP_SITE_NAME}` })
 
 	const router = useRouter()
+	const strings = useStrings()
 	const userData = useUserDataStore()
 
 	function editParty(index) {
