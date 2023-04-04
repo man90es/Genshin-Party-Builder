@@ -6,7 +6,7 @@
 			:type="src.mime"
 			v-for="src in srcList"
 		/>
-		<img :src="srcList.at(-1).path" />
+		<img :src="srcList.at(-1).path" alt="" />
 	</picture>
 </template>
 

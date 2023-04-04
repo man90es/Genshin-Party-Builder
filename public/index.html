@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en-GB">
-	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+
+<html lang="en">
+	<link rel="manifest" href="<%= BASE_URL %>site.webmanifest">
 	<link rel="stylesheet" href="<%= BASE_URL %>index.css">
 	<meta charset="utf-8">
-	<meta name="description" content="An AI-assisted party creation tool for Genshin Impact. It helps beginners to assemble well-rounded teams no matter how many or which characters they have.">
+	<meta name="description" content="<%= VUE_APP_SITE_DESC %>">
+	<meta name="msapplication-config" content="<%= BASE_URL %>browserconfig.xml">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<meta property="og:title" content="<%= VUE_APP_SITE_NAME %>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="<%= VUE_APP_SITE_DESC %>" />
+	<meta property="og:image" content="<%= VUE_APP_ASSETS_ENDPOINT %>meta-preview.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+
+	<link rel="apple-touch-icon" sizes="180x180" href="<%= VUE_APP_ASSETS_ENDPOINT %>apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="<%= VUE_APP_ASSETS_ENDPOINT %>favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="<%= VUE_APP_ASSETS_ENDPOINT %>favicon-16x16.png">
+	<link rel="mask-icon" href="<%= VUE_APP_ASSETS_ENDPOINT %>safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="<%= VUE_APP_ASSETS_ENDPOINT %>favicon.ico">
+	<meta name="msapplication-TileColor" content="#2d89ef">
+	<meta name="theme-color" content="#060d1f">
+
 	<style lang="css">
 		@font-face {
 			font-family: "Hoyofont";
@@ -18,7 +36,11 @@
 				url("<%= VUE_APP_ASSETS_ENDPOINT %>fonts/Hoyofont.ttf") format("ttf");
 		}
 	</style>
-	<title><%= VUE_APP_SITE_NAME %></title>
+
+	<title>
+		<%= VUE_APP_SITE_NAME %>
+	</title>
 
 	<noscript>You need to enable JavaScript to run this app.</noscript>
+
 </html>

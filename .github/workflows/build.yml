@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
       - name: Build
@@ -31,6 +31,7 @@ jobs:
           VUE_APP_PUBLIC_PATH: ${{secrets.VUE_APP_PUBLIC_PATH}}
           VUE_APP_ASSETS_ENDPOINT: ${{secrets.VUE_APP_ASSETS_ENDPOINT}}
           VUE_APP_SITE_NAME: Party Builder for Genshin Impact
+          VUE_APP_SITE_DESC: An AI-assisted party creation tool for Genshin Impact. It helps beginners to assemble well-rounded teams no matter how many or which characters they have.
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
