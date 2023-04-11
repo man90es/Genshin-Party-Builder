@@ -13,9 +13,7 @@
 			<CharacterCard
 				:characterId="meta.members[pos]"
 				:clickable="hoverRemove ? Boolean(meta.members[pos]) : true"
-				:hoverIntention="
-					hoverRemove && meta.members[pos] ? 'remove' : 'pick'
-				"
+				:hoverIntention="hoverRemove && meta.members[pos] ? 'remove' : 'pick'"
 				:key="meta.members[pos]"
 				@click="emit('cardClick', pos)"
 				v-for="pos in [0, 1, 2, 3]"

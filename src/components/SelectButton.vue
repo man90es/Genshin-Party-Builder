@@ -7,7 +7,7 @@
 			type="button"
 			v-for="option of options"
 		>
-			{{option.label}}
+			{{ option.label }}
 		</button>
 	</div>
 </template>
@@ -41,6 +41,8 @@
 
 <style lang="scss" scoped>
 	div {
+		--border-radius: 2rem;
+
 		background-color: transparent;
 		display: flex;
 		gap: 0.25rem;
@@ -49,8 +51,11 @@
 
 	button {
 		background-color: var(--button-background-color);
+		border-radius: 0;
+		border: 0.05em solid transparent;
 		font-size: 1rem;
 		padding: 0.25em;
+		transition-duration: 0.2s;
 		width: 100%;
 
 		&.active {
@@ -59,21 +64,11 @@
 		}
 
 		&:first-child {
-			border-bottom-right-radius: 0;
-			border-right: none;
-			border-top-right-radius: 0;
-		}
-
-		&:not(:first-child):not(:last-child) {
-			border-left: none;
-			border-radius: 0 !important;
-			border-right: none;
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
 		}
 
 		&:last-child {
-			border-bottom-left-radius: 0;
-			border-left: none;
-			border-top-left-radius: 0;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
 		}
 	}
 </style>

@@ -7,6 +7,7 @@
 			v-for="src in srcList"
 		/>
 		<img
+			:alt="props.elementId"
 			:src="srcList.at(-1).path"
 			:style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }"
 		/>

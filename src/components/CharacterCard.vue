@@ -1,13 +1,13 @@
 <template>
 	<figure :class="{ owned }" :style="{ cursor: clickable ? 'pointer' : 'default' }">
-		<picture class="portrait" :alt="meta?.name || 'Character placeholder'">
+		<picture class="portrait">
 			<source
 				:key="src.mime"
 				:srcSet="src.path"
 				:type="src.mime"
 				v-for="src in srcList"
 			/>
-			<img :src="srcList.at(-1).path" />
+			<img :src="srcList.at(-1).path" :alt="meta?.name || 'Character placeholder'" />
 		</picture>
 		<picture class="background" :class="colour" v-if="bgSrcList.length > 0">
 			<source
@@ -19,6 +19,7 @@
 			<img
 				:src="bgSrcList.at(-1).path"
 				:style="{ objectPosition: bgOffset }"
+				alt=""
 			/>
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">×</div>
@@ -122,9 +123,9 @@
 			width: 5rem;
 
 			img {
+				border-radius: inherit;
 				height: inherit;
 				width: inherit;
-				border-radius: inherit;
 			}
 		}
 

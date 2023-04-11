@@ -45,7 +45,8 @@
 	}
 
 	nav {
-		border-radius: 2em;
+		--border-radius: 2rem;
+
 		display: flex;
 		gap: 0.2em;
 		max-width: calc(100vw - 1em);
@@ -57,6 +58,7 @@
 			display: block;
 			font-size: 1.2rem;
 			padding: 0.5rem;
+			transition-duration: 0.2s;
 			width: 8em;
 
 			&.router-link-active {
@@ -65,15 +67,11 @@
 			}
 
 			&:first-child {
-				border-bottom-left-radius: inherit;
-				border-right: none;
-				border-top-left-radius: inherit;
+				border-radius: var(--border-radius) 0 0 var(--border-radius);
 			}
 
 			&:last-child {
-				border-bottom-right-radius: inherit;
-				border-left: none;
-				border-top-right-radius: inherit;
+				border-radius: 0 var(--border-radius) var(--border-radius) 0;
 			}
 
 			&:not(:first-child):not(:last-child) {
