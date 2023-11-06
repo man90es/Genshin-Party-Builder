@@ -26,86 +26,6 @@ function processCharacter(id: string, character: Character, constellation: numbe
 	}
 }
 
-function getCharacterCompatibility(currentParty: ProcessedCharacter[], character: ProcessedCharacter): number {
-	return [...currentParty, character]
-		.map((character, i, a) => {
-			const party: ProcessedCharacter[] = a.filter((_, idx) => idx !== i)
-			const partyElements = _uniq(party.map(c => c.element))
-			const partyRoles = _uniq(party.map(c => c.roles).flat())
-
-			switch (character.id) {
-				case "bennett": {
-					// C6 Bennett's ultimate overrides autoattack element with pyro
-					// Subtract points for each character that gets negatively affected
-					const badInteraction = [
-						"chongyun", "eula", "kamisato_ayaka",
-						"keqing", "razor"
-					]
-
-					if (5 < character.constellation) {
-						return -_intersection(party.map(c => c.id), badInteraction).length
-					}
-
-					return 0
-				}
-
-				case "candace": {
-					// Candace's ability overrides autoattack element with hydro
-					// Subtract points for each character that gets negatively affected
-					const badInteraction = [
-						"chongyun", "eula", "kamisato_ayaka",
-						"keqing", "razor", "rosaria"
-					]
-
-					return -_intersection(party.map(c => c.id), badInteraction).length
-				}
-
-				case "chongyun": {
-					// Chongyun's ability overrides autoattack element with cryo
-					// Subtract points for each character that gets negatively affected
-					const badInteraction = [
-						"eula", "keqing", "razor",
-						"rosaria",
-					]
-
-					return -_intersection(party.map(c => c.id), badInteraction).length
-				}
-
-				case "gorou": {
-					// Gorou wants mono-geo
-					return party.filter(c => "geo" === c.element).length - 1
-				}
-
-				case "hu_tao": {
-					// Hu Tao doesn't want healers
-					return -partyRoles.includes("heal")
-				}
-
-				case "nilou": {
-					// Nilou wants party that has at least 1 dendro character
-					// and no non-hydro non-dendro characters
-					const hasEmptySlots = 4 > party.length
-					const hasDendro = 1 <= party.filter(c => "dendro" === c.element).length
-					const hasBadElements = 0 === party.filter(c => !["dendro", "hydro"].includes(c.element)).length
-
-					return -Number((hasEmptySlots || hasDendro) && !hasBadElements) * 2
-				}
-
-				case "yelan": {
-					// When the party has 1/2/3/4 Elemental Types,
-					// Yelan's Max HP is increased by 6%/12%/18%/30%.
-					// And her skills scale off her HP
-					return (partyElements.length + Number(!partyElements.includes("hydro"))) / 2
-				}
-
-				default: {
-					return 0
-				}
-			}
-		})
-		.reduce((acc, cur) => acc + cur, 0)
-}
-
 function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData, presets: Preset[]) {
 	const partyElements = _uniq(currentParty.map(c => c.element))
 	const partyRoles = _uniq(currentParty.map(c => c.roles).flat())
@@ -155,9 +75,6 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 		}, 0) / 2
 	)
 
-	// Add/subtract points for character-specific interactions
-	scores.push(getCharacterCompatibility(currentParty, character))
-
 	// Add points for character being present in presets with other characters in party
 	if (presets.length) {
 		scores.push(presets.filter(p => p.includes(character.shortId)).length / presets.length * 3)
@@ -177,7 +94,6 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 			"Weapon variability",
 			"Resonance potential",
 			"Reactions strength",
-			"Character-specific interactions",
 			"Presets presence",
 		]
 
