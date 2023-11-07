@@ -20,11 +20,11 @@
 
 <script setup>
 	import { onMounted } from "vue"
+	import { PartyRow } from "@/components"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
-	import { useStrings } from "@/hooks/strings"
-	import { useUserDataStore } from "@/stores/userData"
-	import PartyRow from "@/components/PartyRow"
+	import { useStrings } from "@/hooks"
+	import { useUserDataStore } from "@/stores"
 
 	useHead({ title: `My parties | ${process.env.VUE_APP_SITE_NAME}` })
 

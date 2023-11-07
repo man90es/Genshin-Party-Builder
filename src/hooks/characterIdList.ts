@@ -1,5 +1,5 @@
 import { computed, readonly } from "vue"
-import { useJsonDataStore } from "@/stores/jsonData"
+import { useJsonDataStore } from "@/stores"
 import type { Ref } from "vue"
 
 export const sortingOptions = [

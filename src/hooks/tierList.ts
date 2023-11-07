@@ -1,7 +1,6 @@
 import _range from "lodash/range"
 import { computed, readonly } from "vue"
-import { useJsonDataStore } from "@/stores/jsonData"
-import { useUserDataStore } from "@/stores/userData"
+import { useJsonDataStore, useUserDataStore } from "@/stores"
 import type { Ref } from "vue"
 
 // Arbitrary letters used for each rank

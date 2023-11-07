@@ -29,10 +29,10 @@
 </template>
 
 <script setup>
+	import { PopupShell } from "@/components"
 	import { readGOOD } from "@/utils"
 	import { ref } from "vue"
-	import { useUserDataStore } from "@/stores/userData"
-	import PopupShell from "@/components/PopupShell"
+	import { useUserDataStore } from "@/stores"
 
 	const emit = defineEmits(["abort"])
 	const error = ref("")

@@ -23,9 +23,9 @@
 </template>
 
 <script setup>
+	import { CharacterCard } from "@/components"
 	import { computed } from "vue"
-	import { useUserDataStore } from "@/stores/userData"
-	import CharacterCard from "./CharacterCard"
+	import { useUserDataStore } from "@/stores"
 
 	const emit = defineEmits(["cardClick"])
 	const props = defineProps({

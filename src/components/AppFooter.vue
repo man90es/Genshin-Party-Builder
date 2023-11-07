@@ -16,8 +16,8 @@
 </template>
 
 <script setup>
-	import { useJsonDataStore } from "@/stores/jsonData"
-	import { useStrings } from "@/hooks/strings"
+	import { useJsonDataStore } from "@/stores"
+	import { useStrings } from "@/hooks"
 
 	const strings = useStrings()
 	const json = useJsonDataStore()

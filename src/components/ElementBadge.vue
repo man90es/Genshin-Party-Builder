@@ -16,7 +16,7 @@
 
 <script setup>
 	import { computed } from "vue"
-	import { useJsonDataStore } from "@/stores/jsonData"
+	import { useJsonDataStore } from "@/stores"
 
 	const props = defineProps({
 		elementId: { type: String, required: true },

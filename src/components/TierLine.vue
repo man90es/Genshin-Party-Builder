@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-	import CharacterCard from "@/components/CharacterCard"
+	import { CharacterCard } from "@/components"
 
 	defineProps({
 		tier: { type: String, required: true },

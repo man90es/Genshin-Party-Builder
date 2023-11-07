@@ -6,10 +6,8 @@
 </template>
 
 <script setup>
-	import { useJsonDataStore } from "@/stores/jsonData"
-	import AppFooter from "@/components/AppFooter"
-	import BackgroundLayer from "@/components/BackgroundLayer"
-	import SiteHeader from "@/components/SiteHeader"
+	import { AppFooter, BackgroundLayer, SiteHeader } from "@/components"
+	import { useJsonDataStore } from "@/stores"
 
 	const jsonData = useJsonDataStore()
 	jsonData.sync()

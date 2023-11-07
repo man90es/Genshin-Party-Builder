@@ -21,12 +21,10 @@
 </template>
 
 <script setup>
+	import { CharacterCard, PopupShell, SelectButton } from "@/components"
 	import { computed, ref, onBeforeUnmount } from "vue"
-	import { sortingOptions, useCharacterIdList } from "@/hooks/characterIdList"
-	import { useUserDataStore } from "@/stores/userData"
-	import CharacterCard from "@/components/CharacterCard"
-	import PopupShell from "@/components/PopupShell"
-	import SelectButton from "@/components/SelectButton"
+	import { sortingOptions, useCharacterIdList } from "@/hooks"
+	import { useUserDataStore } from "@/stores"
 
 	const emit = defineEmits(["close", "select"])
 	const props = defineProps({ meta: Object, exclude: Array })

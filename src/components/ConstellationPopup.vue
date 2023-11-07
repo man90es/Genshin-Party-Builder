@@ -18,9 +18,8 @@
 
 <script setup>
 	import { computed, onBeforeUnmount } from "vue"
-	import { useJsonDataStore } from "@/stores/jsonData"
-	import { useUserDataStore } from "@/stores/userData"
-	import PopupShell from "@/components/PopupShell"
+	import { PopupShell } from "@/components"
+	import { useJsonDataStore, useUserDataStore } from "@/stores"
 
 	const emit = defineEmits(["abort"])
 	const jsonData = useJsonDataStore()

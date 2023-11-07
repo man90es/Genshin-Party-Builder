@@ -12,8 +12,8 @@
 	import { onBeforeUnmount } from "vue"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
-	import { useStrings } from "@/hooks/strings"
-	import { useUserDataStore } from "@/stores/userData"
+	import { useStrings } from "@/hooks"
+	import { useUserDataStore } from "@/stores"
 
 	const router = useRouter()
 	const strings = useStrings()

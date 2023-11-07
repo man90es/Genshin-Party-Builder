@@ -19,11 +19,9 @@
 
 <script setup>
 	import { ref } from "vue"
-	import { useStrings } from "@/hooks/strings"
-	import { useTierList } from "@/hooks/tierList"
-	import { useUserDataStore } from "@/stores/userData"
-	import SelectButton from "@/components/SelectButton"
-	import TierLine from "@/components/TierLine"
+	import { SelectButton, TierLine } from "@/components"
+	import { useStrings, useTierList } from "@/hooks"
+	import { useUserDataStore } from "@/stores"
 
 	const displayUnowned = ref(false)
 

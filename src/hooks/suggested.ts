@@ -4,9 +4,8 @@ import _shuffle from "lodash/shuffle"
 import _sum from "lodash/sum"
 import _uniq from "lodash/uniq"
 import { computed } from "vue"
-import { useJsonDataStore } from "@/stores/jsonData"
+import { useJsonDataStore, useUserDataStore } from "@/stores"
 import { useRoute } from "vue-router"
-import { useUserDataStore } from "@/stores/userData"
 import type { Character, ProcessedCharacter, Preset, JSONData } from "@/types"
 
 function processCharacter(id: string, character: Character, constellation: number): ProcessedCharacter {

@@ -6,7 +6,7 @@
 
 <script setup>
 	import { computed } from "vue"
-	import { useUserDataStore } from "@/stores/userData"
+	import { useUserDataStore } from "@/stores"
 
 	const userData = useUserDataStore()
 

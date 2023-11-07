@@ -33,9 +33,8 @@
 
 <script setup>
 	import { computed } from "vue"
-	import { useJsonDataStore } from "@/stores/jsonData"
-	import ElementBadge from "@/components/ElementBadge"
-	import ConstellationBadge from "@/components/ConstellationBadge"
+	import { ConstellationBadge, ElementBadge } from "@/components"
+	import { useJsonDataStore } from "@/stores"
 
 	const jsonData = useJsonDataStore()
 	const props = defineProps({

@@ -57,16 +57,13 @@
 </template>
 
 <script setup>
+	import { CharacterCard, CharacterSelectionPopup, PartyRow } from "@/components"
 	import { getRandomReassurance } from "@/utils"
 	import { ref, computed, onBeforeUnmount } from "vue"
 	import { useHead } from "@vueuse/head"
-	import { useInsights } from "@/hooks/insights"
+	import { useInsights, useSuggested } from "@/hooks"
 	import { useRouter, useRoute } from "vue-router"
-	import { useSuggested } from "@/hooks/suggested"
-	import { useUserDataStore } from "@/stores/userData"
-	import CharacterCard from "@/components/CharacterCard"
-	import CharacterSelectionPopup from "@/components/CharacterSelectionPopup"
-	import PartyRow from "@/components/PartyRow"
+	import { useUserDataStore } from "@/stores"
 
 	useHead({ title: `Edit party | ${process.env.VUE_APP_SITE_NAME}` })
 

@@ -1,9 +1,8 @@
 import _capitalise from "lodash/capitalize"
 import _difference from "lodash/difference"
 import { computed } from "vue"
-import { useJsonDataStore } from "@/stores/jsonData"
+import { useJsonDataStore, useUserDataStore } from "@/stores"
 import { useRoute } from "vue-router"
-import { useUserDataStore } from "@/stores/userData"
 
 const reactionRequirements: { [key: string]: string[][] } = {
 	aggravate: [

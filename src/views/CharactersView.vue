@@ -30,16 +30,12 @@
 </template>
 
 <script setup>
+	import { CharacterCard, ConstellationPopup, ImportPopup, SelectButton } from "@/components"
 	import { ref, onBeforeUnmount } from "vue"
-	import { sortingOptions, useCharacterIdList } from "@/hooks/characterIdList"
+	import { sortingOptions, useCharacterIdList, useStrings } from "@/hooks"
 	import { useHead } from "@vueuse/head"
 	import { useRouter } from "vue-router"
-	import { useStrings } from "@/hooks/strings"
-	import { useUserDataStore } from "@/stores/userData"
-	import CharacterCard from "@/components/CharacterCard"
-	import ConstellationPopup from "@/components/ConstellationPopup"
-	import ImportPopup from "@/components/ImportPopup"
-	import SelectButton from "@/components/SelectButton"
+	import { useUserDataStore } from "@/stores"
 
 	const router = useRouter()
 	const strings = useStrings()
