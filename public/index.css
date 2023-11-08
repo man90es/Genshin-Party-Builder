@@ -6,21 +6,17 @@
 body {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	background-attachment: fixed;
 	background-color: #060d1f;
-	background-position: center;
-	background-size: cover;
 	color: #fafafa;
 	display: grid;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
 	gap: 0.5em;
 	grid-template-rows: 7em 1fr auto;
 	margin: 0;
-	overflow-x: hidden;
-	text-align: center;
-
 	min-height: 100vh;
 	min-height: 100svh;
+	overflow-x: hidden;
+	text-align: center;
 }
 
 .row {
@@ -43,8 +39,7 @@ button {
 	color: var(--button-font-color);
 	cursor: pointer;
 	display: block;
-	font-family: Hoyofont;
-	font-size: 1.5rem;
+	font: 1.5rem Hoyofont;
 	height: 2em;
 	outline: none;
 	padding: 0 0.5em;

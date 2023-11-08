@@ -89,9 +89,11 @@
 
 <style scoped lang="scss">
 	figure {
+		--outside-border-radius: 5%;
+
 		align-items: center;
 		background-color: var(--button-background-color);
-		border-radius: 5%;
+		border-radius: var(--outside-border-radius);
 		color: var(--button-font-color);
 		display: flex;
 		flex-direction: column;
@@ -107,17 +109,14 @@
 		}
 
 		figcaption {
-			font-family: Hoyofont;
-			font-size: 0.8em;
-			padding: 0.25em 0;
+			font: 0.7rem Hoyofont;
+			padding: 0.2rem 0;
 		}
 
 		picture.portrait,
 		picture.background {
 			background-size: cover;
-			border-bottom-left-radius: 0;
-			border-bottom-right-radius: 20%;
-			border-radius: inherit;
+			border-radius: var(--outside-border-radius) var(--outside-border-radius) 20% 0;
 			height: 5rem;
 			width: 5rem;
 
@@ -153,14 +152,13 @@
 		}
 
 		.removeOverlay {
-			align-items: center;
 			background-color: #0004;
 			color: #fff;
 			display: flex;
 			font-size: 3em;
 			inset: 0;
-			justify-content: center;
 			opacity: 0;
+			place-items: center;
 			position: absolute;
 			transition-duration: 0.2s;
 			z-index: 2;

@@ -153,7 +153,7 @@
 	})
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 	#sugestions {
 		display: flex;
 		gap: 0.5em;

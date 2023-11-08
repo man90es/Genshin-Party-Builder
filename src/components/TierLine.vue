@@ -1,5 +1,5 @@
 <template>
-	<div class="leaderboard-line" :data-tier="tier">
+	<div class="leaderboard-line" :data-tier="tier" v-if="0 < characters.length">
 		<CharacterCard
 			:characterId="character.id"
 			:clickable="false"
@@ -18,7 +18,7 @@
 	})
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 	.leaderboard-line {
 		background-color: #fff1;
 		border-radius: 0.25rem;
@@ -28,15 +28,14 @@
 		margin: 0.25rem 0;
 		padding: 0.5rem 0.5rem 0.5rem 6.5rem;
 		position: relative;
+		min-height: 2.5rem;
 	}
 
 	.leaderboard-line::before {
 		align-items: center;
 		content: attr(data-tier);
 		display: flex;
-		font-family: Hoyofont;
-		font-size: 2rem;
-		font-weight: 500;
+		font: 500 2rem Hoyofont;
 		height: 100%;
 		justify-content: center;
 		left: 0.5rem;

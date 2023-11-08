@@ -24,8 +24,7 @@
 		background-color: #0007;
 		border-bottom-left-radius: 0.5em;
 		color: #fff;
-		font-family: Hoyofont;
-		font-size: 0.7rem;
+		font: 0.7rem Hoyofont;
 		height: 1rem;
 		padding: 0.1rem;
 		position: absolute;
