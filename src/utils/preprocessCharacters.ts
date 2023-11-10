@@ -1,32 +1,23 @@
-import _capitalise from "lodash/capitalize"
 import type { Character } from "@/types"
 
-type characterListObject = {
-	[key: string]: Character
-}
-
-export default function preprocessCharacters(characters: characterListObject): characterListObject {
+export default function preprocessCharacters(characters: Record<string, Character>): Record<string, Character> {
 	const now = new Date()
 
 	return Object.fromEntries(
 		Object.entries(characters)
-			// Filter out unreleased characters in prod
-			.filter(([, { release }]) => (
-				"development" === process.env?.NODE_ENV || new Date(release) <= now
-			))
-			.map(([id, character]) => (
-				[
-					id,
-					{
-						...character,
-						// Generate missing background colours
-						background: character.background || { 4: "purple", 5: "yellow" }[character.stars],
-						// Generate missing character names
-						name: character.name || id?.split("_").map(_capitalise).join(" "),
-						// Default score for new characters, somewhere in the middle of the range
-						score: character.score ?? Array.from({ length: 7 }, () => 5),
-					}
-				]
-			))
+			.flatMap(([id, character]) => {
+				// Filter out unreleased characters in prod
+				return "development" === process.env?.NODE_ENV || new Date(character.release) <= now
+					? [
+						[id, {
+							...character,
+							// Optimistic default score for new 5-star characters, in the middle of the upper half of the range
+							// For 4-star characters, the default score is more realistic, in the middle of the range
+							// TODO: Move this part to the backend script and eliminate this whole function
+							score: character.score ?? Array.from({ length: 7 }, () => 5 === character.stars ? 7.5 : 5),
+						}]
+					]
+					: []
+			})
 	)
 }
