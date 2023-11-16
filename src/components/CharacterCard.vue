@@ -1,26 +1,12 @@
 <template>
 	<figure :class="{ owned }" :style="{ cursor: clickable ? 'pointer' : 'default' }">
 		<picture class="portrait">
-			<source
-				:key="src.mime"
-				:srcSet="src.path"
-				:type="src.mime"
-				v-for="src in srcList"
-			/>
-			<img :src="srcList.at(-1).path" :alt="meta?.name || 'Character placeholder'" />
+			<source :key="src.mime" :srcSet="src.path" :type="src.mime" v-for="src in srcList" />
+			<img :src="srcList.at(-1)?.path" :alt="meta?.name || 'Character placeholder'" />
 		</picture>
 		<picture class="background" :class="colour" v-if="bgSrcList.length > 0">
-			<source
-				:key="src.mime"
-				:srcSet="src.path"
-				:type="src.mime"
-				v-for="src in bgSrcList"
-			/>
-			<img
-				:src="bgSrcList.at(-1).path"
-				:style="{ objectPosition: bgOffset }"
-				alt=""
-			/>
+			<source :key="src.mime" :srcSet="src.path" :type="src.mime" v-for="src in bgSrcList" />
+			<img :src="bgSrcList.at(-1)?.path" :style="{ objectPosition: bgOffset }" alt="" />
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">×</div>
 		<ElementBadge v-if="meta" :elementId="meta.element" />
@@ -31,26 +17,30 @@
 	</figure>
 </template>
 
-<script setup>
+<script setup lang="ts">
 	import { computed } from "vue"
 	import { ConstellationBadge, ElementBadge } from "@/components"
 	import { useJsonDataStore } from "@/stores"
 
 	const jsonData = useJsonDataStore()
 	const props = defineProps({
-		characterId: String,
+		characterId: { required: false, type: String },
 		clickable: { default: true, type: Boolean },
 		hoverIntention: { default: "pick", type: String },
 		namePlaceholder: String,
 		owned: { default: true, type: Boolean },
 	})
 
-	const meta = computed(() => jsonData.characters[props.characterId])
+	const meta = computed(() => (
+		props.characterId
+			? jsonData.characters[props.characterId]
+			: undefined
+	))
 	const srcList = computed(() => {
 		const path =
 			process.env.VUE_APP_ASSETS_ENDPOINT +
 			"portraits/" +
-			encodeURIComponent(meta.value?.name)
+			encodeURIComponent(meta.value?.name ?? "undefined")
 
 		return [
 			{ path: path + ".webp", mime: "image/webp" },
@@ -152,13 +142,14 @@
 		}
 
 		.removeOverlay {
-			background-color: #0004;
+			align-items: center;
+			background-color: #0005;
 			color: #fff;
 			display: flex;
 			font-size: 3em;
 			inset: 0;
+			justify-content: center;
 			opacity: 0;
-			place-items: center;
 			position: absolute;
 			transition-duration: 0.2s;
 			z-index: 2;
