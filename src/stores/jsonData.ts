@@ -15,13 +15,10 @@ function filterCharactersByReleased(characters: JSONData["characters"]): JSONDat
 export const useJsonDataStore = defineStore("jsonDataStore", {
 	state: (): JSONData => ({
 		characters: {},
-		elements: {},
 		presets: [],
 		reactions: { header: [], matrix: [] },
-		roles: {},
 		spritesheets: {},
 		version: "",
-		weapons: {},
 	}),
 	actions: {
 		async sync() {

@@ -3,30 +3,15 @@ import { Preset } from "./Preset"
 
 export type JSONData = {
 	version: string
-	characters: {
-		[key: string]: Character
-	}
-	elements: {
-		[key: string]: { name: string }
-	}
+	characters: Record<string, Character>
 	presets: Preset[]
 	reactions: {
 		header: string[]
 		matrix: number[][]
 	}
-	roles: {
-		[key: string]: { name: string }
-	}
-	spritesheets: {
-		[key: string]: {
-			path: string
-			extensions: string[]
-			indices: {
-				[key: string]: [number, number]
-			}
-		}
-	}
-	weapons: {
-		[key: string]: { name: string }
-	}
+	spritesheets: Record<string, {
+		extensions: string[]
+		indices: Record<string, [number, number]>
+		path: string
+	}>
 }
