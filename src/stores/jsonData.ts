@@ -1,9 +1,19 @@
 import { defineStore } from "pinia"
-import { preprocessCharacters } from "@/utils"
 import type { JSONData } from "@/types"
 
+function filterCharactersByReleased(characters: JSONData["characters"]): JSONData["characters"] {
+	const now = new Date()
+
+	return Object.fromEntries(
+		Object.entries(characters)
+			.filter(([, character]) => (
+				"development" === process.env?.NODE_ENV || new Date(character.release) <= now
+			))
+	)
+}
+
 export const useJsonDataStore = defineStore("jsonDataStore", {
-	state: () => ({
+	state: (): JSONData => ({
 		characters: {},
 		elements: {},
 		presets: [],
@@ -12,26 +22,26 @@ export const useJsonDataStore = defineStore("jsonDataStore", {
 		spritesheets: {},
 		version: "",
 		weapons: {},
-	}) as JSONData,
-
+	}),
 	actions: {
 		async sync() {
+			if (undefined === process.env.VUE_APP_DATA_SRC) {
+				return
+			}
+
 			// Already fetched, no need to repeat
 			if (0 < Object.keys(this.characters).length) {
 				return
 			}
 
-			fetch(`${process.env.VUE_APP_ASSETS_ENDPOINT}data.json`, {
-				mode: "cors",
-				redirect: "follow",
-			})
-				.then(response => response.json())
+			return fetch(process.env.VUE_APP_DATA_SRC)
+				.then(res => res.json())
 				.then((data: JSONData) => {
 					this.$patch({
 						...data,
-						characters: preprocessCharacters(data.characters),
+						characters: filterCharactersByReleased(data.characters),
 					})
 				})
 		},
-	}
+	},
 })
