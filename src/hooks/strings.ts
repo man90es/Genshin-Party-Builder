@@ -3,7 +3,6 @@ import { reactive, readonly } from "vue"
 export function useStrings() {
 	const strings = reactive({
 		characterScreenInstruction: "To start creating your winning team, import or manually select the characters you own. Once you're done, switch to the parties or tier list tab to see the recommendations based on selected characters. Don't worry if you need to make changes later on: you can always return to this step and update your characters.",
-		notAffiliated: "Man90's Party Builder is not affiliated with or endorsed by miHoYo.",
 		pressStart: "Press start to select your characters.",
 		teamsScreenNoCharacters: "Yikes! Looks like we're missing a crucial element in creating your custom team. Please head over to the characters tab and select at least five characters. This will enable us to provide you with personalised recommendations on building a winning team.",
 		tiersScreenNoCharacters: "Yikes! Looks like we're missing a crucial element in creating your custom tier list. Please head over to the characters tab and select at least five characters. This will enable us to provide you with personalised recommendations.",
