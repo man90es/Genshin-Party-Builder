@@ -4,9 +4,9 @@
 			<source :key="src.mime" :srcSet="src.path" :type="src.mime" v-for="src in srcList" />
 			<img :src="srcList.at(-1)?.path" :alt="meta?.name || 'Character placeholder'" />
 		</picture>
-		<picture class="background" :class="colour" v-if="bgSrcList.length > 0">
-			<source :key="src.mime" :srcSet="src.path" :type="src.mime" v-for="src in bgSrcList" />
-			<img :src="bgSrcList.at(-1)?.path" :style="{ objectPosition: bgOffset }" alt="" />
+		<picture class="bg" :class="meta?.background ?? 'grey'" v-if="jsonData.assets?.portraitBg.length">
+			<source :key="src.type" :srcSet="src.src" :type="src.type" v-for="src in jsonData.assets?.portraitBg" />
+			<img :src="jsonData.assets?.portraitBg.at(-1)?.src" alt="" />
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">×</div>
 		<ElementBadge v-if="meta" :elementId="meta.element" />
@@ -47,34 +47,6 @@
 			{ path: path + ".png", mime: "image/png" },
 		]
 	})
-
-	const bgSrcList = computed(() => {
-		if (undefined === jsonData.spritesheets) {
-			return []
-		}
-
-		const path =
-			process.env.VUE_APP_ASSETS_ENDPOINT +
-			jsonData.spritesheets.backgrounds?.path
-
-		return (
-			jsonData.spritesheets.backgrounds?.extensions.map((f) => ({
-				path: path + "." + f,
-				mime: "image/" + f,
-			})) || []
-		)
-	})
-
-	const colour = computed(() => meta.value?.background || "grey")
-
-	const bgOffset = computed(() => {
-		if (undefined === jsonData.spritesheets) {
-			return ""
-		}
-
-		const idx = jsonData.spritesheets.backgrounds.indices[colour.value]
-		return `${(idx[0] * 100) / 3}%`
-	})
 </script>
 
 <style scoped lang="scss">
@@ -104,9 +76,9 @@
 		}
 
 		picture.portrait,
-		picture.background {
+		picture.bg {
 			background-size: cover;
-			border-radius: var(--outside-border-radius) var(--outside-border-radius) 20% 0;
+			border-radius: var(--outside-border-radius) var(--outside-border-radius) 1rem 0;
 			height: 5rem;
 			width: 5rem;
 
@@ -117,11 +89,15 @@
 			}
 		}
 
-		picture.background {
+		picture.bg {
 			position: absolute;
 
 			img {
 				object-fit: cover;
+			}
+
+			&.grey {
+				background-color: #838383;
 			}
 
 			&.red {

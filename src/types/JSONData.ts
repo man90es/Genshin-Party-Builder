@@ -2,6 +2,10 @@ import { Character } from "./Character"
 import { Preset } from "./Preset"
 
 export type JSONData = {
+	assets?: Record<"portraitBg", Array<{
+		src: string,
+		type: string
+	}>>
 	version: string
 	characters: Record<string, Character>
 	presets: Preset[]

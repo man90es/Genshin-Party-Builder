@@ -14,6 +14,7 @@ function filterCharactersByReleased(characters: JSONData["characters"]): JSONDat
 
 export const useJsonDataStore = defineStore("jsonDataStore", {
 	state: (): JSONData => ({
+		assets: undefined,
 		characters: {},
 		presets: [],
 		reactions: { header: [], matrix: [] },
