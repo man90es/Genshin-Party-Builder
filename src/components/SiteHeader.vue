@@ -1,6 +1,6 @@
 <template>
 	<header data-nosnippet>
-		<h1>Man90's Party Builder<sup>v2 beta</sup></h1>
+		<h1>Man90's Party Builder<sup>v2</sup></h1>
 		<div v-if="full">for</div>
 		<img v-if="full" :src="logoSrc" alt="Genshin Impact" />
 		<nav v-else>
@@ -11,7 +11,7 @@
 	</header>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 	import { computed } from "vue"
 	import { useRoute } from "vue-router"
 
