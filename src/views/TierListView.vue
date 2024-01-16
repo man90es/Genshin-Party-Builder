@@ -1,31 +1,27 @@
 <template>
 	<main>
 		<template v-if="userData.enoughCharacters">
-			<p>{{ strings.tierList }}</p>
+			<p>Here's a special leaderboard just for you! It was generated from the list of characters you selected earlier.</p>
 			<div class="options-wrapper">
-				Display unowned characters?
+				Display with unowned characters?
 				<SelectButton v-model="displayUnowned" />
 			</div>
-			<TierLine
-				:characters="l.characters"
-				:key="l.tier"
-				:tier="l.tier"
-				v-for="l of list"
-			/>
 		</template>
-		<p v-else>{{ strings.tiersScreenNoCharacters }}</p>
+		<p v-else>
+			Here's a global tier list of Genshin Impact characters. To generate a personalised tier list, please head over to the characters tab and select at least five characters.
+		</p>
+		<TierLine :characters="l.characters" :key="l.tier" :tier="l.tier" v-for="l of list" />
 	</main>
 </template>
 
 <script setup>
 	import { ref } from "vue"
 	import { SelectButton, TierLine } from "@/components"
-	import { useStrings, useTierList } from "@/hooks"
+	import { useTierList } from "@/hooks"
 	import { useUserDataStore } from "@/stores"
 
 	const displayUnowned = ref(false)
 
-	const strings = useStrings()
 	const userData = useUserDataStore()
 	const list = useTierList(5, displayUnowned)
 </script>

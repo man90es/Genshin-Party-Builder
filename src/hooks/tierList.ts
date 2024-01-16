@@ -12,14 +12,22 @@ export function useTierList(tiers: number = 5, includeUnowned: Ref<Boolean>) {
 	const userData = useUserDataStore()
 
 	const list = computed(() => {
+		const notEnoughOwned = !userData.enoughCharacters
 		const chars = Object.entries(jsonData.characters)
-			// Not interested in characters that are not owned
-			.filter(([id]) => includeUnowned.value ? true : id in userData.ownedCharacters)
+			.filter(([id]) => {
+				// Include unowned characters if requested or if not enough are owned
+				if (includeUnowned.value || notEnoughOwned) {
+					return true
+				}
+
+				// Include characters that are owned
+				return id in userData.ownedCharacters
+			})
 			// Get scores for current constellation levels
 			.map(([id, character]) => ({
 				...character,
-				owned: id in userData.ownedCharacters,
 				id,
+				owned: id in userData.ownedCharacters || notEnoughOwned,
 				score: character.score[userData.ownedCharacters[id]?.constellation || 0]
 			}))
 			// Order by score
