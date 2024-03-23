@@ -9,12 +9,7 @@
 		<p v-else>
 			{{ reassurance }}! You can add up to four characters to {{ name }}. If you need to make any changes to the lineup, click on a character's portrait to remove them from the party.
 		</p>
-		<PartyRow
-			:editableName="true"
-			:hoverRemove="true"
-			:index="Number(route.params.index)"
-			@cardClick="removeMember"
-		/>
+		<PartyRow :editableName="true" :hoverRemove="true" :index="Number(route.params.index)" @cardClick="removeMember" />
 		<section id="insights" v-if="!isEmpty">
 			<div>
 				Possible reactions:
@@ -25,21 +20,10 @@
 				<div v-for="resonance in resonances" :key="resonance">{{ resonance }}</div>
 			</div>
 		</section>
-		<p v-if="!isFull">
-			Current suggestions:
-		</p>
+		<span class="arrow-icon" v-if="!isFull">⇡</span>
 		<section id="sugestions" v-if="!isFull">
-			<CharacterCard
-				:characterId="cId"
-				:key="pos"
-				@click="chooseCharacter(cId)"
-				v-for="(cId, pos) in suggested"
-			/>
-			<CharacterCard
-				:alternativeCursor="true"
-				:namePlaceholder="'More...'"
-				@click="chooseAnotherCharacter"
-			/>
+			<CharacterCard :characterId="cId" :key="pos" @click="chooseCharacter(cId)" v-for="(cId, pos) in suggested" />
+			<CharacterCard :alternativeCursor="true" :namePlaceholder="'More...'" @click="chooseAnotherCharacter" />
 		</section>
 		<div class="button-wrapper">
 			<button @click="prevStage">Back</button>
@@ -47,12 +31,7 @@
 				Disband
 			</button>
 		</div>
-		<CharacterSelectionPopup
-			:exclude="party.members"
-			@close="closePopup"
-			@select="chooseCharacter"
-			v-if="'characters' === activePopup.type"
-		/>
+		<CharacterSelectionPopup :exclude="party.members" @close="closePopup" @select="chooseCharacter" v-if="'characters' === activePopup.type" />
 	</main>
 </template>
 
@@ -169,5 +148,13 @@
 
 	.button-wrapper {
 		margin-top: 1em;
+	}
+
+	.arrow-icon {
+		font-size: 3rem;
+		font-weight: 900;
+		margin: 3rem 0 0.5rem 0;
+		text-align: center;
+		user-select: none;
 	}
 </style>
