@@ -1,11 +1,6 @@
 <template>
 	<div class="leaderboard-line" :data-tier="tier" v-if="0 < characters.length">
-		<CharacterCard
-			:characterId="character.id"
-			:clickable="false"
-			:owned="character.owned"
-			v-for="character of characters" :key="character.id"
-		/>
+		<CharacterCard :characterId="character.id" :clickable="false" :notCollected="!character.owned" v-for="character of characters" :key="character.id" />
 	</div>
 </template>
 

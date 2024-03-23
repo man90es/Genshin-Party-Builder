@@ -1,21 +1,11 @@
 <template>
-	<PopupShell
-		:showAccept="false"
-		@cancel="emit('close')"
-		headline="Select specific character"
-	>
+	<PopupShell :showAccept="false" @cancel="emit('close')" headline="Select specific character">
 		<div class="options-wrapper">
 			Sort by:
 			<SelectButton v-model="sortBy" :options="sortingOptions" />
 		</div>
 		<div id="available-characters">
-			<CharacterCard
-				:characterId="id"
-				:cursor="'pointer'"
-				:key="id"
-				@click="emit('select', id)"
-				v-for="id in characterIds"
-			/>
+			<CharacterCard :clickable="true" :characterId="id" :cursor="'pointer'" :key="id" @click="emit('select', id)" v-for="id in characterIds" />
 		</div>
 	</PopupShell>
 </template>

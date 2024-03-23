@@ -1,5 +1,5 @@
 <template>
-	<figure :class="{ owned }" :style="{ cursor: clickable ? 'pointer' : 'default' }">
+	<figure :class="{ owned: !notCollected }" :style="{ cursor: clickable ? 'pointer' : 'default' }">
 		<picture class="portrait">
 			<source :key="src.mime" :srcSet="src.path" :type="src.mime" v-for="src in srcList" />
 			<img :src="srcList.at(-1)?.path" :alt="meta?.name || 'Character placeholder'" />
@@ -10,7 +10,7 @@
 		</picture>
 		<div class="removeOverlay" v-if="'remove' === hoverIntention">×</div>
 		<ElementBadge v-if="meta" :elementId="meta.element" />
-		<ConstellationBadge :characterId="characterId" />
+		<ConstellationBadge v-if="characterId" :characterId="characterId" />
 		<figcaption>
 			{{ meta?.name || props.namePlaceholder || "Empty" }}
 		</figcaption>
@@ -23,13 +23,13 @@
 	import { useJsonDataStore } from "@/stores"
 
 	const jsonData = useJsonDataStore()
-	const props = defineProps({
-		characterId: { required: false, type: String },
-		clickable: { default: true, type: Boolean },
-		hoverIntention: { default: "pick", type: String },
-		namePlaceholder: String,
-		owned: { default: true, type: Boolean },
-	})
+	const props = defineProps<{
+		characterId?: string | null
+		clickable: boolean
+		hoverIntention?: "pick" | "remove"
+		namePlaceholder?: string
+		notCollected?: boolean
+	}>()
 
 	const meta = computed(() => (
 		props.characterId

@@ -2,13 +2,7 @@
 	<main>
 		<template v-if="userData.enoughCharacters">
 			<div class="party-list">
-				<PartyRow
-					:clickable="true"
-					:index="i"
-					:key="i"
-					@click="editParty(i)"
-					v-for="(party, i) in userData.parties"
-				/>
+				<PartyRow :clickable="true" :index="i" :key="i" @click="editParty(i)" v-for="(_, i) in userData.parties" />
 			</div>
 			<div class="button-wrapper">
 				<button @click="createParty">New party</button>

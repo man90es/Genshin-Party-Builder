@@ -1,39 +1,29 @@
 <template>
 	<div :style="{ cursor: clickable ? 'pointer' : 'default' }" class="wrapper">
-		<input
-			:placeholder="namePlaceholder"
-			type="text"
-			v-if="editableName"
-			v-model="store.parties[props.index].name"
-		/>
+		<input :placeholder="namePlaceholder" type="text" v-if="editableName" v-model="store.parties[props.index].name" />
 		<div v-else>
 			{{ meta?.name || namePlaceholder }}
+			<time v-if="meta.updatedAt">({{ formatDistance(meta.updatedAt, new Date(), { addSuffix: true }) }})</time>
 		</div>
 		<div class="row">
-			<CharacterCard
-				:characterId="meta.members[pos]"
-				:clickable="hoverRemove ? Boolean(meta.members[pos]) : true"
-				:hoverIntention="hoverRemove && meta.members[pos] ? 'remove' : 'pick'"
-				:key="meta.members[pos]"
-				@click="emit('cardClick', pos)"
-				v-for="pos in [0, 1, 2, 3]"
-			/>
+			<CharacterCard :characterId="meta.members[pos]" :clickable="hoverRemove ? Boolean(meta.members[pos]) : true" :hoverIntention="hoverRemove && meta.members[pos] ? 'remove' : 'pick'" :key="pos" @click="emit('cardClick', pos)" v-for="pos in [0, 1, 2, 3]" />
 		</div>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 	import { CharacterCard } from "@/components"
 	import { computed } from "vue"
+	import { formatDistance } from "date-fns"
 	import { useUserDataStore } from "@/stores"
 
 	const emit = defineEmits(["cardClick"])
-	const props = defineProps({
-		clickable: Boolean,
-		editableName: { default: false, type: Boolean },
-		hoverRemove: { default: false, type: Boolean },
-		index: Number,
-	})
+	const props = defineProps<{
+		clickable?: boolean
+		editableName?: boolean
+		hoverRemove?: boolean
+		index: number
+	}>()
 
 	const store = useUserDataStore()
 	const meta = computed(() => store.parties[props.index])
@@ -61,5 +51,9 @@
 		border-radius: 0.25em;
 		gap: 0.5rem;
 		padding: 0.5rem;
+	}
+
+	time {
+		opacity: 0.5;
 	}
 </style>

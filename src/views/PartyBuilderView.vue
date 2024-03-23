@@ -22,8 +22,8 @@
 		</section>
 		<span class="arrow-icon" v-if="!isFull">⇡</span>
 		<section id="sugestions" v-if="!isFull">
-			<CharacterCard :characterId="cId" :key="pos" @click="chooseCharacter(cId)" v-for="(cId, pos) in suggested" />
-			<CharacterCard :alternativeCursor="true" :namePlaceholder="'More...'" @click="chooseAnotherCharacter" />
+			<CharacterCard :clickable="true" :characterId="cId" :key="pos" @click="chooseCharacter(cId)" v-for="(cId, pos) in suggested" />
+			<CharacterCard :clickable="true" :alternativeCursor="true" :namePlaceholder="'More...'" @click="chooseAnotherCharacter" />
 		</section>
 		<div class="button-wrapper">
 			<button @click="prevStage">Back</button>

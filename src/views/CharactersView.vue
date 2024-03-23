@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<p>{{strings.characterScreenInstruction}}</p>
+		<p>{{ strings.characterScreenInstruction }}</p>
 		<div class="button-wrapper">
 			<button @click="() => activePopup = { type: 'import' }">
 				Import
@@ -11,22 +11,11 @@
 			<SelectButton v-model="sortBy" :options="sortingOptions" />
 		</div>
 		<div id="character-pool">
-			<CharacterCard
-				:characterId="char"
-				:cursor="'pointer'"
-				:key="char"
-				:owned="Boolean(userData.ownedCharacters[char])"
-				@click="() => selectCharacter(char)"
-				v-for="char in characters"
-			/>
+			<CharacterCard :clickable="true" :characterId="char" :cursor="'pointer'" :key="char" :notCollected="!userData.ownedCharacters[char]" @click="() => selectCharacter(char)" v-for="char in characters" />
 		</div>
 	</main>
 	<ImportPopup v-if="'import' === activePopup.type" @abort="closePopup" />
-	<ConstellationPopup
-		:characterId="activePopup.data"
-		@abort="closePopup"
-		v-else-if="'constellation' === activePopup.type"
-	/>
+	<ConstellationPopup :characterId="activePopup.data" @abort="closePopup" v-else-if="'constellation' === activePopup.type" />
 </template>
 
 <script setup>
