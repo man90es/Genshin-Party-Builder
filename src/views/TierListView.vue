@@ -3,7 +3,7 @@
 		<template v-if="userData.enoughCharacters">
 			<p>Here's a special leaderboard just for you! It was generated from the list of characters you selected earlier.</p>
 			<div class="options-wrapper">
-				Display with unowned characters?
+				Display with uncollected characters?
 				<SelectButton v-model="displayUnowned" />
 			</div>
 		</template>
