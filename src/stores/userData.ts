@@ -4,12 +4,14 @@ import { migrateCharacterId } from "@/utils"
 import type { SimpleParty } from "@/types"
 
 class Party {
-	name: string | null
 	members: SimpleParty
+	name: string | null
+	updatedAt?: string
 
 	constructor() {
 		this.name = null
 		this.members = [null, null, null, null]
+		this.updatedAt = new Date().toISOString()
 	}
 }
 
@@ -18,8 +20,9 @@ type UserDataState = {
 		[key: string]: { constellation: number }
 	},
 	parties: {
-		name: string | null
 		members: (string | null)[]
+		name: string | null
+		updatedAt?: string
 	}[],
 }
 
@@ -74,6 +77,7 @@ export const useUserDataStore = defineStore("userDataStore", {
 
 		setPartyMember(pI: number, cI: number, cId: string | null): void {
 			this.parties[pI].members[cI] = cId
+			this.parties[pI].updatedAt = new Date().toISOString()
 		},
 
 		disbandParty(i: number): void {
@@ -99,6 +103,7 @@ export const useUserDataStore = defineStore("userDataStore", {
 					parties = parties.map(p => ({
 						members: p.members.map(m => null === m ? null : migrateCharacterId(m)),
 						name: p.name,
+						updatedAt: p.updatedAt,
 					}))
 				}
 
