@@ -3,7 +3,7 @@
 		<input :placeholder="namePlaceholder" type="text" v-if="editableName" v-model="store.parties[props.index].name" />
 		<div v-else>
 			{{ meta?.name || namePlaceholder }}
-			<time v-if="meta.updatedAt">({{ formatDistance(meta.updatedAt, new Date(), { addSuffix: true }) }})</time>
+			<time v-if="meta.updatedAt">({{ formatDistanceToNow(meta.updatedAt, { addSuffix: true }) }})</time>
 		</div>
 		<div class="row">
 			<CharacterCard :characterId="meta.members[pos]" :clickable="hoverRemove ? Boolean(meta.members[pos]) : true" :hoverIntention="hoverRemove && meta.members[pos] ? 'remove' : 'pick'" :key="pos" @click="emit('cardClick', pos)" v-for="pos in [0, 1, 2, 3]" />
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 	import { CharacterCard } from "@/components"
 	import { computed } from "vue"
-	import { formatDistance } from "date-fns"
+	import { formatDistanceToNow } from "date-fns"
 	import { useUserDataStore } from "@/stores"
 
 	const emit = defineEmits(["cardClick"])
