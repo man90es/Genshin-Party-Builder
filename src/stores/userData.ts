@@ -1,29 +1,27 @@
 import _snakeCase from "lodash/snakeCase"
 import { defineStore } from "pinia"
 import { migrateCharacterId } from "@/utils"
-import type { SimpleParty } from "@/types"
+import { v4 as uuid } from "uuid"
+
+type MembersTuple = [string | null, string | null, string | null, string | null]
 
 class Party {
-	members: SimpleParty
+	id: string
+	members: MembersTuple
 	name: string | null
 	updatedAt?: string
 
 	constructor() {
-		this.name = null
+		this.id = uuid()
 		this.members = [null, null, null, null]
+		this.name = null
 		this.updatedAt = new Date().toISOString()
 	}
 }
 
 type UserDataState = {
-	ownedCharacters: {
-		[key: string]: { constellation: number }
-	},
-	parties: {
-		members: (string | null)[]
-		name: string | null
-		updatedAt?: string
-	}[],
+	ownedCharacters: Record<string, { constellation: number }>,
+	parties: Party[],
 }
 
 export const useUserDataStore = defineStore("userDataStore", {
@@ -101,13 +99,20 @@ export const useUserDataStore = defineStore("userDataStore", {
 
 				if (parties && parties.length && /^CHARACTER_.+/.test(parties[0].members[0] || "")) {
 					parties = parties.map(p => ({
-						members: p.members.map(m => null === m ? null : migrateCharacterId(m)),
+						id: uuid(),
+						members: p.members.map(m => m ? migrateCharacterId(m) : null) as MembersTuple,
 						name: p.name,
 						updatedAt: p.updatedAt,
 					}))
 				}
 
-				return { ownedCharacters, parties }
+				return {
+					ownedCharacters,
+					parties: parties.map(({ id, ...rest }) => ({
+						...rest,
+						id: id ?? uuid(),
+					})),
+				}
 			}
 		}
 	},
