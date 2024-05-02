@@ -70,7 +70,6 @@
 		gap: 0.5em;
 		grid-template-columns: repeat(auto-fit, 5rem);
 		margin: 0.5em;
-		width: inherit;
 	}
 
 	.options-wrapper {
