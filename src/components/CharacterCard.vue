@@ -74,7 +74,9 @@
 	const srcList = computed(() => {
 		return ["webp", "png"].map((ext) => ({
 			mime: `image/${ext}`,
-			path: `${process.env.VUE_APP_GENSHINDEV_API}/characters/${meta.value?.key}/icon`,
+			path: meta.value
+				? `${process.env.VUE_APP_GENSHINDEV_API}/characters/${meta.value?.key}/icon.${ext}`
+				: `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/undefined.${ext}`,
 		}))
 	})
 </script>
