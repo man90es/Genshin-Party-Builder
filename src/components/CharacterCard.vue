@@ -1,16 +1,50 @@
 <template>
-	<figure :class="{ owned: !notCollected }" :style="{ cursor: clickable ? 'pointer' : 'default' }">
+	<figure
+		:class="{ owned: !notCollected }"
+		:style="{ cursor: clickable ? 'pointer' : 'default' }"
+	>
 		<picture class="portrait">
-			<source :key="src.mime" :srcSet="src.path" :type="src.mime" v-for="src in srcList" />
-			<img :src="srcList.at(-1)?.path" :alt="meta?.name || 'Character placeholder'" />
+			<source
+				:key="src.mime"
+				:srcSet="src.path"
+				:type="src.mime"
+				v-for="src in srcList"
+			/>
+			<img
+				:alt="meta?.name || 'Character placeholder'"
+				:src="srcList.at(-1)?.path"
+			/>
 		</picture>
-		<picture class="bg" :class="meta?.background ?? 'grey'" v-if="jsonData.assets?.portraitBg.length">
-			<source :key="src.type" :srcSet="src.src" :type="src.type" v-for="src in jsonData.assets?.portraitBg" />
-			<img :src="jsonData.assets?.portraitBg.at(-1)?.src" alt="" />
+		<picture
+			:class="meta?.background ?? 'grey'"
+			class="bg"
+			v-if="jsonData.assets?.portraitBg.length"
+		>
+			<source
+				:key="src.type"
+				:srcSet="src.src"
+				:type="src.type"
+				v-for="src in jsonData.assets?.portraitBg"
+			/>
+			<img
+				:src="jsonData.assets?.portraitBg.at(-1)?.src"
+				alt=""
+			/>
 		</picture>
-		<div class="removeOverlay" v-if="'remove' === hoverIntention">×</div>
-		<ElementBadge v-if="meta" :elementId="meta.element" />
-		<ConstellationBadge v-if="characterId" :characterId="characterId" />
+		<div
+			class="removeOverlay"
+			v-if="'remove' === hoverIntention"
+		>
+			×
+		</div>
+		<ElementBadge
+			:elementId="meta.element"
+			v-if="meta"
+		/>
+		<ConstellationBadge
+			:characterId="characterId"
+			v-if="characterId"
+		/>
 		<figcaption>
 			{{ meta?.name || props.namePlaceholder || "Empty" }}
 		</figcaption>
@@ -36,16 +70,12 @@
 			? jsonData.characters[props.characterId]
 			: undefined
 	))
-	const srcList = computed(() => {
-		const path =
-			process.env.VUE_APP_ASSETS_ENDPOINT +
-			"portraits/" +
-			encodeURIComponent(meta.value?.name ?? "undefined")
 
-		return [
-			{ path: path + ".webp", mime: "image/webp" },
-			{ path: path + ".png", mime: "image/png" },
-		]
+	const srcList = computed(() => {
+		return ["webp", "png"].map((ext) => ({
+			mime: `image/${ext}`,
+			path: `${process.env.VUE_APP_GENSHINDEV_API}/characters/${meta.value?.key}/icon`,
+		}))
 	})
 </script>
 

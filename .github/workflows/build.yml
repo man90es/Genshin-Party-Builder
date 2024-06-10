@@ -28,8 +28,9 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          VUE_APP_ASSETS_ENDPOINT: ${{ secrets.VUE_APP_ASSETS_ENDPOINT }}
+          VUE_APP_ASSETS_ENDPOINT: ${{ vars.VUE_APP_ASSETS_ENDPOINT }}
           VUE_APP_DATA_SRC: ${{ vars.VUE_APP_DATA_SRC }}
+          VUE_APP_GENSHINDEV_API: ${{ vars.VUE_APP_GENSHINDEV_API }}
           VUE_APP_PUBLIC_PATH: ${{ vars.VUE_APP_PUBLIC_PATH }}
           VUE_APP_SITE_DESC: ${{ vars.VUE_APP_SITE_DESC }}
           VUE_APP_SITE_NAME: ${{ vars.VUE_APP_SITE_NAME }}
