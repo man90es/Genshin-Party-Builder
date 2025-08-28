@@ -11,7 +11,8 @@
 				v-for="src in srcList"
 			/>
 			<img
-				:alt="meta?.name || 'Character placeholder'"
+				v-if="meta"
+				:alt="meta.name"
 				:src="srcList.at(-1)?.path"
 			/>
 		</picture>
@@ -74,9 +75,7 @@
 	const srcList = computed(() => {
 		return ["webp", "png"].map((ext) => ({
 			mime: `image/${ext}`,
-			path: meta.value
-				? `${process.env.VUE_APP_GENSHINDEV_API}/characters/${meta.value?.key}/icon.${ext}`
-				: `${process.env.VUE_APP_ASSETS_ENDPOINT}portraits/undefined.${ext}`,
+			path: `${process.env.VUE_APP_GENSHINDEV_API}/characters/${meta.value?.key}/icon.${ext}`,
 		}))
 	})
 </script>
