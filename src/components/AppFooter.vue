@@ -3,7 +3,7 @@
 		<template v-if="jsonData.version">
 			<span>Data v{{ jsonData.version }}</span>
 		</template>
-		<a href="https://www.hemlo.cc/finances#donate" target="_blank">Donate</a>
+		<a href="https://ko-fi.com/man90" target="_blank">Buy me a coffee</a>
 		<a href="https://github.com/man90es/Genshin-Party-Builder" target="_blank">GitHub</a>
 		<span>Man90's Genshin Party Builder is not affiliated with or endorsed by miHoYo.</span>
 	</footer>
