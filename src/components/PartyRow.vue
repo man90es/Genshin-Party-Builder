@@ -1,8 +1,8 @@
 <template>
-	<div :style="{ cursor: clickable ? 'pointer' : 'default' }" class="wrapper">
+	<div :style="{ cursor: clickable ? 'pointer' : 'default' }" class="wrapper" v-if="meta">
 		<input :placeholder="namePlaceholder" type="text" v-if="editableName" v-model="store.parties[props.index].name" />
 		<div class="name" v-else>
-			{{ meta?.name || namePlaceholder }}
+			{{ meta.name || namePlaceholder }}
 			<time v-if="meta.updatedAt">({{ formatDistanceToNow(meta.updatedAt, { addSuffix: true }) }})</time>
 		</div>
 		<div class="row">
