@@ -42,19 +42,6 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 		: 0
 	)
 
-	// If party doesn't have a shield nor a healer, give all shielders and healers points
-	// Else subtract points from shielders and healers
-	const defensiveRoles = currentParty.map(c => c.id).includes("hu_tao")
-		? ["shield"]
-		: ["shield", "heal"]
-
-	scores.push(0 > _intersection(character.roles, defensiveRoles).length
-		? 0 > _intersection(partyRoles, defensiveRoles).length
-			? -1
-			: 1
-		: 0
-	)
-
 	// Give points for role variability
 	scores.push(_difference(character.roles, partyRoles).length / 4)
 
