@@ -6,7 +6,10 @@ export type Character = {
 	// Internal numeric ID
 	id: number
 
-	// Character ID from https://github.com/genshindev/api
+	// URL to character icon on genshin-impact.fandom.com
+	icon: string
+
+	// Character ID from genshin-impact.fandom.com
 	key: string
 	name?: string
 	release: string

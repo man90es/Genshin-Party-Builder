@@ -4,16 +4,11 @@
 		:style="{ cursor: clickable ? 'pointer' : 'default' }"
 	>
 		<picture class="portrait">
-			<source
-				:key="src.mime"
-				:srcSet="src.path"
-				:type="src.mime"
-				v-for="src in srcList"
-			/>
 			<img
-				v-if="meta"
 				:alt="meta.name"
-				:src="srcList.at(-1)?.path"
+				:src="meta.icon"
+				referrerpolicy="no-referrer"
+				v-if="meta"
 			/>
 		</picture>
 		<picture
@@ -47,7 +42,7 @@
 			v-if="characterId"
 		/>
 		<figcaption>
-			{{ meta?.name || props.namePlaceholder || "Empty" }}
+			{{ truncate(meta?.name || props.namePlaceholder || "Empty", { length: 11 }) }}
 		</figcaption>
 	</figure>
 </template>
@@ -55,6 +50,7 @@
 <script setup lang="ts">
 	import { computed } from "vue"
 	import { ConstellationBadge, ElementBadge } from "@/components"
+	import { truncate } from "lodash"
 	import { useJsonDataStore } from "@/stores"
 
 	const jsonData = useJsonDataStore()
@@ -71,13 +67,6 @@
 			? jsonData.characters[props.characterId]
 			: undefined
 	))
-
-	const srcList = computed(() => {
-		return ["webp", "png"].map((ext) => ({
-			mime: `image/${ext}`,
-			path: `${process.env.VUE_APP_GENSHINDEV_API}/characters/${meta.value?.key}/icon.${ext}`,
-		}))
-	})
 </script>
 
 <style scoped lang="scss">
