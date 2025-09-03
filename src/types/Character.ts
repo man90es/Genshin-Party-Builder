@@ -13,7 +13,7 @@ export type Character = {
 	key: string
 	name?: string
 	release: string
-	roles: (string | { c: number; role: string })[]
+	roles: string[]
 	score: number[]
 	stars: number
 	weapon: string

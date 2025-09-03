@@ -1,33 +1,23 @@
-import _difference from "lodash/difference"
-import _intersection from "lodash/intersection"
-import _shuffle from "lodash/shuffle"
-import _sum from "lodash/sum"
-import _uniq from "lodash/uniq"
 import { computed } from "vue"
+import { difference, intersection, pick, shuffle, sum, uniq } from "lodash"
 import { useJsonDataStore, useUserDataStore } from "@/stores"
 import { useRoute } from "vue-router"
 import type { Character, ProcessedCharacter, Preset, JSONData } from "@/types"
 
 function processCharacter(id: string, character: Character, constellation: number): ProcessedCharacter {
 	return {
+		...pick(character, ["element", "roles", "weapon"]),
 		constellation,
 		damage: character.damage || [character.element],
-		element: character.element,
 		id,
-		roles: character.roles.flatMap(r => (
-			"object" === typeof r
-				? constellation >= r.c ? [r.role] : []
-				: [r]
-		)),
 		score: character.score[constellation],
 		shortId: character.id,
-		weapon: character.weapon,
 	}
 }
 
 function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharacter[], data: JSONData, presets: Preset[]) {
-	const partyElements = _uniq(currentParty.map(c => c.element))
-	const partyRoles = _uniq(currentParty.map(c => c.roles).flat())
+	const partyElements = uniq(currentParty.map(c => c.element))
+	const partyRoles = uniq(currentParty.map(c => c.roles).flat())
 	const scores = []
 
 	// Start with points from the tier list
@@ -43,7 +33,7 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 	)
 
 	// Give points for role variability
-	scores.push(_difference(character.roles, partyRoles).length / 4)
+	scores.push(difference(character.roles, partyRoles).length / 4)
 
 	// Subtract points for having the same weapon type as other characters in party
 	scores.push(-currentParty.filter(c => character.weapon === c.weapon).length / 6)
@@ -68,14 +58,13 @@ function getFitness(character: ProcessedCharacter, currentParty: ProcessedCharac
 		scores.push(0)
 	}
 
-	const finalScore = _sum(scores)
+	const finalScore = sum(scores)
 
 	// Debug messages
 	if ("development" === process.env.NODE_ENV) {
 		const categories = [
 			"Tier list score",
 			"Essential role (DPS)",
-			"Essential role (Heal/Shield)",
 			"Role variability",
 			"Weapon variability",
 			"Resonance potential",
@@ -115,7 +104,7 @@ export function useSuggested() {
 	function suggest(partyId: number, n: number) {
 		const currentParty: (string | null)[] = userData.parties[partyId].members
 
-		const selected = _uniq(
+		const selected = uniq(
 			currentParty
 				.filter(Boolean)
 				.flatMap((id) => {
@@ -130,11 +119,11 @@ export function useSuggested() {
 		// Presets that include all currently selected characters
 		const matchingPresets = selected.length
 			? jsonData.presets.filter(preset => (
-				_intersection(selected.map(c => c.shortId), preset).length === selected.length
+				intersection(selected.map(c => c.shortId), preset).length === selected.length
 			))
 			: []
 
-		return _shuffle(pool)
+		return shuffle(pool)
 			.map(c => ({ characterId: c.id, fitness: getFitness(c, selected, jsonData, matchingPresets) }))
 			.sort((a, b) => a.fitness < b.fitness ? 1 : -1)
 			.slice(0, n)
