@@ -4,7 +4,7 @@ import { computed } from "vue"
 import { useJsonDataStore, useUserDataStore } from "@/stores"
 import { useRoute } from "vue-router"
 
-const reactionRequirements: { [key: string]: string[][] } = {
+const reactionRequirements: any = {
 	aggravate: [
 		["dendro", "electro"],
 	],
@@ -32,6 +32,18 @@ const reactionRequirements: { [key: string]: string[][] } = {
 	hyperbloom: [
 		["hydro", "dendro", "electro"],
 	],
+	lunar_charged: {
+		elements: [["hydro", "electro"]],
+		enabledBy: ["ineffa", "flins", "columbina"],
+	},
+	lunar_bloom: {
+		elements: [["hydro", "dendro"]],
+		enabledBy: ["nefer", "lauma", "columbina"],
+	},
+	lunar_crystallize: {
+		elements: [["hydro", "geo"]],
+		enabledBy: ["linnea", "zibai", "columbina"],
+	},
 	melt: [
 		["pyro", "cryo"],
 	],
@@ -74,13 +86,29 @@ export function useInsights() {
 		}
 
 		const partyElements = party.value.map(c => jsonData.characters[c!]?.element)
+		const partyNames = party.value
 
-		const list = Object.entries(reactionRequirements)
-			.flatMap(([name, options]) => (
-				options.map(o => _difference(o, partyElements).length === 0).includes(true)
-					? [_capitalise(name)]
-					: []
-			))
+		const list = Object.entries(reactionRequirements as Record<string, any>)
+			.flatMap(([name, def]) => {
+				// Backward compatibility: old reactions are still arrays
+				const elements = Array.isArray(def) ? def : def.elements
+				const enabledBy = Array.isArray(def) ? null : def.enabledBy
+
+				// Check element match
+				const hasElements = elements
+					.map((o: string[]) => _difference(o, partyElements).length === 0)
+					.includes(true)
+
+				if (!hasElements) return []
+
+				// If it requires an enabler, check that too
+				if (enabledBy) {
+					const hasEnabler = enabledBy.some((c: string) => partyNames.includes(c))
+					if (!hasEnabler) return []
+				}
+
+				return [name.split("_").map(_capitalise).join(" ")]
+			})
 
 		return list.length ? list : ["None"]
 	})
@@ -90,7 +118,7 @@ export function useInsights() {
 			return []
 		}
 
-		const partyElements = party.value.map(c => jsonData.characters[c!]?.element)
+		const partyElements = party.value.map((c: string) => jsonData.characters[c!]?.element)
 
 		const list = Object.entries(partyElements.reduce((prev, cur) => ({
 			...prev,

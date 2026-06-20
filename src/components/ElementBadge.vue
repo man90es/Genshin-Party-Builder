@@ -8,7 +8,7 @@
 		/>
 		<img
 			:alt="props.elementId"
-			:src="srcList.at(-1).path"
+			:src="srcList.length ? srcList.at(-1).path : ''"
 			:style="{ objectPosition: `${offset[0]}em ${offset[1]}em` }"
 		/>
 	</picture>
@@ -37,6 +37,7 @@
 
 	const offset = computed(() => {
 		const index = jsonData.spritesheets.elements.indices[props.elementId]
+		if (!index) return [0, 0]
 		return [index[0] * -1, index[1] * -1]
 	})
 </script>
@@ -55,3 +56,4 @@
 		width: 1em;
 	}
 </style>
+
