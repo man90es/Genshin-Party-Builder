@@ -33,16 +33,16 @@ const reactionRequirements: any = {
 		["hydro", "dendro", "electro"],
 	],
 	lunar_charged: {
-	elements: [["hydro", "electro"]],
-	enabledBy: ["ineffa", "flins", "columbina"],
+		elements: [["hydro", "electro"]],
+		enabledBy: ["ineffa", "flins", "columbina"],
 	},
 	lunar_bloom: {
-	elements: [["hydro", "dendro"]],
-	enabledBy: ["nefer", "lauma", "columbina"],
+		elements: [["hydro", "dendro"]],
+		enabledBy: ["nefer", "lauma", "columbina"],
 	},
 	lunar_crystallize: {
-	elements: [["hydro", "geo"]],
-	enabledBy: ["linnea", "zibai", "columbina"],
+		elements: [["hydro", "geo"]],
+		enabledBy: ["linnea", "zibai", "columbina"],
 	},
 	melt: [
 		["pyro", "cryo"],
@@ -89,45 +89,45 @@ export function useInsights() {
 		const partyNames = party.value
 
 		const list = Object.entries(reactionRequirements as Record<string, any>)
-		.flatMap(([name, def]) => {
-			// Backward compatibility: old reactions are still arrays
-			const elements = Array.isArray(def) ? def : def.elements
-			const enabledBy = Array.isArray(def) ? null : def.enabledBy
+			.flatMap(([name, def]) => {
+				// Backward compatibility: old reactions are still arrays
+				const elements = Array.isArray(def) ? def : def.elements
+				const enabledBy = Array.isArray(def) ? null : def.enabledBy
 
-			// Check element match
-			const hasElements = elements
-			.map((o: string[]) => _difference(o, partyElements).length === 0)
-			.includes(true)
+				// Check element match
+				const hasElements = elements
+					.map((o: string[]) => _difference(o, partyElements).length === 0)
+					.includes(true)
 
-			if (!hasElements) return []
+				if (!hasElements) return []
 
-			// If it requires an enabler, check that too
-			if (enabledBy) {
-			const hasEnabler = enabledBy.some((c: string) => partyNames.includes(c))
-			if (!hasEnabler) return []
-			}
+				// If it requires an enabler, check that too
+				if (enabledBy) {
+					const hasEnabler = enabledBy.some((c: string) => partyNames.includes(c))
+					if (!hasEnabler) return []
+				}
 
-			return [name.split("_").map(_capitalise).join(" ")]
-		})
+				return [name.split("_").map(_capitalise).join(" ")]
+			})
 
 		return list.length ? list : ["None"]
 	})
 
 	const resonances = computed(() => {
-	if (!party.value) {
-		return []
-	}
+		if (!party.value) {
+			return []
+		}
 
-	const partyElements = party.value.map((c: string) => jsonData.characters[c!]?.element)
+		const partyElements = party.value.map((c: string) => jsonData.characters[c!]?.element)
 
-	const list = Object.entries(partyElements.reduce((prev, cur) => ({
-		...prev,
-		[cur]: prev[cur] ? prev[cur] + 1 : 1
-	}), {} as { [key: string]: number }))
-		.flatMap(([element, n]) => n > 1 ? [_capitalise(element)] : [])
+		const list = Object.entries(partyElements.reduce((prev, cur) => ({
+			...prev,
+			[cur]: prev[cur] ? prev[cur] + 1 : 1
+		}), {} as { [key: string]: number }))
+			.flatMap(([element, n]) => n > 1 ? [_capitalise(element)] : [])
 
-	return list.length ? list : ["4 unique"]
-})
+		return list.length ? list : ["4 unique"]
+	})
 
 	return { reactions, resonances }
 }
