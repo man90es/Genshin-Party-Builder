@@ -1,0 +1,4 @@
+allowBuilds:
+  core-js: false
+  vue-demi: false
+  yorkie: false
