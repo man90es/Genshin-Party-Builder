@@ -7,7 +7,6 @@
 			<img
 				:alt="meta.name"
 				:src="meta.icon"
-				referrerpolicy="no-referrer"
 				v-if="meta"
 			/>
 		</picture>
