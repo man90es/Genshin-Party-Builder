@@ -3,7 +3,7 @@
 github: man90es
 patreon: # Replace with a single Patreon username
 open_collective: # Replace with a single Open Collective username
-ko_fi: man90
+ko_fi: # Replace with a single Ko-fi username
 tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
 community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
 liberapay: # Replace with a single Liberapay username
@@ -11,4 +11,4 @@ issuehunt: # Replace with a single IssueHunt username
 otechie: # Replace with a single Otechie username
 lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
 polar: # Replace with a single Polar username
-custom: https://www.hemlo.cc/finances#donate
+custom: # Replace with a single custom URL
