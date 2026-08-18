@@ -59,6 +59,14 @@ const reactionRequirements: any = {
 	superconduct: [
 		["cryo", "electro"],
 	],
+	stellar_conduct: {
+        elements: [["cryo", "electro"]],
+        enabledBy: ["odette", "sandrone", "traveler_cryo"],
+    },
+    stellar_swirl: {
+        elements: [["cryo", "anemo"]],
+        enabledBy: ["odette", "traveler_cryo"],
+    },
 	swirl: [
 		["anemo", "cryo"],
 		["anemo", "electro"],
