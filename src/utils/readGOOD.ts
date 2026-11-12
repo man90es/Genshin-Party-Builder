@@ -19,7 +19,7 @@ export default async function readGOOD(file: File): Promise<{ characters: any[] 
 				return reject(errors.badFormat())
 			}
 
-			if (1 > data.version || 3 <= data.version) {
+			if (![1, 2, 3].includes(data.version)) {
 				return reject(errors.badVersion(data.version))
 			}
 
